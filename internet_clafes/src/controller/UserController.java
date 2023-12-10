@@ -65,7 +65,7 @@ public class UserController {
 		}
 		
 		try {
-			User.getUserData(username, pass);
+			User.AddNewUser(username, pass, age);;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			view.showError("Error Saving to Database");
@@ -73,6 +73,17 @@ public class UserController {
 		}
 		
 		return true;
+	}
+	
+	public boolean changeUserRole(int id, String newRole, IView view) {
+		try {
+			User.ChangeUserRole(id, newRole);
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			view.showError("Error Changing Roles");
+			return false;
+		}
 	}
 	
 	

@@ -134,7 +134,7 @@ public class User {
 		return user;
 	}
 	
-	public void AddNewUser(String username, String password, int age) throws SQLException {
+	public static void AddNewUser(String username, String password, int age) throws SQLException {
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("INSERT INTO 'User' VALUES (?, ?, ?, ?, ?)");
@@ -148,7 +148,7 @@ public class User {
 		ps.executeUpdate();
 	}
 
-	public void ChangeUserRole(int id, String role) throws SQLException {
+	public static void ChangeUserRole(int id, String role) throws SQLException {
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("UPDATE 'User' SET UserRole = ? WHERE UserID = ?");
