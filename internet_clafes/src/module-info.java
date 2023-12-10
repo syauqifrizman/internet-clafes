@@ -11,4 +11,5 @@ module internet_clafes {
 	opens model;
 	opens view;
 	requires java.sql;
+	requires javafx.graphics;
 }

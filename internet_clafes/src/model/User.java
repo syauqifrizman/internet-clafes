@@ -31,6 +31,14 @@ public class User {
 		UserAge = userAge;
 		UserRole = userRole;
 	}
+	
+	public User(String userName, String userPassword, int userAge) {
+		super();
+		UserName = userName;
+		this.userPassword = userPassword;
+		UserAge = userAge;
+	}
+	
 
 	public int getUserID() {
 		return UserID;
