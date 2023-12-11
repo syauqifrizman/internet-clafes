@@ -1,5 +1,12 @@
 package model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import main.Connect;
+
 public class Report {
 	private int Report_ID;
 	private String UserRole;
@@ -56,5 +63,46 @@ public class Report {
 		ReportDate = reportDate;
 	}
 	
+	public static void addNewReport(String role, int PcID, String ReportNote) throws SQLException {
+		Connect db = Connect.getConnection();
+		
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `Report` VALUES (?, '?', ?, '?', '?')");
+		
+		ps.setInt(1, 0);
+		ps.setString(2, role);
+		ps.setInt(3, PcID);
+		ps.setString(4, ReportNote);
+		ps.setString(5, java.time.LocalDate.now().toString());
+		
+		ps.executeUpdate();
+	}
+	
+	public static ArrayList<Report> getAllReportData() throws SQLException{
+		ArrayList<Report> reports = new ArrayList<Report>();
+		Connect db = Connect.getConnection();
+		
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `Report`");
+		
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			int id;
+			String role;
+			int PcID;
+			String note;
+			String date;
+			
+			id = rs.getInt(1);
+			role = rs.getString(2);
+			PcID = rs.getInt(3);
+			note = rs.getString(4);
+			date = rs.getString(5);
+			
+			Report report = new Report(id, role, PcID, note, date);
+			reports.add(report);
+		}
+		
+		return reports;
+	}
 	
 }

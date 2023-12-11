@@ -80,7 +80,7 @@ public class User {
 		ArrayList<User> users = new ArrayList<User>();
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM 'User'");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `User`");
 		
 		ResultSet rs = ps.executeQuery();
 		
@@ -107,7 +107,7 @@ public class User {
 	public static User getUserData(String username, String password) throws SQLException{
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM 'User' WHERE UserName = ?, userPassword = ?");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `User` WHERE UserName = '?', userPassword = '?'");
 		
 		ps.setString(1, username);
 		ps.setString(2, password);
@@ -137,7 +137,7 @@ public class User {
 	public static void AddNewUser(String username, String password, int age) throws SQLException {
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("INSERT INTO 'User' VALUES (?, ?, ?, ?, ?)");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `User` VALUES (?, '?', '?', ?, '?')");
 		
 		ps.setInt(1, 0);
 		ps.setString(2, username);
@@ -151,7 +151,7 @@ public class User {
 	public static void ChangeUserRole(int id, String role) throws SQLException {
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("UPDATE 'User' SET UserRole = ? WHERE UserID = ?");
+		PreparedStatement ps = db.prepareStatement("UPDATE `User` SET UserRole = '?' WHERE UserID = ?");
 		
 		ps.setString(1, role);
 		ps.setInt(2, id);
@@ -163,7 +163,7 @@ public class User {
 		ArrayList<User> users = new ArrayList<User>();
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM 'User' WHERE UserRole = 'Technician' ");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `User` WHERE UserRole = 'Technician' ");
 		
 		ResultSet rs = ps.executeQuery();
 		
