@@ -33,7 +33,8 @@ public class PcBookController {
 			return false;
 		}
 		
-		if(!PCController.getPCDetail(NewPCID.toString()).getPc_condition().equals("Usable")) {
+		PCController pcCotroller = new PCController();
+		if(!pcCotroller.getPCDetail(NewPCID.toString()).getPc_condition().equals("Usable")) {
 			view.showError("PC is unusable");
 			return false;
 		}
@@ -62,8 +63,8 @@ public class PcBookController {
 			view.showError("Please pick a date");
 			return false;
 		}
-		
-		if(!PCController.getPCDetail(PcID).getPc_condition().equals("Usable")) {
+		PCController pcController = new PCController();
+		if(!pcController.getPCDetail(PcID).getPc_condition().equals("Usable")) {
 			view.showError("PC is unusable");
 			return false;
 		}

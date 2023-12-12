@@ -14,6 +14,10 @@ public class Job {
 		this.jobStatus = jobStatus;
 	}
 
+	public Job() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getJob_ID() {
 		return job_ID;
 	}

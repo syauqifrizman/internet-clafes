@@ -104,7 +104,24 @@ public class JobRepository {
 		Connect db = Connect.getConnection();
 		
 		String queryExecute = "SELECT * FROM jobs";
-		db.executeQuery(queryExecute);
+		
+		ResultSet res = db.executeQuery(queryExecute);
+		
+//		jobList = null;
+		try {
+			while(res.next()) {
+				Integer currJob_ID = res.getInt(1);
+				Integer currUserID = res.getInt(2);
+				Integer currPC_ID = res.getInt(3);
+				String currJobStatus = res.getString(4);
+				
+				Job getJob = new Job(currJob_ID, currUserID, currPC_ID, currJobStatus);
+				jobList.add(getJob);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return jobList; 
 	}

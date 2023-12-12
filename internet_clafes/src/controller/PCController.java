@@ -6,6 +6,7 @@ import factory.PCFactory;
 import helper.Helper;
 import javafx.scene.control.Alert.AlertType;
 import model.PC;
+import model.PCBook;
 import repository.PCRepository;
 
 public class PCController {
@@ -42,13 +43,20 @@ public class PCController {
 //		nanti hasil return PCBookedData yg di PCBookController itu, return ke sini
 //		PCBook getPCBookData = PcBookController.get
 		
-//		if PC don't have any book list in the future, then perform delete
+		Integer newPC_ID = Integer.parseInt(pc_ID);
+		PcBookController pcBookController = new PcBookController();
+		
+//		lagi-lagi ini date dapet dari mana, di parameter method deletePC() ga ada date
+		PCBook getPcBook = pcBookController.getPCBookedData(newPC_ID, date);
+		
+//		if PC have any book list in the future, then show error
+		if(getPcBook != null) {
+			Helper.showAlert(AlertType.ERROR, "PC have some book list in the future");
+			return;
+		}
+//		otherwise perform delete
 		String deleteStatus = PCRepository.deleteNewPC(pc_ID);
 		Helper.showAlert(AlertType.INFORMATION, deleteStatus);
-//		return;
-		
-//		else PC have some book list in the future
-		Helper.showAlert(AlertType.ERROR, "PC have some book list in the future");
 		return;
 	}
 	
@@ -58,27 +66,25 @@ public class PCController {
 			return;
 		}
 		
-//		pc_ID = 1
-//		1 belum ada
+//		cari pc_id ada di database atau engga
 		PC getPC = PCRepository.getPCDetail(pc_ID);
-//		getPC = null
-//		buatin object pc baru, insert ke database
-		if(getPC.equals(null)) {
-			getPC = PCFactory.createPC(pc_ID);
-			String insertStatus = PCRepository.insertNewPC(getPC);
-			Helper.showAlert(AlertType.INFORMATION, insertStatus);
-			return;
-		}
-		else {
+//		getPC != null, pc udah ada di database
+		if(getPC != null) {
 			Helper.showAlert(AlertType.ERROR, "PC already exist, PC ID must be unique");
 			return;
 		}
+//		getPC == null
+//		buatin object pc baru, insert ke database, pc_condition nya mungkin nanti bisa dari parameter
+		getPC = PCFactory.createPC(pc_ID, pc_condition);
+		String insertStatus = PCRepository.insertNewPC(getPC);
+		Helper.showAlert(AlertType.INFORMATION, insertStatus);
+		return;
 	}
 	
-	public static PC getPCDetail(String pc_ID) {
+	public PC getPCDetail(String pc_ID) {
 		PC getPC = PCRepository.getPCDetail(pc_ID);
 		
-		if(getPC.equals(null)) {
+		if(getPC == null) {
 			Helper.showAlert(AlertType.ERROR, "PC doesn't exist");
 			return null;
 		}

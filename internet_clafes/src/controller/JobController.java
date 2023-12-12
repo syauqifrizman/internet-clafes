@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import factory.JobFactory;
 import helper.Helper;
 import javafx.scene.control.Alert.AlertType;
 import model.Job;
@@ -34,19 +35,20 @@ public class JobController {
 		
 		PC getPC = pcController.getPCDetail(pc_ID);
 //		getPC = null
-		if(getPC.equals(null)) {
+		if(getPC == null)) {
 			Helper.showAlert(AlertType.ERROR, "PC ID must exists on database / PC doesn't exists");
 			return;
 		}
 		
 //		getPCBookedData	dari PCBookController
 //		check pc nya lagi book atau engga
-		PcBookController pcBookController = new PcBookController();
 		Integer newPC_ID = Integer.parseInt(pc_ID);
+		PcBookController pcBookController = new PcBookController();
+//		date gatau dapet dari mana ini? kalo dari user sih di parameter harusnya dikasih
 		PCBook getPCBook = pcBookController.getPCBookedData(newPC_ID, date);
 		
 //		jika sudah ada booked, error
-		if(!getPCBook.equals(null)) {
+		if(getPCBook != null) {
 			Helper.showAlert(AlertType.ERROR, "There is some technician doing the job");
 			return;
 		}
@@ -56,6 +58,10 @@ public class JobController {
 		return;
 		
 //		kalo baca dari sequence diagram, cuma sampe assignUserToNewPC aja, ga ada suruh add new job
+		
+//		tapi kalo perlu add new job baru, bisa ngikutin method addNewJob();
+//		Job newJob = JobFactory.createJob(userID, pc_ID);
+//		JobRepository.addNewJob(newJob);
 	}
 	
 	public void updateJobStatus(String job_ID, String jobStatus) {
@@ -76,7 +82,7 @@ public class JobController {
 		return;
 	}
 	
-//	mungkin tampilin yg PC lagi maintenance?
+//	mungkin tampilin PC yg lagi maintenance?
 	public ArrayList<PC> getPcOnWorkingList(String pc_ID){
 		ArrayList<PC> pcList = new ArrayList<PC>();
 		

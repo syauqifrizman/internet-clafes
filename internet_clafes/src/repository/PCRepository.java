@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.Job;
 import model.PC;
 import sqlConnect.Connect;
 
@@ -36,12 +35,12 @@ public class PCRepository {
 	}
 	
 	public static String updatePCCondition(String pc_ID, String pc_condition) {
-		Integer cuc_pc_ID = Integer.parseInt(pc_ID);
+		Integer curr_pc_ID = Integer.parseInt(pc_ID);
 		
 		Connect db = Connect.getConnection();
 		
 		String query = "UPDATE pcs SET pc_condition = '%s' WHERE pc_ID = '%d'";
-		String queryExecute = String.format(query, pc_condition, cuc_pc_ID);
+		String queryExecute = String.format(query, pc_condition, curr_pc_ID);
 		
 		db.executeUpdate(queryExecute);
 		
@@ -72,12 +71,12 @@ public class PCRepository {
 //	}
 	
 	public static String deleteNewPC(String pc_ID) {
-		Integer cuc_pc_ID = Integer.parseInt(pc_ID);
+		Integer curr_pc_ID = Integer.parseInt(pc_ID);
 		
 		Connect db = Connect.getConnection();
 		
 		String query = "DELETE FROM pcs WHERE pc_ID = '%d'";
-		String queryExecute = String.format(query, cuc_pc_ID);
+		String queryExecute = String.format(query, curr_pc_ID);
 		
 		db.executeUpdate(queryExecute);
 		
@@ -96,16 +95,16 @@ public class PCRepository {
 	}
 	
 	public static PC getPCDetail(String pc_ID) {
-		Integer cuc_pc_ID = Integer.parseInt(pc_ID);
+		Integer curr_pc_ID = Integer.parseInt(pc_ID);
 		
 		Connect db = Connect.getConnection();
 		
 		String query = "SELECT * FROM pcs WHERE pc_ID = '%d'";
-		String queryExecute = String.format(query, cuc_pc_ID);
+		String queryExecute = String.format(query, curr_pc_ID);
 		
 		ResultSet res = db.executeQuery(queryExecute);
 		
-		PC getPC = null; 
+		PC getPC = null;
 		try {
 			while(res.next()) {
 				Integer currPC_ID = res.getInt(1);
