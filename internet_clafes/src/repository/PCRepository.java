@@ -15,7 +15,21 @@ public class PCRepository {
 		Connect db = Connect.getConnection();
 		
 		String queryExecute = "SELECT * FROM pcs";
-		db.executeQuery(queryExecute);
+		ResultSet res = db.executeQuery(queryExecute);
+		
+//		pcList = null;
+		try {
+			while(res.next()) {
+				Integer currPC_ID = res.getInt(1);
+				String currPC_condition = res.getString(2);
+				
+				PC currPC = new PC(currPC_ID, currPC_condition);
+				pcList.add(currPC);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return pcList;
 		

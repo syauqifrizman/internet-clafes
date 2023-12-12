@@ -6,7 +6,6 @@ import factory.PCFactory;
 import helper.Helper;
 import javafx.scene.control.Alert.AlertType;
 import model.PC;
-import model.PCBook;
 import repository.PCRepository;
 
 public class PCController {
@@ -28,6 +27,7 @@ public class PCController {
 		
 		String updateStatus = PCRepository.updatePCCondition(pc_ID, pc_condition);
 		Helper.showAlert(AlertType.INFORMATION, updateStatus);
+		return;
 	}
 	
 	public void deletePC(String pc_ID) {

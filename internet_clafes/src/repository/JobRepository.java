@@ -21,11 +21,13 @@ public class JobRepository {
 		return "Success add new job!";
 	}
 	
-	public static String updateJobStatus(Integer job_ID, String jobStatus) {
+	public static String updateJobStatus(String job_ID, String jobStatus) {
+		Integer newJob_ID = Integer.parseInt(job_ID);
+		
 		Connect db = Connect.getConnection();
 		
-		String query = "UPDATE jobs SET jobStatus = '%s' WHERE pc_ID = '%s'";
-		String queryExecute = String.format(query, jobStatus, job_ID);
+		String query = "UPDATE jobs SET jobStatus = '%s' WHERE pc_ID = '%d'";
+		String queryExecute = String.format(query, jobStatus, newJob_ID);
 		
 		db.executeUpdate(queryExecute);
 		
@@ -39,11 +41,43 @@ public class JobRepository {
 		return pcList;
 	}
 	
-	public static Job getTechnicianJob(Integer userID) {
+	public static ArrayList<Job> getTechnicianJob(String userID) {
+		Integer newUser_ID = Integer.parseInt(userID);
+		
+		ArrayList<Job> jobList = new ArrayList<Job>();
 		Connect db = Connect.getConnection();
 		
 		String query = "SELECT * FROM jobs WHERE userID = '%d'";
-		String queryExecute = String.format(query, userID);
+		String queryExecute = String.format(query, newUser_ID);
+		
+		ResultSet res = db.executeQuery(queryExecute);
+		
+//		jobList = null;
+		try {
+			while(res.next()) {
+				Integer currJob_ID = res.getInt(1);
+				Integer currUserID = res.getInt(2);
+				Integer currPC_ID = res.getInt(3);
+				String currJobStatus = res.getString(4);
+				
+				Job getJob = new Job(currJob_ID, currUserID, currPC_ID, currJobStatus);
+				jobList.add(getJob);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jobList;
+		
+	}
+	
+	public static Job getJobDetail(String job_ID) {
+		Integer newJob_ID = Integer.parseInt(job_ID);
+		Connect db = Connect.getConnection();
+		
+		String query = "SELECT * FROM jobs WHERE job_ID = '%d'";
+		String queryExecute = String.format(query, newJob_ID);
 		
 		ResultSet res = db.executeQuery(queryExecute);
 		
@@ -52,7 +86,7 @@ public class JobRepository {
 			while(res.next()) {
 				Integer currJob_ID = res.getInt(1);
 				Integer currUserID = res.getInt(2);
-				String currPC_ID = res.getString(3);
+				Integer currPC_ID = res.getInt(3);
 				String currJobStatus = res.getString(4);
 				
 				getJob = new Job(currJob_ID, currUserID, currPC_ID, currJobStatus);
@@ -63,7 +97,6 @@ public class JobRepository {
 		}
 		
 		return getJob;
-		
 	}
 	
 	public static ArrayList<Job> getAllJobData(){
