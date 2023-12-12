@@ -1,10 +1,13 @@
 package model;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import controller.UserController;
+import repository.UserRepository;
 import sqlConnect.Connect;
 
 public class TransactionDetail {
@@ -80,12 +83,44 @@ public class TransactionDetail {
 		
 	}
 	
-	public static ArrayList<TransactionDetail> getUserTransactionDetail(Integer userID){
-		return null;
-//		Connect db = Connect.getConnection();
-//		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
-//		
-//		User.getAllUserData().g
+	public static ArrayList<TransactionDetail> getUserTransactionDetail(Integer userID) throws SQLException{
+		Connect db = Connect.getConnection();
+		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
+		
+		String username = UserRepository.getUserDetail(userID).getUserName();
+		
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `TransactionDetail` WHERE customerName = '?'");
+		ps.setString(1, username);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			int tID;
+			int pcID;
+			String bookedTime;
+			
+			tID = rs.getInt(1);
+			pcID = rs.getInt(2);
+			bookedTime = rs.getDate(4).toString();
+			
+			TransactionDetail tdetail = new TransactionDetail(tID, pcID, username, bookedTime);
+			tdetails.add(tdetail);
+		}
+		return tdetails;
+		
+	}
+	
+	public static void addTransactionDetail(Integer transactionID, ArrayList<PCBook> pcbooks) throws SQLException {
+		Connect db = Connect.getConnection();
+		for (PCBook pcBook : pcbooks) {
+			PreparedStatement ps = db.prepareStatement("INSERT INTO `TransactionDetail` VALUES(?, ?, '?', '?')");
+			ps.setInt(1, transactionID);
+			ps.setInt(2, pcBook.getPc_ID());
+			ps.setString(3, UserRepository.getUserDetail(pcBook.getUserID()).getUserName());
+			ps.setDate(4, Date.valueOf(pcBook.getBookedDate()));
+			
+			ps.executeUpdate();
+		}
 	}
 	
 }

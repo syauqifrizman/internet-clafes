@@ -22,14 +22,19 @@ public class PcBookController {
 		return PCBook.getPCBookedData(PcID, date);
 	}
 	
-	public boolean assignUsertoNewPC(int BookID, int NewPCID, String date, IView view) throws SQLException {
+	public boolean assignUsertoNewPC(int BookID, Integer NewPCID, String date, IView view) throws SQLException {
 		if(NewPCID == 0) {
 			view.showError("PC ID must be filled");
 			return false;
 		}
 		
-		if(PCBook.getPCBookedData(NewPCID, date)==null) {
+		if(PCBook.getPCBookedData(NewPCID, date)!=null) {
 			view.showError("PC has been booked for that day");
+			return false;
+		}
+		
+		if(!PCController.getPCDetail(NewPCID.toString()).getPc_condition().equals("Usable")) {
+			view.showError("PC is unusable");
 			return false;
 		}
 		
@@ -47,8 +52,8 @@ public class PcBookController {
 		return PCBook.getPCBookedDetail(BookID);
 	}
 	
-	public boolean addNewBook(int PcID, int UserID, String bookedDate, IView view) throws SQLException {
-		if(PcID == 0) {
+	public boolean addNewBook(String PcID, Integer UserID, String bookedDate, IView view) throws SQLException {
+		if(PcID.isEmpty()) {
 			view.showError("Please choose a PC");
 			return false;
 		}
@@ -58,12 +63,17 @@ public class PcBookController {
 			return false;
 		}
 		
-		if(PCBook.getPCBookedData(PcID, bookedDate)==null) {
+		if(!PCController.getPCDetail(PcID).getPc_condition().equals("Usable")) {
+			view.showError("PC is unusable");
+			return false;
+		}
+		
+		if(PCBook.getPCBookedData(Integer.parseInt(PcID), bookedDate)!=null) {
 			view.showError("PC has been booked for that day");
 			return false;
 		}
 		
-		PCBook.addNewBook(PcID, UserID, bookedDate);
+		PCBook.addNewBook(Integer.parseInt(PcID), UserID, bookedDate);
 		return true;
 		
 	}

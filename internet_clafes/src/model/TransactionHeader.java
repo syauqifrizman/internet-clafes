@@ -1,5 +1,14 @@
 package model;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import repository.UserRepository;
+import sqlConnect.Connect;
+
 public class TransactionHeader {
 	private Integer transactionID;
 	private Integer staffID;
@@ -43,6 +52,45 @@ public class TransactionHeader {
 
 	public void setTransactionDate(String transactionDate) {
 		this.transactionDate = transactionDate;
+	}
+	
+	public static ArrayList<TransactionHeader> getAllTransactionHeaderData() throws SQLException{
+		ArrayList<TransactionHeader> theaders = new ArrayList<TransactionHeader>();
+		Connect db = Connect.getConnection();
+		
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `TransactionHeader`");
+		
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			int tID;
+			int sID;
+			String sName;
+			String tDate;
+			
+			tID = rs.getInt(1);
+			sID = rs.getInt(2);
+			sName = rs.getString(3);
+			tDate = rs.getDate(4).toString();
+			
+			TransactionHeader theader = new TransactionHeader(tID, sID, sName, tDate);
+			theaders.add(theader);
+		}
+		
+		return theaders;
+	}
+	
+	public static void addNewTransactionHeader(Integer staffID, String transactionDate) throws SQLException {
+		Connect db = Connect.getConnection();
+		
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `TransactionHeader` VALUES (?, ?, '?', '?')");
+		ps.setInt(1, 0);
+		ps.setInt(2, staffID);
+		ps.setString(3, UserRepository.getUserDetail(staffID).getUserName());
+		ps.setDate(4, Date.valueOf(transactionDate));
+		
+		ps.executeUpdate();
+		
 	}
 	
 }

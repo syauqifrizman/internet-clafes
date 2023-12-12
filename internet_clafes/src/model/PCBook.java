@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -68,7 +69,7 @@ public class PCBook {
 		
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE PC_ID = ?, BookedDate = '?'");
 		ps.setInt(1, pc_ID);
-		ps.setString(2, date);
+		ps.setDate(2, Date.valueOf(date));
 		
 		ResultSet rs = ps.executeQuery();
 		
@@ -103,7 +104,7 @@ public class PCBook {
 			
 			pc_ID = rs.getInt(2);
 			userID = rs.getInt(3);
-			bookedDate = rs.getString(4);
+			bookedDate = rs.getDate(4).toString();
 			
 			pcbook = new PCBook(bookID, pc_ID, userID, bookedDate);
 		}
@@ -114,17 +115,19 @@ public class PCBook {
 	public static void addNewBook(Integer pc_ID, Integer userID, String bookedDate) throws SQLException {
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("INSERT INTO `PCBook` VALUES (?, ?, ?, '?')");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `PCBook` VALUES (?, ?, ?, ?)");
 		ps.setInt(1, 0);
 		ps.setInt(2, pc_ID);
 		ps.setInt(3, userID);
-		ps.setString(4, bookedDate);
+		ps.setDate(4, Date.valueOf(bookedDate));
 		
 		ps.executeUpdate();
 	}
 	
-	public static void finishBook(ArrayList<PCBook> pcbooks) {
-		//jujur gw g paham ini disuruh ngapain oakowkaokowkoak
+	public static void finishBook(ArrayList<PCBook> pcbooks) throws SQLException {
+		for (PCBook pcBook : pcbooks) {
+			deleteBookData(pcBook.getBookID());
+		}
 	}
 	
 	public static ArrayList<PCBook> getAllPCBookedData() throws SQLException{
@@ -145,7 +148,7 @@ public class PCBook {
 			bookID = rs.getInt(1);
 			pc_ID = rs.getInt(2);
 			userID = rs.getInt(3);
-			bookedDate = rs.getString(4);
+			bookedDate = rs.getDate(4).toString();
 			
 			pcbook = new PCBook(bookID, pc_ID, userID, bookedDate);
 			pcbooks.add(pcbook);
@@ -159,8 +162,8 @@ public class PCBook {
 		Connect db = Connect.getConnection();
 		ArrayList<PCBook> pcbooks = new ArrayList<PCBook>();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE BookedDate = '?'");
-		ps.setString(1, date);
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE BookedDate = ?");
+		ps.setDate(1, Date.valueOf(date));
 		
 		ResultSet rs = ps.executeQuery();
 		

@@ -75,7 +75,7 @@ public class PCController {
 		}
 	}
 	
-	public PC getPCDetail(String pc_ID) {
+	public static PC getPCDetail(String pc_ID) {
 		PC getPC = PCRepository.getPCDetail(pc_ID);
 		
 		if(getPC.equals(null)) {

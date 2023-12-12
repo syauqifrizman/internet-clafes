@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,7 +72,7 @@ public class Report {
 		ps.setString(2, role);
 		ps.setInt(3, pc_ID);
 		ps.setString(4, reportNote);
-		ps.setString(5, java.time.LocalDate.now().toString());
+		ps.setDate(5, Date.valueOf(java.time.LocalDate.now()));
 		
 		ps.executeUpdate();
 	}
@@ -95,7 +96,7 @@ public class Report {
 			role = rs.getString(2);
 			pcID = rs.getInt(3);
 			note = rs.getString(4);
-			date = rs.getString(5);
+			date = rs.getDate(5).toString();
 			
 			Report report = new Report(id, role, pcID, note, date);
 			reports.add(report);
