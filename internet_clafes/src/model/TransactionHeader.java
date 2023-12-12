@@ -1,50 +1,48 @@
 package model;
 
 public class TransactionHeader {
-	private int TransactionID;
-	private int StaffID;
-	private String StaffName;
-	private String TransactionDate;
+	private Integer transactionID;
+	private Integer staffID;
+	private String staffName;
+	private String transactionDate;
 	
-	public TransactionHeader(int transactionID, int staffID, String staffName, String transactionDate) {
-		super();
-		TransactionID = transactionID;
-		StaffID = staffID;
-		StaffName = staffName;
-		TransactionDate = transactionDate;
+	public TransactionHeader(Integer transactionID, Integer staffID, String staffName, String transactionDate) {
+		this.transactionID = transactionID;
+		this.staffID = staffID;
+		this.staffName = staffName;
+		this.transactionDate = transactionDate;
 	}
 
-	public int getTransactionID() {
-		return TransactionID;
+	public Integer getTransactionID() {
+		return transactionID;
 	}
 
-	public void setTransactionID(int transactionID) {
-		TransactionID = transactionID;
+	public void setTransactionID(Integer transactionID) {
+		this.transactionID = transactionID;
 	}
 
-	public int getStaffID() {
-		return StaffID;
+	public Integer getStaffID() {
+		return staffID;
 	}
 
-	public void setStaffID(int staffID) {
-		StaffID = staffID;
+	public void setStaffID(Integer staffID) {
+		this.staffID = staffID;
 	}
 
 	public String getStaffName() {
-		return StaffName;
+		return staffName;
 	}
 
 	public void setStaffName(String staffName) {
-		StaffName = staffName;
+		this.staffName = staffName;
 	}
 
 	public String getTransactionDate() {
-		return TransactionDate;
+		return transactionDate;
 	}
 
 	public void setTransactionDate(String transactionDate) {
-		TransactionDate = transactionDate;
+		this.transactionDate = transactionDate;
 	}
-	
 	
 }

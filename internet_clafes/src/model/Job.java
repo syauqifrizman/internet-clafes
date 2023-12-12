@@ -2,51 +2,48 @@ package model;
 
 public class Job {
 	
-	private int Job_ID;
-	private int UserID;
-	private int PC_ID;
-	private String JobStatus;
+	private Integer job_ID;
+	private Integer userID;
+	private Integer pc_ID;
+	private String jobStatus;
 	
-	public Job(int job_ID, int userID, int pC_ID, String jobStatus) {
-		super();
-		Job_ID = job_ID;
-		UserID = userID;
-		PC_ID = pC_ID;
-		JobStatus = jobStatus;
+	public Job(Integer job_ID, Integer userID, Integer pc_ID, String jobStatus) {
+		this.job_ID = job_ID;
+		this.userID = userID;
+		this.pc_ID = pc_ID;
+		this.jobStatus = jobStatus;
 	}
 
-	public int getJob_ID() {
-		return Job_ID;
+	public Integer getJob_ID() {
+		return job_ID;
 	}
 
-	public void setJob_ID(int job_ID) {
-		Job_ID = job_ID;
+	public void setJob_ID(Integer job_ID) {
+		this.job_ID = job_ID;
 	}
 
-	public int getUserID() {
-		return UserID;
+	public Integer getUserID() {
+		return userID;
 	}
 
-	public void setUserID(int userID) {
-		UserID = userID;
+	public void setUserID(Integer userID) {
+		this.userID = userID;
 	}
 
-	public int getPC_ID() {
-		return PC_ID;
+	public Integer getPc_ID() {
+		return pc_ID;
 	}
 
-	public void setPC_ID(int pC_ID) {
-		PC_ID = pC_ID;
+	public void setPc_ID(Integer pc_ID) {
+		this.pc_ID = pc_ID;
 	}
 
 	public String getJobStatus() {
-		return JobStatus;
+		return jobStatus;
 	}
 
 	public void setJobStatus(String jobStatus) {
-		JobStatus = jobStatus;
+		this.jobStatus = jobStatus;
 	}
-	
-	
 	
 }

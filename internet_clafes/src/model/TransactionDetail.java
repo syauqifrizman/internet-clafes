@@ -5,58 +5,65 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import main.Connect;
+import sqlConnect.Connect;
 
 public class TransactionDetail {
-	private int TransactionID;
-	private int PC_ID;
-	private String CustomerName;
-	private String BookedTime;
+	private Integer transactionID;
+	private Integer pc_ID;
+	private String customerName;
+	private String bookedTime;
 	
-	public TransactionDetail(int transactionID, int pC_ID, String customerName, String bookedTime) {
-		super();
-		TransactionID = transactionID;
-		PC_ID = pC_ID;
-		CustomerName = customerName;
-		BookedTime = bookedTime;
+	public TransactionDetail(Integer transactionID, Integer pc_ID, String customerName, String bookedTime) {
+		this.transactionID = transactionID;
+		this.pc_ID = pc_ID;
+		this.customerName = customerName;
+		this.bookedTime = bookedTime;
 	}
-	public int getTransactionID() {
-		return TransactionID;
+
+	public Integer getTransactionID() {
+		return transactionID;
 	}
-	public void setTransactionID(int transactionID) {
-		TransactionID = transactionID;
+
+	public void setTransactionID(Integer transactionID) {
+		this.transactionID = transactionID;
 	}
-	public int getPC_ID() {
-		return PC_ID;
+
+	public Integer getPc_ID() {
+		return pc_ID;
 	}
-	public void setPC_ID(int pC_ID) {
-		PC_ID = pC_ID;
+
+	public void setPc_ID(Integer pc_ID) {
+		this.pc_ID = pc_ID;
 	}
+
 	public String getCustomerName() {
-		return CustomerName;
+		return customerName;
 	}
+
 	public void setCustomerName(String customerName) {
-		CustomerName = customerName;
+		this.customerName = customerName;
 	}
+
 	public String getBookedTime() {
-		return BookedTime;
+		return bookedTime;
 	}
+
 	public void setBookedTime(String bookedTime) {
-		BookedTime = bookedTime;
+		this.bookedTime = bookedTime;
 	}
-	
-	public static ArrayList<TransactionDetail> getAllTransactionDetail(int TransactionID) throws SQLException{
+
+	public static ArrayList<TransactionDetail> getAllTransactionDetail(Integer transactionID) throws SQLException{
 		Connect db = Connect.getConnection();
 		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
 		
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `TransactionDetail` WHERE TransactionID = ?");
-		ps.setInt(1, TransactionID);
+		ps.setInt(1, transactionID);
 		
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
-			int id;
-			int PC_ID;
+			Integer id;
+			Integer PC_ID;
 			String name;
 			String time;			
 			
@@ -73,7 +80,8 @@ public class TransactionDetail {
 		
 	}
 	
-	public static ArrayList<TransactionDetail> getUserTransactionDetail(int UserID){
+	public static ArrayList<TransactionDetail> getUserTransactionDetail(Integer userID){
+		return null;
 //		Connect db = Connect.getConnection();
 //		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
 //		

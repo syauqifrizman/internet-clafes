@@ -5,70 +5,69 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import main.Connect;
+import sqlConnect.Connect;
 
 public class PCBook {
 
-	private int BookID;
-	private int PC_ID;
-	private int UserID;
-	private String BookedDate;
+	private Integer bookID;
+	private Integer pc_ID;
+	private Integer userID;
+	private String bookedDate;
 	
-	public PCBook(int bookID, int pC_ID, int userID, String bookedDate) {
-		super();
-		BookID = bookID;
-		PC_ID = pC_ID;
-		UserID = userID;
-		BookedDate = bookedDate;
+	public PCBook(Integer bookID, Integer pc_ID, Integer userID, String bookedDate) {
+		this.bookID = bookID;
+		this.pc_ID = pc_ID;
+		this.userID = userID;
+		this.bookedDate = bookedDate;
+	}
+	
+	public Integer getBookID() {
+		return bookID;
 	}
 
-	public int getBookID() {
-		return BookID;
+	public void setBookID(Integer bookID) {
+		this.bookID = bookID;
 	}
 
-	public void setBookID(int bookID) {
-		BookID = bookID;
+	public Integer getPc_ID() {
+		return pc_ID;
 	}
 
-	public int getPC_ID() {
-		return PC_ID;
+	public void setPc_ID(Integer pc_ID) {
+		this.pc_ID = pc_ID;
 	}
 
-	public void setPC_ID(int pC_ID) {
-		PC_ID = pC_ID;
+	public Integer getUserID() {
+		return userID;
 	}
-
-	public int getUserID() {
-		return UserID;
-	}
-
-	public void setUserID(int userID) {
-		UserID = userID;
+	
+	public void setUserID(Integer userID) {
+		this.userID = userID;
 	}
 
 	public String getBookedDate() {
-		return BookedDate;
+		return bookedDate;
 	}
 
 	public void setBookedDate(String bookedDate) {
-		BookedDate = bookedDate;
+		this.bookedDate = bookedDate;
 	}
-	
-	public static void deleteBookData(int BookID) throws SQLException {
+
+	public static void deleteBookData(Integer bookID) throws SQLException {
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("DELETE FROM `PCBook` WHERE BookID = ?");
 		
-		ps.setInt(1, BookID);
+		ps.setInt(1, bookID);
 
 		ps.executeUpdate();
 	}
 	
-	public static PCBook getPCBookedData(int PcID, String date) throws SQLException{
+	public static PCBook getPCBookedData(Integer pc_ID, String date) throws SQLException{
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE PC_ID = ?, BookedDate = '?'");
-		ps.setInt(1, PcID);
+		ps.setInt(1, pc_ID);
 		ps.setString(2, date);
 		
 		ResultSet rs = ps.executeQuery();
@@ -76,49 +75,49 @@ public class PCBook {
 		
 		PCBook pcbook = null;
 		while(rs.next()) {
-			int bookID;
-			int userID;
+			Integer bookID;
+			Integer userID;
 			
 			bookID = rs.getInt(1);
 			userID = rs.getInt(3);
 			
-			pcbook = new PCBook(bookID, PcID, userID, date);
+			pcbook = new PCBook(bookID, pc_ID, userID, date);
 		}
 		
 		return pcbook;
 	}
 	
-	public static PCBook getPCBookedDetail(int BookID) throws SQLException{
+	public static PCBook getPCBookedDetail(Integer bookID) throws SQLException{
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE BookID = ?");
-		ps.setInt(1, BookID);
+		ps.setInt(1, bookID);
 		
 		ResultSet rs = ps.executeQuery();
 		
 		PCBook pcbook = null;
 		while(rs.next()) {
-			int PC_ID;
-			int userID;
+			Integer pc_ID;
+			Integer userID;
 			String bookedDate;
 			
-			PC_ID = rs.getInt(2);
+			pc_ID = rs.getInt(2);
 			userID = rs.getInt(3);
 			bookedDate = rs.getString(4);
 			
-			pcbook = new PCBook(BookID, PC_ID, userID, bookedDate);
+			pcbook = new PCBook(bookID, pc_ID, userID, bookedDate);
 		}
 		
 		return pcbook;
 	}
 	
-	public static void addNewBook(int PcID, int UserID, String bookedDate) throws SQLException {
+	public static void addNewBook(Integer pc_ID, Integer userID, String bookedDate) throws SQLException {
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("INSERT INTO `PCBook` VALUES (?, ?, ?, '?')");
 		ps.setInt(1, 0);
-		ps.setInt(2, PcID);
-		ps.setInt(3, UserID);
+		ps.setInt(2, pc_ID);
+		ps.setInt(3, userID);
 		ps.setString(4, bookedDate);
 		
 		ps.executeUpdate();
@@ -138,17 +137,17 @@ public class PCBook {
 		
 		PCBook pcbook = null;
 		while(rs.next()) {
-			int BookID;
-			int PC_ID;
-			int userID;
+			Integer bookID;
+			Integer pc_ID;
+			Integer userID;
 			String bookedDate;
 			
-			BookID = rs.getInt(1);
-			PC_ID = rs.getInt(2);
+			bookID = rs.getInt(1);
+			pc_ID = rs.getInt(2);
 			userID = rs.getInt(3);
 			bookedDate = rs.getString(4);
 			
-			pcbook = new PCBook(BookID, PC_ID, userID, bookedDate);
+			pcbook = new PCBook(bookID, pc_ID, userID, bookedDate);
 			pcbooks.add(pcbook);
 		}
 		
@@ -167,15 +166,15 @@ public class PCBook {
 		
 		PCBook pcbook = null;
 		while(rs.next()) {
-			int BookID;
-			int PC_ID;
-			int userID;
+			Integer bookID;
+			Integer pc_ID;
+			Integer userID;
 			
-			BookID = rs.getInt(1);
-			PC_ID = rs.getInt(2);
+			bookID = rs.getInt(1);
+			pc_ID = rs.getInt(2);
 			userID = rs.getInt(3);
 			
-			pcbook = new PCBook(BookID, PC_ID, userID, date);
+			pcbook = new PCBook(bookID, pc_ID, userID, date);
 			pcbooks.add(pcbook);
 		}
 		
@@ -183,13 +182,13 @@ public class PCBook {
 		
 	}
 	
-	public static void assignUsertoNewPC(int BookID, int NewPCID) throws SQLException {
+	public static void assignUsertoNewPC(Integer bookID, Integer newPCID) throws SQLException {
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("UPDATE `PCBook` SET PC_ID = ? WHERE BookID= ?");
 	
-		ps.setInt(1, NewPCID);
-		ps.setInt(2, BookID);
+		ps.setInt(1, newPCID);
+		ps.setInt(2, bookID);
 		
 		ps.executeUpdate();
 	}

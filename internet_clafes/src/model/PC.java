@@ -1,31 +1,28 @@
 package model;
 
 public class PC {
-	private int PC_ID;
-	private String PC_Condition;
+	private Integer pc_ID;
+	private String pc_condition;
 	
-	public PC(int pC_ID, String pC_Condition) {
-		super();
-		PC_ID = pC_ID;
-		PC_Condition = pC_Condition;
+	public PC(Integer pc_ID, String pc_condition) {
+		this.pc_ID = pc_ID;
+		this.pc_condition = pc_condition;
 	}
 
-	public int getPC_ID() {
-		return PC_ID;
+	public Integer getPc_ID() {
+		return pc_ID;
 	}
 
-	public void setPC_ID(int pC_ID) {
-		PC_ID = pC_ID;
+	public void setPc_ID(Integer pc_ID) {
+		this.pc_ID = pc_ID;
 	}
 
-	public String getPC_Condition() {
-		return PC_Condition;
+	public String getPc_condition() {
+		return pc_condition;
 	}
 
-	public void setPC_Condition(String pC_Condition) {
-		PC_Condition = pC_Condition;
+	public void setPc_condition(String pc_condition) {
+		this.pc_condition = pc_condition;
 	}
-	
-	
 	
 }

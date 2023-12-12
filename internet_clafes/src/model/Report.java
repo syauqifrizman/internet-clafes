@@ -5,73 +5,72 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import main.Connect;
+import sqlConnect.Connect;
 
 public class Report {
-	private int Report_ID;
-	private String UserRole;
-	private int PC_ID;
-	private String ReportNote;
-	private String ReportDate;
+	private Integer report_ID;
+	private String userRole;
+	private Integer pc_ID;
+	private String reportNote;
+	private String reportDate;
 	
-	public Report(int report_ID, String userRole, int pC_ID, String reportNote, String reportDate) {
-		super();
-		Report_ID = report_ID;
-		UserRole = userRole;
-		PC_ID = pC_ID;
-		ReportNote = reportNote;
-		ReportDate = reportDate;
+	public Report(Integer report_ID, String userRole, Integer pc_ID, String reportNote, String reportDate) {
+		this.report_ID = report_ID;
+		this.userRole = userRole;
+		this.pc_ID = pc_ID;
+		this.reportNote = reportNote;
+		this.reportDate = reportDate;
 	}
 
-	public int getReport_ID() {
-		return Report_ID;
+	public Integer getReport_ID() {
+		return report_ID;
 	}
 
-	public void setReport_ID(int report_ID) {
-		Report_ID = report_ID;
+	public void setReport_ID(Integer report_ID) {
+		this.report_ID = report_ID;
 	}
 
 	public String getUserRole() {
-		return UserRole;
+		return userRole;
 	}
 
 	public void setUserRole(String userRole) {
-		UserRole = userRole;
+		this.userRole = userRole;
 	}
 
-	public int getPC_ID() {
-		return PC_ID;
+	public Integer getPc_ID() {
+		return pc_ID;
 	}
 
-	public void setPC_ID(int pC_ID) {
-		PC_ID = pC_ID;
+	public void setPc_ID(Integer pc_ID) {
+		this.pc_ID = pc_ID;
 	}
 
 	public String getReportNote() {
-		return ReportNote;
+		return reportNote;
 	}
 
 	public void setReportNote(String reportNote) {
-		ReportNote = reportNote;
+		this.reportNote = reportNote;
 	}
 
 	public String getReportDate() {
-		return ReportDate;
+		return reportDate;
 	}
 
 	public void setReportDate(String reportDate) {
-		ReportDate = reportDate;
+		this.reportDate = reportDate;
 	}
-	
-	public static void addNewReport(String role, int PcID, String ReportNote) throws SQLException {
+
+	public static void addNewReport(String role, Integer pc_ID, String reportNote) throws SQLException {
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("INSERT INTO `Report` VALUES (?, '?', ?, '?', '?')");
 		
 		ps.setInt(1, 0);
 		ps.setString(2, role);
-		ps.setInt(3, PcID);
-		ps.setString(4, ReportNote);
+		ps.setInt(3, pc_ID);
+		ps.setString(4, reportNote);
 		ps.setString(5, java.time.LocalDate.now().toString());
 		
 		ps.executeUpdate();
@@ -86,19 +85,19 @@ public class Report {
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
-			int id;
+			Integer id;
 			String role;
-			int PcID;
+			Integer pcID;
 			String note;
 			String date;
 			
 			id = rs.getInt(1);
 			role = rs.getString(2);
-			PcID = rs.getInt(3);
+			pcID = rs.getInt(3);
 			note = rs.getString(4);
 			date = rs.getString(5);
 			
-			Report report = new Report(id, role, PcID, note, date);
+			Report report = new Report(id, role, pcID, note, date);
 			reports.add(report);
 		}
 		

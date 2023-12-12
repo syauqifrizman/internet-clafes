@@ -5,51 +5,51 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import main.Connect;
+import sqlConnect.Connect;
 
 public class User {
-	
-	private int UserID;
-	private String UserName;
-	private String userPassword;
-	private int UserAge;
-	private String UserRole;
-	
-	public User(int userID, String userName, String userPassword, int userAge, String userRole) {
-		super();
-		UserID = userID;
-		UserName = userName;
-		this.userPassword = userPassword;
-		UserAge = userAge;
-		UserRole = userRole;
-	}
-	
-	public User(int userID, String userName, int userAge, String userRole) {
-		super();
-		UserID = userID;
-		UserName = userName;
-		UserAge = userAge;
-		UserRole = userRole;
-	}
-	
-	public User(String userName, String userPassword, int userAge) {
-		super();
-		UserName = userName;
-		this.userPassword = userPassword;
-		UserAge = userAge;
-	}
-	
 
-	public int getUserID() {
-		return UserID;
+	private Integer userID;
+	private String userName;
+	private String userPassword;
+	private Integer userAge;
+	private String userRole;
+	
+	public User(Integer userID, String userName, String userPassword, Integer userAge, String userRole) {
+		this.userID = userID;
+		this.userName = userName;
+		this.userPassword = userPassword;
+		this.userAge = userAge;
+		this.userRole = userRole;
+	}
+	
+	public User(Integer userID, String userName, Integer userAge, String userRole) {
+		this.userID = userID;
+		this.userName = userName;
+		this.userAge = userAge;
+		this.userRole = userRole;
+	}
+	
+	public User(String userName, String userPassword, Integer userAge) {
+		this.userName = userName;
+		this.userPassword = userPassword;
+		this.userAge = userAge;
+	}
+	
+	public Integer getUserID() {
+		return userID;
+	}
+
+	public void setUserID(Integer userID) {
+		this.userID = userID;
 	}
 
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		UserName = userName;
+		this.userName = userName;
 	}
 
 	public String getUserPassword() {
@@ -60,22 +60,22 @@ public class User {
 		this.userPassword = userPassword;
 	}
 
-	public int getUserAge() {
-		return UserAge;
+	public Integer getUserAge() {
+		return userAge;
 	}
 
-	public void setUserAge(int userAge) {
-		UserAge = userAge;
+	public void setUserAge(Integer userAge) {
+		this.userAge = userAge;
 	}
 
 	public String getUserRole() {
-		return UserRole;
+		return userRole;
 	}
 
 	public void setUserRole(String userRole) {
-		UserRole = userRole;
+		this.userRole = userRole;
 	}
-	
+
 	public static ArrayList<User> getAllUserData() throws SQLException{
 		ArrayList<User> users = new ArrayList<User>();
 		Connect db = Connect.getConnection();
@@ -85,10 +85,10 @@ public class User {
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
-			int id;
+			Integer id;
 			String name;
 			String pass;
-			int age;
+			Integer age;
 			String role;
 			
 			id = rs.getInt(1);
@@ -116,10 +116,10 @@ public class User {
 		
 		User user = null;
 		while(rs.next()) {
-			int id;
+			Integer id;
 			String name;
 			String pass;
-			int age;
+			Integer age;
 			String role;
 			
 			id = rs.getInt(1);
@@ -168,10 +168,10 @@ public class User {
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
-			int id;
+			Integer id;
 			String name;
 			String pass;
-			int age;
+			Integer age;
 			String role;
 			
 			id = rs.getInt(1);

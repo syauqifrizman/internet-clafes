@@ -12,4 +12,5 @@ module internet_clafes {
 	opens view;
 	requires java.sql;
 	requires javafx.graphics;
+	requires javafx.controls;
 }
