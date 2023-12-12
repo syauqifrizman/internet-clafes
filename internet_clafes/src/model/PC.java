@@ -9,6 +9,10 @@ public class PC {
 		this.pc_condition = pc_condition;
 	}
 
+	public PC() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getPc_ID() {
 		return pc_ID;
 	}

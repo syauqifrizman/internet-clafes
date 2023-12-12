@@ -21,11 +21,13 @@ public class PCRepository {
 		
 	}
 	
-	public static String updatePCCondition(Integer pc_ID, String pc_condition) {
+	public static String updatePCCondition(String pc_ID, String pc_condition) {
+		Integer cuc_pc_ID = Integer.parseInt(pc_ID);
+		
 		Connect db = Connect.getConnection();
 		
 		String query = "UPDATE pcs SET pc_condition = '%s' WHERE pc_ID = '%d'";
-		String queryExecute = String.format(query, pc_condition, pc_ID);
+		String queryExecute = String.format(query, pc_condition, cuc_pc_ID);
 		
 		db.executeUpdate(queryExecute);
 		
@@ -55,21 +57,23 @@ public class PCRepository {
 //		
 //	}
 	
-	public static String deleteNewPC(Integer pc_ID) {
+	public static String deleteNewPC(String pc_ID) {
+		Integer cuc_pc_ID = Integer.parseInt(pc_ID);
+		
 		Connect db = Connect.getConnection();
 		
 		String query = "DELETE FROM pcs WHERE pc_ID = '%d'";
-		String queryExecute = String.format(query, pc_ID);
+		String queryExecute = String.format(query, cuc_pc_ID);
 		
 		db.executeUpdate(queryExecute);
 		
 		return "Success remove the PC ID: " + pc_ID;
 	}
 	
-	public static String addNewPC(PC newPC) {
+	public static String insertNewPC(PC newPC) {
 		Connect db = Connect.getConnection();
 		
-		String query = "INSERT INTO pcs VALUES ('%s', %s')";
+		String query = "INSERT INTO pcs VALUES ('%d', %s')";
 		String queryExecute = String.format(query, newPC.getPc_ID(), newPC.getPc_condition());
 		
 		db.executeUpdate(queryExecute);
@@ -78,17 +82,19 @@ public class PCRepository {
 	}
 	
 	public static PC getPCDetail(String pc_ID) {
+		Integer cuc_pc_ID = Integer.parseInt(pc_ID);
+		
 		Connect db = Connect.getConnection();
 		
-		String query = "SELECT * FROM pcs WHERE pc_ID = '%s'";
-		String queryExecute = String.format(query, pc_ID);
+		String query = "SELECT * FROM pcs WHERE pc_ID = '%d'";
+		String queryExecute = String.format(query, cuc_pc_ID);
 		
 		ResultSet res = db.executeQuery(queryExecute);
 		
 		PC getPC = null; 
 		try {
 			while(res.next()) {
-				String currPC_ID = res.getString(1);
+				Integer currPC_ID = res.getInt(1);
 				String currPC_condition = res.getString(2);
 				
 				getPC = new PC(currPC_ID, currPC_condition);
