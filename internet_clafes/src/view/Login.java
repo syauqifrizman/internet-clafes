@@ -72,7 +72,9 @@ public class Login implements IView{
 			try {
 				user = UserController.getUserData(username, userPassword, view);
 				if (user!=null) {
-					System.out.println("Login Succes "+ user.getUserName());
+					note.setText("Successful Login as " + user.getUserName());
+					ViewPC viewpc = ViewPC.getInstance();
+					viewpc.show();
 				}
 				else {
 					showError("User not found");
