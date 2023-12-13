@@ -2,6 +2,7 @@ package main;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import view.Login;
 
 public class Main extends Application {
 
@@ -13,6 +14,15 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
+		MainStage mainStage = MainStage.getInstance();
+		mainStage.setStage(primaryStage);
+		
+		Login login = Login.getInstance();
+		login.show();
+		
+		mainStage.getStage().setTitle("Internet CLafes");
+		mainStage.getStage().setResizable(false);
+		mainStage.getStage().show();
 		primaryStage.show();
 	}
 

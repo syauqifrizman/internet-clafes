@@ -7,7 +7,7 @@ import model.User;
 import view.IView;
 
 public class UserController {
-	public User getUserData(String username, String password, IView view) throws SQLException{
+	public static User getUserData(String username, String password, IView view) throws SQLException{
 		
 		return User.getUserData(username, password);
 		
@@ -33,7 +33,7 @@ public class UserController {
 		}
 	}
 	
-	public boolean AddNewUser(String username, String pass, int age, String confpass, IView view) {
+	public static boolean AddNewUser(String username, String pass, int age, String confpass, IView view) {
 		if(username.length() < 7) {
 			view.showError("Username must be longer than 6 characters");
 			return false;
@@ -68,7 +68,7 @@ public class UserController {
 			User.AddNewUser(username, pass, age);;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			view.showError("Error Saving to Database");
+			//view.showError("Error Saving to Database");
 			return false;
 		}
 		
