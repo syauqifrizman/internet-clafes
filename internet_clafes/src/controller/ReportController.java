@@ -9,7 +9,7 @@ import view.IView;
 
 public class ReportController {
 	
-	public boolean addNewReport(String UserRole, String PcID, String ReportNote, IView view) {
+	public static boolean addNewReport(String UserRole, String PcID, String ReportNote, IView view) {
 		if(PcID.isEmpty()) {
 			view.showError("PC ID can't be empty");
 			return false;
@@ -24,13 +24,14 @@ public class ReportController {
 			return false;
 		}
 		
-		if(!UserRole.equals("Customer") || !UserRole.equals("Technician")) {
+		if(!UserRole.equals("Customer") && !UserRole.equals("Technician")) {
 			view.showError("Only Users and Technician can make reports");
 			return false;
 		}
 		
 		try {
 			Report.addNewReport(UserRole, Integer.parseInt(PcID), ReportNote);
+			PCController.updatePCCondition(PcID, "Broken");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			view.showError("Error Adding Report");

@@ -12,17 +12,17 @@ import repository.PCRepository;
 
 public class PCController {
 	
-	public ArrayList<PC> getAllPCData(){
+	public static ArrayList<PC> getAllPCData(){
 		return PCRepository.getAllPCData();
 	}
 	
-	public void updatePCCondition(String pc_ID, String pc_condition) {
+	public static void updatePCCondition(String pc_ID, String pc_condition) {
 		
 		if(pc_ID.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "PC must be choosen");
 			return;
 		}
-		else if(pc_condition.equals("Usable") || pc_condition.equals("Maintenance") || pc_condition.equals("Broken")) {
+		else if(!pc_condition.equals("Usable") && !pc_condition.equals("Maintenance") && !pc_condition.equals("Broken")) {
 			Helper.showAlert(AlertType.ERROR, "Must be either 'Usable', 'Maintenance' or 'Broken'.");
 			return;
 		}
@@ -32,7 +32,7 @@ public class PCController {
 		return;
 	}
 	
-	public void deletePC(String pc_ID) {
+	public static void deletePC(String pc_ID) {
 		if(pc_ID.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "PC must be choosen");
 			return;
@@ -68,7 +68,7 @@ public class PCController {
 		return;
 	}
 	
-	public void addNewPC(String pc_ID) {
+	public static void addNewPC(String pc_ID) {
 		if(pc_ID.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Cannot be empty");
 			return;

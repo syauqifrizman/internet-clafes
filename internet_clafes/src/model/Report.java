@@ -66,7 +66,7 @@ public class Report {
 	public static void addNewReport(String role, Integer pc_ID, String reportNote) throws SQLException {
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("INSERT INTO `Report` VALUES (?, '?', ?, '?', '?')");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `report` VALUES (?, ?, ?, ?, ?)");
 		
 		ps.setInt(1, 0);
 		ps.setString(2, role);
@@ -81,7 +81,7 @@ public class Report {
 		ArrayList<Report> reports = new ArrayList<Report>();
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `Report`");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `report`");
 		
 		ResultSet rs = ps.executeQuery();
 		
