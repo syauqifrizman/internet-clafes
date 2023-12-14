@@ -67,7 +67,7 @@ public class PCBook {
 	public static PCBook getPCBookedData(Integer pc_ID, String date) throws SQLException{
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE PC_ID = ?, BookedDate = '?'");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE PC_ID = ? AND BookedDate = '?'");
 		ps.setInt(1, pc_ID);
 		ps.setDate(2, Date.valueOf(date));
 		
@@ -194,6 +194,30 @@ public class PCBook {
 		ps.setInt(2, bookID);
 		
 		ps.executeUpdate();
+	}
+	
+	public static PCBook getPCBookedByID(Integer pcID) throws SQLException{
+		Connect db = Connect.getConnection();
+		
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `PCBook` WHERE pc_ID = ?");
+		ps.setInt(1, pcID);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		PCBook pcbook = null;
+		while(rs.next()) {
+			Integer bookID;
+			Integer userID;
+			String bookedDate;
+			
+			bookID = rs.getInt(1);
+			userID = rs.getInt(3);
+			bookedDate = rs.getDate(4).toString();
+			
+			pcbook = new PCBook(bookID, pcID, userID, bookedDate);
+		}
+		
+		return pcbook;
 	}
 	
 }

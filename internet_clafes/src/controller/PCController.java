@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import factory.PCFactory;
@@ -44,14 +45,21 @@ public class PCController {
 //		PCBook getPCBookData = PcBookController.get
 		
 		Integer newPC_ID = Integer.parseInt(pc_ID);
-		PcBookController pcBookController = new PcBookController();
 		
-//		lagi-lagi ini date dapet dari mana, di parameter method deletePC() ga ada date
-		PCBook getPcBook = pcBookController.getPCBookedData(newPC_ID, date);
+		PCBook pcbook = null;
+		try {
+			pcbook = PcBookController.getPCBookedByID(newPC_ID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		
+////		lagi-lagi ini date dapet dari mana, di parameter method deletePC() ga ada date
+//		PCBook getPcBook = PcBookController.getPCBookedData(newPC_ID, pcbook.);
 		
 //		if PC have any book list in the future, then show error
-		if(getPcBook != null) {
-			Helper.showAlert(AlertType.ERROR, "PC have some book list in the future");
+		if(pcbook != null) {
+			Helper.showAlert(AlertType.ERROR, "PC is booked");
 			return;
 		}
 //		otherwise perform delete
@@ -75,13 +83,13 @@ public class PCController {
 		}
 //		getPC == null
 //		buatin object pc baru, insert ke database, pc_condition nya mungkin nanti bisa dari parameter
-		getPC = PCFactory.createPC(pc_ID, pc_condition);
+		getPC = PCFactory.createPC(pc_ID);
 		String insertStatus = PCRepository.insertNewPC(getPC);
 		Helper.showAlert(AlertType.INFORMATION, insertStatus);
 		return;
 	}
 	
-	public PC getPCDetail(String pc_ID) {
+	public static PC getPCDetail(String pc_ID) {
 		PC getPC = PCRepository.getPCDetail(pc_ID);
 		
 		if(getPC == null) {

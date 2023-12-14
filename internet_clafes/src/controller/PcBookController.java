@@ -84,7 +84,7 @@ public class PcBookController {
 		return true;
 	}
 	
-	public ArrayList<PCBook> getAllPCBookedData(IView view){
+	public static ArrayList<PCBook> getAllPCBookedData(IView view){
 		try {
 			return PCBook.getAllPCBookedData();
 		} catch (SQLException e) {
@@ -102,6 +102,10 @@ public class PcBookController {
 			view.showError("Error fetching data");
 			return new ArrayList<PCBook>();
 		}
+	}
+	
+	public static PCBook getPCBookedByID(int pcID) throws SQLException {
+		return PCBook.getPCBookedByID(pcID);
 	}
 	
 	
