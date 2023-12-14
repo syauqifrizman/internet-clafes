@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -32,6 +33,7 @@ public class Register implements IView {
 	private TextField usernameInput, ageInput;
 	private PasswordField passwordInput, confInput;
 	private Button registerButton;
+	private Hyperlink loginHyperlink;
 	private Label note;
 
 	public void show() {
@@ -55,9 +57,10 @@ public class Register implements IView {
 		ageInput = new TextField();
 		ageInput.setPromptText("Input your age here");
 		registerButton = new Button("Register");
+		loginHyperlink = new Hyperlink("Already have an account? Login Here!");
 		note = new Label();
 		vb.getChildren().addAll(registerTitle, usernameTitle, usernameInput, passwordTitle, 
-				passwordInput, confTitle, confInput, ageTitle, ageInput, registerButton,  note);
+				passwordInput, confTitle, confInput, ageTitle, ageInput, registerButton, loginHyperlink,  note);
 		registerTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		vb.setAlignment(Pos.CENTER_LEFT);
 		vb.setPadding(new Insets(50));
@@ -80,6 +83,10 @@ public class Register implements IView {
 			
 			Login login = Login.getInstance();
 			login.show();
+		});
+		loginHyperlink.setOnAction(e -> {
+			Login loginPage = Login.getInstance();
+			loginPage.show();
 		});
 	}
 	

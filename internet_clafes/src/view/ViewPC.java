@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PC;
+import model.UserSession;
 import repository.PCRepository;
 
 public class ViewPC implements IView{
@@ -44,9 +45,25 @@ public class ViewPC implements IView{
 		tv.getColumns().add(id);
 		tv.getColumns().add(cond);
 		
-		cont.getChildren().add(tv);
+		switch(UserSession.getCurrentUserRole()) {
+			case "Customer":
+				cont.getChildren().addAll(MenuCustomer.createMenu(), tv);
+				break;
+			case "Computer Technician":
+				cont.getChildren().addAll(MenuComputerTechnician.createMenu(), tv);
+				break;
+			case "Operator":
+				cont.getChildren().addAll(MenuOperator.createMenu(), tv);
+				break;
+			case "Admin":
+				cont.getChildren().addAll(MenuAdmin.createMenu(), tv);
+				break;
+			default:
+	            showError("Invalid role");
+		}
+		
 		scene = new Scene(cont, 800, 600);
-	}
+    }
 	
 	private void repaint() {
 		tv.getItems().clear();
@@ -56,7 +73,6 @@ public class ViewPC implements IView{
 			tv.getItems().add(pc2);
 		}
 	}
-	
 	
 	@Override
 	public void showError(String error) {

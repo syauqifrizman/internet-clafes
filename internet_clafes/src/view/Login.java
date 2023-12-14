@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.User;
+import model.UserSession;
 
 public class Login implements IView{
 	private static Login login;
@@ -72,6 +73,7 @@ public class Login implements IView{
 			try {
 				user = UserController.getUserData(username, userPassword, view);
 				if (user!=null) {
+					UserSession.setCurrentUser(user);
 					note.setText("Successful Login as " + user.getUserName());
 					ViewPC viewpc = ViewPC.getInstance();
 					viewpc.show();
