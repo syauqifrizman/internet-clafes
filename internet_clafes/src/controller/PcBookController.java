@@ -19,11 +19,11 @@ public class PcBookController {
 		return true;
 	}
 	
-	public PCBook getPCBookedData(int PcID, String date) throws SQLException {
+	public PCBook getPCBookedData(int PcID, Date date) throws SQLException {
 		return PCBook.getPCBookedData(PcID, date);
 	}
 	
-	public boolean assignUsertoNewPC(int BookID, Integer NewPCID, String date, IView view) throws SQLException {
+	public boolean assignUsertoNewPC(int BookID, Integer NewPCID, Date date, IView view) throws SQLException {
 		if(NewPCID == 0) {
 			view.showError("PC ID must be filled");
 			return false;
@@ -34,8 +34,7 @@ public class PcBookController {
 			return false;
 		}
 		
-		PCController pcCotroller = new PCController();
-		if(!pcCotroller.getPCDetail(NewPCID.toString()).getPc_condition().equals("Usable")) {
+		if(!PCController.getPCDetail(NewPCID.toString()).getPc_condition().equals("Usable")) {
 			view.showError("PC is unusable");
 			return false;
 		}
@@ -94,7 +93,7 @@ public class PcBookController {
 		}
 	}
 	
-	public ArrayList<PCBook> getPcBookedByDate(String date, IView view){
+	public ArrayList<PCBook> getPcBookedByDate(Date date, IView view){
 		try {
 			return PCBook.getPCBookedByDate(date);
 		} catch (SQLException e) {
