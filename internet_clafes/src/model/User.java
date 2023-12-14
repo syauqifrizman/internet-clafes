@@ -36,6 +36,10 @@ public class User {
 		this.userAge = userAge;
 	}
 	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getUserID() {
 		return userID;
 	}
@@ -163,7 +167,7 @@ public class User {
 		ArrayList<User> users = new ArrayList<User>();
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `user` WHERE userRole = 'Technician' ");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `user` WHERE userRole = 'Computer Technician' ");
 		
 		ResultSet rs = ps.executeQuery();
 		

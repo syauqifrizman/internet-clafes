@@ -19,7 +19,7 @@ public class ViewPC implements IView{
 	private TableView<PC> tv;
 	
 	public static ViewPC getInstance() {
-		return viewpc = viewpc == null ? new ViewPC() : viewpc;
+		return new ViewPC();
 	}
 	
 	private ViewPC() {

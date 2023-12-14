@@ -26,7 +26,7 @@ public class Login implements IView{
 		return login = login == null ? new Login() : login;
 	}
 	
-	private Login() {
+	public Login() {
 		initialize();
 		addEventListener();
 	}
@@ -74,7 +74,6 @@ public class Login implements IView{
 				user = UserController.getUserData(username, userPassword, view);
 				if (user!=null) {
 					UserSession.setCurrentUser(user);
-					note.setText("Successful Login as " + user.getUserName());
 					ViewPC viewpc = ViewPC.getInstance();
 					viewpc.show();
 				}

@@ -53,7 +53,7 @@ public class MenuComputerTechnician {
     private static void handleLogout() {
         // Add logic for handling logout
     	UserSession.logout();
-    	Login loginPage = Login.getInstance();
+    	Login loginPage = new Login();
 		loginPage.show();
     }
 
