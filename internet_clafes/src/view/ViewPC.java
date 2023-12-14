@@ -15,7 +15,6 @@ import javafx.util.Callback;
 import main.MainStage;
 import model.User;
 import model.PC;
-import model.Report;
 import model.UserSession;
 import repository.PCRepository;
 
@@ -45,12 +44,14 @@ public class ViewPC implements IView{
 		tv = new TableView<PC>();
 		
 		TableColumn<PC, Integer> id = new TableColumn<>("PC ID");
+		id.setPrefWidth(50);
 		id.setCellValueFactory(new PropertyValueFactory<>("pc_ID"));
 		
 		TableColumn<PC, Integer> cond = new TableColumn<>("PC Condition");
 		cond.setCellValueFactory(new PropertyValueFactory<>("pc_condition"));
 		
 		TableColumn<PC, Void> action = new TableColumn<>("Actions");
+		action.setPrefWidth(270);
 		if(UserSession.getCurrentUserRole().equals("Customer")) {
 		 Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<TableColumn<PC, Void>, TableCell<PC, Void>>() {
 	            @Override
