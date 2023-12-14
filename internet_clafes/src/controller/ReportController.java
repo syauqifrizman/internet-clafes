@@ -44,7 +44,7 @@ public class ReportController {
 		return true;
 	}
 	
-	public ArrayList<Report> getAllReportData(IView view){
+	public static ArrayList<Report> getAllReportData(IView view){
 		try {
 			return Report.getAllReportData();
 		} catch (SQLException e) {

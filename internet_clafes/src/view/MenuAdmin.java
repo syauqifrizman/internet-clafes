@@ -92,7 +92,7 @@ public class MenuAdmin {
     
 	private static void navigateToViewAllReport() {
 		// Implement logic to navigate to the "Transaction History" page
-		ViewAllReport viewAllReport = ViewAllReport.getInstance();
+		ViewReport viewAllReport = ViewReport.getInstance();
 		viewAllReport.show();
     }
 
