@@ -68,6 +68,13 @@ public class ViewPC implements IView{
 	                            ReportPC reportpc = ReportPC.getInstance(reportUser, reportPC);
 	    						reportpc.show();
 	                        });
+	                        
+	                        bookButton.setOnAction((ActionEvent event) -> {
+	                        	User reportUser = UserSession.getCurrentUser();
+	                            PC reportPC = getTableView().getItems().get(getIndex());
+	                            BookPC bookpc = BookPC.getInstance(reportUser, reportPC);
+	    						bookpc.show();
+	                        });
 	                    }       
 	                    @Override
 	                    public void updateItem(Void item, boolean empty) {

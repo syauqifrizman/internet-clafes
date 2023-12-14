@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -53,18 +54,17 @@ public class PcBookController {
 		return PCBook.getPCBookedDetail(BookID);
 	}
 	
-	public boolean addNewBook(String PcID, Integer UserID, String bookedDate, IView view) throws SQLException {
+	public static boolean addNewBook(String PcID, Integer UserID, Date bookedDate, IView view) throws SQLException {
 		if(PcID.isEmpty()) {
 			view.showError("Please choose a PC");
 			return false;
 		}
 		
-		if(bookedDate.isBlank()) {
+		if(bookedDate == null) {
 			view.showError("Please pick a date");
 			return false;
 		}
-		PCController pcController = new PCController();
-		if(!pcController.getPCDetail(PcID).getPc_condition().equals("Usable")) {
+		if(!PCController.getPCDetail(PcID).getPc_condition().equals("Usable")) {
 			view.showError("PC is unusable");
 			return false;
 		}
