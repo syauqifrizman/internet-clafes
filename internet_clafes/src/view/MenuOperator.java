@@ -45,8 +45,8 @@ public class MenuOperator {
 
     private static void navigateToPCBookedData() {
         // Implement logic to navigate to the "Transaction History" page
-    	PCBookedData bookedPC = PCBookedData.getInstance();
-    	bookedPC.show();
+    	PCBookedData pcBookedData = PCBookedData.getInstance();
+    	pcBookedData.show();
     }
     
 
