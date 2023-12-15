@@ -4,9 +4,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
+import controller.TransactionController;
 import sqlConnect.Connect;
 
 public class PCBook {
@@ -125,7 +125,8 @@ public class PCBook {
 		ps.executeUpdate();
 	}
 	
-	public static void finishBook(ArrayList<PCBook> pcbooks) throws SQLException {
+	public static void finishBook(ArrayList<PCBook> pcbooks, Integer StaffID, Integer transactionID) throws SQLException {
+		TransactionController.AddTransaction(transactionID, pcbooks, StaffID);
 		for (PCBook pcBook : pcbooks) {
 			deleteBookData(pcBook.getBookID());
 		}

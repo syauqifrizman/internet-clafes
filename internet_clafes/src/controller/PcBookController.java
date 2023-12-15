@@ -79,8 +79,13 @@ public class PcBookController {
 		
 	}
 	
-	public boolean finishBook(ArrayList<PCBook> pcbooks) {
-		//ini juga nunggu controller
+	public boolean finishBook(ArrayList<PCBook> pcbooks, Integer StaffID, Integer transactionID) {
+		try {
+			PCBook.finishBook(pcbooks, StaffID, transactionID);
+		} catch (SQLException e) {
+			Helper.showAlert(AlertType.ERROR, "Error finish booking");
+			return false;
+		}
 		return true;
 	}
 	

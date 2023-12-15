@@ -93,4 +93,15 @@ public class TransactionHeader {
 		
 	}
 	
+	public static Integer peekLastID() throws SQLException {
+		Connect db = Connect.getConnection();
+		
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM users ORDER BY UserID DESC LIMIT 1");
+		ResultSet rs = ps.executeQuery();
+		
+		Integer id = rs.getInt(1);
+		
+		return id;
+	}
+	
 }

@@ -11,7 +11,7 @@ import model.TransactionHeader;
 
 public class TransactionController {
 	
-	public ArrayList<TransactionHeader> getAllTransactionHeaderData(){
+	public static ArrayList<TransactionHeader> getAllTransactionHeaderData(){
 		try {
 			return TransactionHeader.getAllTransactionHeaderData();
 		} catch (SQLException e) {
@@ -19,7 +19,7 @@ public class TransactionController {
 		}
 	}
 	
-	public ArrayList<TransactionDetail> getAllTransactionDetailData(Integer transactionID){
+	public static ArrayList<TransactionDetail> getAllTransactionDetailData(Integer transactionID){
 		try {
 			return TransactionDetail.getAllTransactionDetail(transactionID);
 		} catch (SQLException e) {
@@ -27,7 +27,7 @@ public class TransactionController {
 		}
 	}
 	
-	public ArrayList<TransactionDetail> getUserTransactionDetail(Integer UserID){
+	public static ArrayList<TransactionDetail> getUserTransactionDetail(Integer UserID){
 		try {
 			return TransactionDetail.getUserTransactionDetail(UserID);
 		} catch (SQLException e) {
@@ -35,7 +35,7 @@ public class TransactionController {
 		}
 	}
 	
-	public boolean AddTransaction(Integer transactionID, ArrayList<PCBook> pcbooks, Integer StaffID) {
+	public static boolean AddTransaction(Integer transactionID, ArrayList<PCBook> pcbooks, Integer StaffID) {
 		
 		try {
 			TransactionHeader.addNewTransactionHeader(StaffID, java.time.LocalDate.now().toString());
@@ -53,6 +53,15 @@ public class TransactionController {
 		}
 		
 		return true;
+	}
+	
+	public static Integer peekLastID() {
+		try {
+			return TransactionHeader.peekLastID();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
 	}
 	
 }
