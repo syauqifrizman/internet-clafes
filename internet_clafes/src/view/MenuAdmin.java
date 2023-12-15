@@ -5,6 +5,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.UserSession;
+import view.admin.ViewAllTransaction;
 
 public class MenuAdmin {
 
@@ -86,7 +87,7 @@ public class MenuAdmin {
 	
 	private static void navigateToAllTransactionHistory() {
         // Implement logic to navigate to the "Transaction History" page
-		AllTransactionHistory alltHistory = AllTransactionHistory.getInstance();
+		ViewAllTransaction alltHistory = ViewAllTransaction.getInstance();
 		alltHistory.show();
     }
     

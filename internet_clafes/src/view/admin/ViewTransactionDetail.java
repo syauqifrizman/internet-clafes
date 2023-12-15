@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import java.util.ArrayList;
 
@@ -13,18 +13,20 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.TransactionDetail;
-import model.UserSession;
+import view.MenuAdmin;
 
-public class TransactionHistory {
+public class ViewTransactionDetail {
 	
+	private static Integer tID;
 	private Scene scene;
 	private VBox cont;
 	private Label thistoryLabel;
 	
 	private TableView<TransactionDetail> tv;
 	
-	public static TransactionHistory getInstance() {
-		return new TransactionHistory();
+	public static ViewTransactionDetail getInstance(Integer tid) {
+		tID = tid;
+		return new ViewTransactionDetail();
 	}
 	
 	public void show() {
@@ -33,14 +35,14 @@ public class TransactionHistory {
 		repaint();
 	}
 	
-	public TransactionHistory() {
+	public ViewTransactionDetail() {
 		initTable();
 		repaint();
 	}
 	
 	private void initTable() {
 		cont = new VBox();
-		thistoryLabel = new Label("Your Transaction History");
+		thistoryLabel = new Label("Transaction History");
 		tv = new TableView<TransactionDetail>();
 		
 		TableColumn<TransactionDetail, Integer> id = new TableColumn<>("Transaction ID");
@@ -62,6 +64,7 @@ public class TransactionHistory {
 		
 		thistoryLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
+		cont.getChildren().add(MenuAdmin.createMenu());
 		cont.getChildren().add(thistoryLabel);
 		cont.getChildren().add(tv);
 		
@@ -70,8 +73,7 @@ public class TransactionHistory {
 	
 	private void repaint() {
 		tv.getItems().clear();
-		ArrayList<TransactionDetail> tdetails = TransactionController.getUserTransactionDetail(
-				UserSession.getCurrentUser().getUserID());
+		ArrayList<TransactionDetail> tdetails = TransactionController.getAllTransactionDetailData(tID);
 		for (TransactionDetail transactionDetail : tdetails) {
 			tv.getItems().add(transactionDetail);
 		}
