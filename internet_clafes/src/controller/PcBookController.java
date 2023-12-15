@@ -9,7 +9,7 @@ import javafx.scene.control.Alert.AlertType;
 import model.PCBook;
 
 public class PcBookController {
-	public boolean DeleteBookData(int BookID) {
+	public static boolean DeleteBookData(int BookID) {
 		try {
 			PCBook.deleteBookData(BookID);
 		} catch (SQLException e) {
@@ -24,7 +24,7 @@ public class PcBookController {
 		return PCBook.getPCBookedData(PcID, date);
 	}
 	
-	public boolean assignUsertoNewPC(int BookID, Integer NewPCID, Date date) throws SQLException {
+	public static boolean assignUsertoNewPC(int BookID, Integer NewPCID, Date date) throws SQLException {
 		if(NewPCID == 0) {
 			Helper.showAlert(AlertType.ERROR, "PC ID must be filled");
 			return false;
@@ -79,9 +79,9 @@ public class PcBookController {
 		
 	}
 	
-	public boolean finishBook(ArrayList<PCBook> pcbooks, Integer StaffID, Integer transactionID) {
+	public static boolean finishBook(ArrayList<PCBook> pcbooks, Integer StaffID) {
 		try {
-			PCBook.finishBook(pcbooks, StaffID, transactionID);
+			PCBook.finishBook(pcbooks, StaffID);
 		} catch (SQLException e) {
 			Helper.showAlert(AlertType.ERROR, "Error finish booking");
 			return false;

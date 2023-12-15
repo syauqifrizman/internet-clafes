@@ -35,7 +35,7 @@ public class TransactionController {
 		}
 	}
 	
-	public static boolean AddTransaction(Integer transactionID, ArrayList<PCBook> pcbooks, Integer StaffID) {
+	public static boolean AddTransaction(ArrayList<PCBook> pcbooks, Integer StaffID) {
 		
 		try {
 			TransactionHeader.addNewTransactionHeader(StaffID, java.time.LocalDate.now().toString());
@@ -46,7 +46,7 @@ public class TransactionController {
 		}
 		
 		try {
-			TransactionDetail.addTransactionDetail(transactionID, pcbooks);
+			TransactionDetail.addTransactionDetail(peekLastID(), pcbooks);
 		} catch (SQLException e) {
 			Helper.showAlert(AlertType.ERROR, "Error in Transaction Detail");
 			return false;

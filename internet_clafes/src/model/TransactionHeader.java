@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import helper.Helper;
+import javafx.scene.control.Alert.AlertType;
 import repository.UserRepository;
 import sqlConnect.Connect;
 
@@ -58,7 +60,7 @@ public class TransactionHeader {
 		ArrayList<TransactionHeader> theaders = new ArrayList<TransactionHeader>();
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionHeader`");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheader`");
 		
 		ResultSet rs = ps.executeQuery();
 		
@@ -83,7 +85,7 @@ public class TransactionHeader {
 	public static void addNewTransactionHeader(Integer staffID, String transactionDate) throws SQLException {
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("INSERT INTO `transactionHeader` VALUES (?, ?, ?, ?)");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `transactionheader` VALUES (?, ?, ?, ?)");
 		ps.setInt(1, 0);
 		ps.setInt(2, staffID);
 		ps.setString(3, UserRepository.getUserDetail(staffID).getUserName());
@@ -96,10 +98,19 @@ public class TransactionHeader {
 	public static Integer peekLastID() throws SQLException {
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM users ORDER BY UserID DESC LIMIT 1");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheader` ORDER BY transactionID DESC LIMIT 1");
 		ResultSet rs = ps.executeQuery();
 		
-		Integer id = rs.getInt(1);
+		Integer id = 0;
+		
+		 try {
+			if(rs.next()) {
+			     id = id+rs.getInt("transactionID");
+			 }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return id;
 	}

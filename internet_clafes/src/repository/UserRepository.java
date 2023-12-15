@@ -10,7 +10,7 @@ public class UserRepository {
 	public static User getUserDetail(Integer userID) {
 		Connect db = Connect.getConnection();
 		
-		String query = "SELECT * FROM users WHERE userID = '%d'";
+		String query = "SELECT * FROM user WHERE userID = '%d'";
 		String queryExecute = String.format(query, userID);
 		
 		ResultSet res = db.executeQuery(queryExecute);

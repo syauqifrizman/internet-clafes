@@ -4,11 +4,14 @@ import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import model.User;
 import model.UserSession;
 
 public class MenuOperator {
+	public static User user;
 
-	protected static Parent createMenu() {
+	protected static Parent createMenu(User staff) {
+		user = staff;
         // Create a menu bar
         MenuBar menuBar = new MenuBar();
 
@@ -45,7 +48,8 @@ public class MenuOperator {
 
     private static void navigateToPCBookedData() {
         // Implement logic to navigate to the "Transaction History" page
-    	PCBookedData pcBookedData = PCBookedData.getInstance();
+    	User staffBook = user; 
+    	PCBookedData pcBookedData = PCBookedData.getInstance(staffBook);
     	pcBookedData.show();
     }
     

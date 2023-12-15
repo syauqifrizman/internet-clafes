@@ -125,8 +125,8 @@ public class PCBook {
 		ps.executeUpdate();
 	}
 	
-	public static void finishBook(ArrayList<PCBook> pcbooks, Integer StaffID, Integer transactionID) throws SQLException {
-		TransactionController.AddTransaction(transactionID, pcbooks, StaffID);
+	public static void finishBook(ArrayList<PCBook> pcbooks, Integer StaffID) throws SQLException {
+		TransactionController.AddTransaction(pcbooks, StaffID);
 		for (PCBook pcBook : pcbooks) {
 			deleteBookData(pcBook.getBookID());
 		}

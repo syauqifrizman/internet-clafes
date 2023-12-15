@@ -1,13 +1,16 @@
 package view;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import controller.PcBookController;
+import controller.TransactionController;
 import helper.Helper;
 import javafx.util.Callback;
-
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -21,18 +24,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.MainStage;
+import model.PC;
 import model.PCBook;
+import model.User;
+import model.UserSession;
 
 public class PCBookedData {
 	
 	private static PCBookedData pcBookedData;
+	private static User user;
 	private Scene scene;
 	private TableView<PCBook> tv;
 	private DatePicker datePicker;
 	private Label newPCTitle;
 	private TextField newPCInput;
 	
-	public static PCBookedData getInstance() {
+	public static PCBookedData getInstance(User staff) {
+		user = staff;
 		return new PCBookedData();
 	}
 	
@@ -78,8 +86,47 @@ public class PCBookedData {
 			}
 		}));
 
-		TableColumn<PCBook, Void> deleteColumn = new TableColumn<>("Delete");
-		deleteColumn.setCellFactory(param -> new ButtonCell("Delete", this::handleDelete));
+		TableColumn<PCBook, Void> deleteColumn = new TableColumn<>("Actions");
+		Callback<TableColumn<PCBook, Void>, TableCell<PCBook, Void>> cellFactory = new Callback<TableColumn<PCBook, Void>, TableCell<PCBook, Void>>() {
+            @Override
+            public TableCell<PCBook, Void> call(final TableColumn<PCBook, Void> param) {
+                final TableCell<PCBook, Void> cell = new TableCell<PCBook, Void>() {
+
+                    private final Button cancelButton = new Button("Cancel");
+                    private final Button finishButton = new Button("Finish");
+                    
+                    {
+                        	cancelButton.setOnAction((ActionEvent event) -> {
+                            PCBook pcbook = getTableView().getItems().get(getIndex());
+                            PcBookController.DeleteBookData(pcbook.getBookID());
+                            ViewPC viewpc = ViewPC.getInstance();
+    						viewpc.show();
+                        });
+                        
+                        	finishButton.setOnAction((ActionEvent event) -> {
+                            PCBook pcbook = getTableView().getItems().get(getIndex());
+                            ArrayList<PCBook> pcbooks = new ArrayList<PCBook>();
+                            pcbooks.add(pcbook);
+                            PcBookController.finishBook(pcbooks, user.getUserID());
+                            ViewPC viewpc = ViewPC.getInstance();
+    						viewpc.show();
+                        });
+                    }       
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                        	HBox buttons = new HBox(cancelButton, finishButton);
+         	                setGraphic(buttons);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        deleteColumn.setCellFactory(cellFactory);
 
 		tv.getColumns().addAll(id, idPC, idUser, date, changePCColumn, deleteColumn);
 
@@ -98,7 +145,7 @@ public class PCBookedData {
 	        }
 	    });
 		HBox searchBox = new HBox(datePicker);
-        cont.getChildren().addAll(MenuOperator.createMenu(), searchBox,additionalControls, tv);
+        cont.getChildren().addAll(MenuOperator.createMenu(user), searchBox,additionalControls, tv);
 		
 		scene = new Scene(cont, 800, 600);
     }
@@ -107,12 +154,12 @@ public class PCBookedData {
 		tv.getItems().clear();
 		ArrayList<PCBook> pcBook = PCBook.getAllPCBookedData();
 		
-		if (datePicker.getValue() != null) {
-			java.sql.Date sqlDate = java.sql.Date.valueOf(datePicker.getValue());
-	        pcBook = PCBook.getPCBookedByDate(sqlDate);
-        } else {
-            pcBook = PCBook.getAllPCBookedData();
-        }
+//		if (datePicker.getValue() != null) {
+//			java.sql.Date sqlDate = java.sql.Date.valueOf(datePicker.getValue());
+//	        pcBook = PCBook.getPCBookedByDate(sqlDate);
+//        } else {
+//            pcBook = PCBook.getAllPCBookedData();
+//        }
 		
 		for (PCBook pcBook2 : pcBook) {
 			tv.getItems().add(pcBook2);
@@ -123,7 +170,8 @@ public class PCBookedData {
 	private void handleChangePC(PCBook pcBook) throws SQLException {
 	    try {
 	        Integer newPCID = Integer.parseInt(newPCInput.getText().trim());
-	        PCBook.assignUsertoNewPC(pcBook.getBookID(), newPCID);
+	        PcBookController.assignUsertoNewPC(pcBook.getBookID(), newPCID, 
+	        		PcBookController.getPCBookedByID(pcBook.getBookID()).getBookedDate());
 	        repaint(); // Refresh the table after the change
 	    } catch (NumberFormatException e) {
 	    	Helper.showAlert(AlertType.ERROR, "Invalid PC ID. Please enter a valid number.");
@@ -135,68 +183,68 @@ public class PCBookedData {
 
 
 
-	private void handleDelete(PCBook pcBook) {
-	    LocalDate today = LocalDate.now();
-	    LocalDate bookedDate = pcBook.getBookedDate().toLocalDate();
-
-	    if (bookedDate.isBefore(today)) {
-	        try {
-	            PCBook.deleteBookData(pcBook.getBookID());
-	            repaint(); // Refresh the table after the cancel
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	            Helper.showAlert(AlertType.ERROR, "Error cancel booking.");
-	        }
-	    } else {
-	        try {
-	            // Create a list with a single PCBook object
-	            ArrayList<PCBook> pcBookList = new ArrayList<>();
-	            pcBookList.add(pcBook);
-
-	            PCBook.finishBook(pcBookList);
-	            repaint(); // Refresh the table after the finish
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	            Helper.showAlert(AlertType.ERROR, "Error finish booking.");
-	        }
-	    }
-	}
+//	private void handleDelete(PCBook pcBook) {
+//	    LocalDate today = LocalDate.now();
+//	    LocalDate bookedDate = pcBook.getBookedDate().toLocalDate();
+//
+//	    if (bookedDate.isBefore(today)) {
+//	        try {
+//	            PCBook.deleteBookData(pcBook.getBookID());
+//	            repaint(); // Refresh the table after the cancel
+//	        } catch (SQLException e) {
+//	            e.printStackTrace();
+//	            Helper.showAlert(AlertType.ERROR, "Error cancel booking.");
+//	        }
+//	    } else {
+//	        try {
+//	            // Create a list with a single PCBook object
+//	            ArrayList<PCBook> pcBookList = new ArrayList<PCBook>();
+//	            pcBookList.add(pcBook);
+//
+//	            PcBookController.finishBook(pcBookList, user.getUserID());
+//	            repaint(); // Refresh the table after the finish
+//	        } catch (SQLException e) {
+//	            e.printStackTrace();
+//	            Helper.showAlert(AlertType.ERROR, "Error finish booking.");
+//	        }
+//	    }
+//	}
 	
-	private class ButtonCell extends TableCell<PCBook, Void> {
-	    private final Button button;
-	    private final ButtonAction action;
-
-	    ButtonCell(String label, ButtonAction action) {
-	        this.button = new Button(label);
-	        this.action = action;
-	        this.button.setOnAction(event -> action.handle(getCurrentItem()));
-	    }
-
-	    private PCBook getCurrentItem() {
-	        return getTableView().getItems().get(getIndex());
-	    }
-
-	    @Override
-	    protected void updateItem(Void item, boolean empty) {
-	        super.updateItem(item, empty);
-	        if (empty) {
-	            setGraphic(null);
-	        } else {
-	            PCBook pcBook = getCurrentItem();
-	            LocalDate today = LocalDate.now();
-	            LocalDate bookedDate = pcBook.getBookedDate().toLocalDate();
-
-	            // Set button label based on the date
-	            if (bookedDate.isBefore(today)) {
-	                button.setText("Finish");
-	            } else {
-	                button.setText("Cancel");
-	            }
-
-	            setGraphic(button);
-	        }
-	    }
-	}
+//	private class ButtonCell extends TableCell<PCBook, Void> {
+//	    private final Button button;
+//	    private final ButtonAction action;
+//
+//	    ButtonCell(String label, ButtonAction action) {
+//	        this.button = new Button(label);
+//	        this.action = action;
+//	        this.button.setOnAction(event -> action.handle(getCurrentItem()));
+//	    }
+//
+//	    private PCBook getCurrentItem() {
+//	        return getTableView().getItems().get(getIndex());
+//	    }
+//
+//	    @Override
+//	    protected void updateItem(Void item, boolean empty) {
+//	        super.updateItem(item, empty);
+//	        if (empty) {
+//	            setGraphic(null);
+//	        } else {
+//	            PCBook pcBook = getCurrentItem();
+//	            LocalDate today = LocalDate.now();
+//	            LocalDate bookedDate = pcBook.getBookedDate().toLocalDate();
+//
+//	            // Set button label based on the date
+//	            if (bookedDate.isBefore(today)) {
+//	                button.setText("Finish");
+//	            } else {
+//	                button.setText("Cancel");
+//	            }
+//
+//	            setGraphic(button);
+//	        }
+//	    }
+//	}
 	
 	public class CustomActionCell extends TableCell<PCBook, Void> {
 	    private final Button actionButton;

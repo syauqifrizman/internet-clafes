@@ -134,7 +134,7 @@ public class ViewPC {
 				cont.getChildren().addAll(MenuComputerTechnician.createMenu(), tv);
 				break;
 			case "Operator":
-				cont.getChildren().addAll(MenuOperator.createMenu(), tv);
+				cont.getChildren().addAll(MenuOperator.createMenu(UserSession.getCurrentUser()), tv);
 				break;
 			case "Admin":
 				cont.getChildren().addAll(MenuAdmin.createMenu(), tv, addPCButton);
