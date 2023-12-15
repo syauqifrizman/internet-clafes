@@ -15,8 +15,11 @@ import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
 import model.User;
+import model.UserSession;
 import view.BookPC;
+import view.Login;
 import view.MenuAdmin;
+import view.ViewPC;
 
 public class ViewPCDetail {
 	
@@ -25,7 +28,7 @@ public class ViewPCDetail {
 
     public ViewPCDetail(PC pc) {
 		initialize(pc);
-		addEventListener();
+		addEventListener(pc);
     }
 	
 	public void show() {
@@ -66,9 +69,18 @@ public class ViewPCDetail {
 	    
 	    HBox containerButton = new HBox();
 	    containerButton.getChildren().addAll(deleteButton, updateButton);
+	    
+	    // pc condition
+	    Label conditionTitle = new Label("Update Current PC Condition:");
+	    TextField pcConditionInput = new TextField();
+	    pcConditionInput.setPromptText("Insert Current PC Condition");
 
 	    // Add elements to the container
-	    container.getChildren().addAll(MenuAdmin.createMenu(), pageTitle, containerPCID, containerPCCondition, containerButton);
+	    container.getChildren().addAll(MenuAdmin.createMenu(), pageTitle, containerPCID, containerPCCondition, conditionTitle, pcConditionInput);
+	    
+	    if(UserSession.getCurrentUser().getUserRole().equals("Admin")) {
+	    	container.getChildren().add(containerButton);
+	    }
 
 	    // Align container to the top left
 	    container.setAlignment(Pos.TOP_LEFT);
@@ -78,33 +90,29 @@ public class ViewPCDetail {
 	}
 
 	
-	private void addEventListener() {
+	private void addEventListener(PC pc) {
 		deleteButton.setOnAction(event -> {
-		    try {
-		        System.out.println("Delete button clicked");
-		        String pc_id = currentPCID.getText();
-		        System.out.println("PC ID: " + pc_id);
-		        PCController.deletePC(pc_id);
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
+	        String pc_id = pc.getPc_ID().toString();
+	        
+	        PCController.deletePC(pc_id);
+	        
+	    	ViewPC viewPCPage = new ViewPC();
+	    	viewPCPage.show();
 		});
 
 
 		updateButton.setOnAction(event -> {
-		    String pc_id = currentPCID.getText();
-
-		    // pc condition
-		    Label conditionTitle = new Label("Update Current PC Condition:");
-		    TextField pcConditionInput = new TextField();
-		    pcConditionInput.setPromptText("Insert Current PC Condition");
-
-		    container.getChildren().addAll(conditionTitle, pcConditionInput);
+		    String pc_id = pc.getPc_ID().toString();
 
 		    // Move this line inside the event handler
-		    String pc_condition = pcConditionInput.getText();
+		    String pc_condition = pc.getPc_condition();
 
 		    PCController.updatePCCondition(pc_id, pc_condition);
+		    
+		    PC getNewUpdatePC = PCController.getPCDetail(pc_id);
+		    
+		    ViewPCDetail ViewPCDetail = new ViewPCDetail(getNewUpdatePC);
+		    ViewPCDetail.show();
 		});
 
 	}

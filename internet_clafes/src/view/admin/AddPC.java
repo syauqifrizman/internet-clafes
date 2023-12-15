@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
 import view.MenuAdmin;
+import view.ViewPC;
 
 public class AddPC {
 	
@@ -94,6 +95,9 @@ public class AddPC {
 			String pc_id = pcIDInput.getText();
 			
 			PCController.addNewPC(pc_id);
+			
+	    	ViewPC viewPCPage = new ViewPC();
+	    	viewPCPage.show();
 		});
 	}
 	

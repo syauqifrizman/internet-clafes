@@ -31,7 +31,7 @@ public class ViewPC {
 		return new ViewPC();
 	}
 	
-	private ViewPC() {
+	public ViewPC() {
 		initTable();
 	}
 	
