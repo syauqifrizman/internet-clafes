@@ -73,7 +73,11 @@ public class PCController {
 			Helper.showAlert(AlertType.ERROR, "Cannot be empty");
 			return;
 		}
-		
+		if(!pc_ID.matches("[0-9]+")) {
+			Helper.showAlert(AlertType.ERROR, "PC ID must be number only");
+			return;
+		}
+
 //		cari pc_id ada di database atau engga
 		PC getPC = PCRepository.getPCDetail(pc_ID);
 //		getPC != null, pc udah ada di database
@@ -81,6 +85,7 @@ public class PCController {
 			Helper.showAlert(AlertType.ERROR, "PC already exist, PC ID must be unique");
 			return;
 		}
+		
 //		getPC == null
 //		buatin object pc baru, insert ke database, pc_condition nya mungkin nanti bisa dari parameter
 		getPC = PCFactory.createPC(pc_ID);
