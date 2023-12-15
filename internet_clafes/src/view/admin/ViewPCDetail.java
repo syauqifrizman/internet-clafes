@@ -20,29 +20,38 @@ import view.MenuAdmin;
 
 public class ViewPCDetail {
 	
-	private static PC pc;
-	
 	Stage primaryStage;
 	Scene scene;
 	
-	private void _setScene(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-		primaryStage.setScene(scene);
-	}
-	
-	public static void setScene(Stage primaryStage) {
-		ViewPCDetail viewPCDetail = new ViewPCDetail();
-		viewPCDetail._setScene(primaryStage);
-	}
-	
-	public static void setScene(Stage primaryStage, PC pc) {
-		setScene(primaryStage);
-	}
-	
-	public ViewPCDetail(PC pc) {
+//	private void setScene() {
+//		primaryStage.setScene(scene);
+//	}
+
+    public ViewPCDetail(PC pc) {
+//        this.primaryStage = primaryStage;
 		initialize(pc);
 		addEventListener();
-	}
+//        setScene();
+    }
+	
+//	private void _setScene(Stage primaryStage) {
+//		this.primaryStage = primaryStage;
+//		primaryStage.setScene(scene);
+//	}
+//	
+//	public static void setScene(Stage primaryStage, PC pc) {
+//		ViewPCDetail viewPCDetail = new ViewPCDetail(pc);
+//		viewPCDetail._setScene(primaryStage);
+//	}
+//	
+//	public static void setScene(Stage primaryStage) {
+//		setScene(primaryStage);
+//	}
+//	
+//	public ViewPCDetail(PC pc) {
+//		initialize(pc);
+//		addEventListener(pc);
+//	}
 	
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
@@ -50,10 +59,10 @@ public class ViewPCDetail {
 	}
 	
 	Button deleteButton, updateButton;
-	TextField pcIDInput, pcConditionInput;
+	Label currentPCID, currentPCCondition;
 	
+	VBox container = new VBox(20);  // Set vertical spacing between elements
 	private void initialize(PC pc) {
-	    VBox container = new VBox(20);  // Set vertical spacing between elements
 	    container.setPadding(new Insets(50, 20, 20, 20));  // Set padding
 
 	    // Title
@@ -62,7 +71,7 @@ public class ViewPCDetail {
 	    
 	    // PC ID
 	    Label pcIDLabel = new Label("PC ID: ");
-	    Label currentPCID = new Label(pc.getPc_ID().toString());
+	    currentPCID = new Label(pc.getPc_ID().toString());
 	    currentPCID.setFont(Font.font("Arial", FontWeight.BOLD, 12));
 	    
 	    HBox containerPCID = new HBox();
@@ -70,7 +79,7 @@ public class ViewPCDetail {
 	    
 	    //  PC condition
 	    Label pcConditionLabel = new Label("PC Condition: ");
-	    Label currentPCCondition = new Label(pc.getPc_condition());
+	    currentPCCondition = new Label(pc.getPc_condition());
 	    currentPCCondition.setFont(Font.font("Arial", FontWeight.BOLD, 12));
 	    
 	    HBox containerPCCondition = new HBox();
@@ -95,11 +104,29 @@ public class ViewPCDetail {
 
 	
 	private void addEventListener() {
-//		deleteButton.setOnMouseClicked(e ->{
-//			String pc_id = pcIDInput.getText();
-//			
-//			PCController.addNewPC(pc_id);
-//		});
+		deleteButton.setOnMouseClicked(e ->{
+			String pc_id = currentPCID.getText();
+			
+			Label pcID = new Label(pc_id);
+			container.getChildren().add(pcID);
+			System.out.println(pc_id);
+			
+			PCController.deletePC(pc_id);
+		});
+		
+		updateButton.setOnMouseClicked(e ->{
+			String pc_id = currentPCID.getText();
+			
+		    // pc condition
+		    Label conditionTitle = new Label("Update Current PC Condition:");
+		    TextField pcConditionInput = new TextField();
+		    pcConditionInput.setPromptText("Insert Current PC Condition");
+		    
+		    container.getChildren().addAll(conditionTitle, pcConditionInput);
+		    
+		    String pc_condition = pcConditionInput.getText();			
+			PCController.updatePCCondition(pc_id, pc_condition);
+		});
 	}
 	
     public static ViewPCDetail getInstance(PC fromViewPC) {

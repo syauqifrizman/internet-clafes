@@ -21,24 +21,31 @@ public class AddPC {
 	Stage primaryStage;
 	Scene scene;
 	
-	private void _setScene(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-		primaryStage.setScene(scene);
-	}
-	
-	public static void setScene(Stage primaryStage) {
-		AddPC addNewPC = new AddPC();
-		addNewPC._setScene(primaryStage);
-	}
-	
-	public static void setScene(Stage primaryStage, PC pc) {
-		setScene(primaryStage);
-	}
-	
-	public AddPC() {
-		initialize();
-		addEventListener();
-	}
+//	private void setScene() {
+//		primaryStage.setScene(scene);
+//	}
+
+    public AddPC() {
+//        this.primaryStage = primaryStage;
+        initialize();
+        addEventListener();
+//        setScene();
+    }
+    
+//	
+//	public static void setScene(Stage primaryStage) {
+//		AddPC addNewPC = new AddPC();
+//		addNewPC._setScene(primaryStage);
+//	}
+//	
+//	public static void setScene(Stage primaryStage, PC pc) {
+//		setScene(primaryStage);
+//	}
+//	
+//	public AddPC() {
+//		initialize();
+//		addEventListener();
+//	}
 	
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
