@@ -55,55 +55,6 @@ public class ViewPC {
 		TableColumn<PC, Void> action = new TableColumn<>("Actions");
 		action.setPrefWidth(270);
 		
-//		if(UserSession.getCurrentUserRole().equals("Customer")) {
-//		 Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<TableColumn<PC, Void>, TableCell<PC, Void>>() {
-//	            @Override
-//	            public TableCell<PC, Void> call(final TableColumn<PC, Void> param) {
-//	                final TableCell<PC, Void> cell = new TableCell<PC, Void>() {
-//
-//	                    private final Button reportButton = new Button("Report");
-//	                    private final Button bookButton = new Button("Book");
-//	                    private final Button detailButton = new Button("Detail");
-//	                    
-//	                    {
-//	                        reportButton.setOnAction((ActionEvent event) -> {
-//	                        	User reportUser = UserSession.getCurrentUser();
-//	                            PC reportPC = getTableView().getItems().get(getIndex());
-//	                            ReportPC reportpc = ReportPC.getInstance(reportUser, reportPC);
-//	    						reportpc.show();
-//	                        });
-//	                        
-//	                        bookButton.setOnAction((ActionEvent event) -> {
-//	                        	User reportUser = UserSession.getCurrentUser();
-//	                            PC reportPC = getTableView().getItems().get(getIndex());
-//	                            BookPC bookpc = BookPC.getInstance(reportUser, reportPC);
-//	    						bookpc.show();
-//	                        });
-//	                        
-//	                        detailButton.setOnAction((ActionEvent event) -> {
-//	                        	User reportUser = UserSession.getCurrentUser();
-//	                            PC reportPC = getTableView().getItems().get(getIndex());
-//	                            BookPC bookpc = BookPC.getInstance(reportUser, reportPC);
-//	    						bookpc.show();
-//	                        });
-//	                    }       
-//	                    @Override
-//	                    public void updateItem(Void item, boolean empty) {
-//	                        super.updateItem(item, empty);
-//	                        if (empty) {
-//	                            setGraphic(null);
-//	                        } else {
-//	                        	HBox buttons = new HBox(reportButton, bookButton);
-//	         	                setGraphic(buttons);
-//	                        }
-//	                    }
-//	                };
-//	                return cell;
-//	            }
-//	        };
-//	        action.setCellFactory(cellFactory);
-//		}    
-		
 		Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<TableColumn<PC, Void>, TableCell<PC, Void>>() {
 		    @Override
 		    public TableCell<PC, Void> call(final TableColumn<PC, Void> param) {
