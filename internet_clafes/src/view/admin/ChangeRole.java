@@ -1,5 +1,7 @@
 package view.admin;
 
+import java.sql.SQLException;
+
 import controller.UserController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -115,8 +117,16 @@ public class ChangeRole {
 			String newRole = newRoleInput.getText();
 			UserController.changeUserRole(user.getUserID(), newRole);
 			
-			ViewAllStaff viewStaff = ViewAllStaff.getInstance();
-	    	viewStaff.show();
+			try {
+				User newUser = UserController.getUserData(user.getUserName(), user.getUserPassword());
+				ChangeRole changeRole = ChangeRole.getInstance(newUser);
+				changeRole.show();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
 		});
 		BackButton.setOnMouseClicked(e ->{
 			ViewAllStaff viewStaff = ViewAllStaff.getInstance();

@@ -1,12 +1,14 @@
 package view.admin;
 
 import controller.PCController;
+import helper.Helper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -16,6 +18,9 @@ import main.MainStage;
 import model.PC;
 import model.UserSession;
 import view.MenuAdmin;
+import view.MenuComputerTechnician;
+import view.MenuCustomer;
+import view.MenuOperator;
 import view.ViewPC;
 
 public class ViewPCDetail {
@@ -74,7 +79,24 @@ public class ViewPCDetail {
 	    pcConditionInput.setPromptText("Insert Current PC Condition");
 
 	    // Add elements to the container
-	    container.getChildren().addAll(MenuAdmin.createMenu(), pageTitle, containerPCID, containerPCCondition, conditionTitle, pcConditionInput);
+	    switch(UserSession.getCurrentUserRole()) {
+		case "Customer":
+			container.getChildren().add(MenuCustomer.createMenu());
+			break;
+		case "Computer Technician":
+			container.getChildren().add(MenuComputerTechnician.createMenu());
+			break;
+		case "Operator":
+			container.getChildren().add(MenuOperator.createMenu(UserSession.getCurrentUser()));
+			break;
+		case "Admin":
+			container.getChildren().add(MenuAdmin.createMenu());
+			break;
+		default:
+			Helper.showAlert(AlertType.ERROR, "Invalid role");
+	}
+	    
+	    container.getChildren().addAll(pageTitle, containerPCID, containerPCCondition, conditionTitle, pcConditionInput);
 	    
 	    if(UserSession.getCurrentUser().getUserRole().equals("Admin")) {
 	    	container.getChildren().add(containerButton);
