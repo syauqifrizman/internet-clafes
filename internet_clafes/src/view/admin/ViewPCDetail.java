@@ -22,36 +22,11 @@ public class ViewPCDetail {
 	
 	Stage primaryStage;
 	Scene scene;
-	
-//	private void setScene() {
-//		primaryStage.setScene(scene);
-//	}
 
     public ViewPCDetail(PC pc) {
-//        this.primaryStage = primaryStage;
 		initialize(pc);
 		addEventListener();
-//        setScene();
     }
-	
-//	private void _setScene(Stage primaryStage) {
-//		this.primaryStage = primaryStage;
-//		primaryStage.setScene(scene);
-//	}
-//	
-//	public static void setScene(Stage primaryStage, PC pc) {
-//		ViewPCDetail viewPCDetail = new ViewPCDetail(pc);
-//		viewPCDetail._setScene(primaryStage);
-//	}
-//	
-//	public static void setScene(Stage primaryStage) {
-//		setScene(primaryStage);
-//	}
-//	
-//	public ViewPCDetail(PC pc) {
-//		initialize(pc);
-//		addEventListener(pc);
-//	}
 	
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
@@ -104,30 +79,36 @@ public class ViewPCDetail {
 
 	
 	private void addEventListener() {
-		deleteButton.setOnMouseClicked(e ->{
-			String pc_id = currentPCID.getText();
-			
-			Label pcID = new Label(pc_id);
-			container.getChildren().add(pcID);
-			System.out.println(pc_id);
-			
-			PCController.deletePC(pc_id);
+		deleteButton.setOnAction(event -> {
+		    try {
+		        System.out.println("Delete button clicked");
+		        String pc_id = currentPCID.getText();
+		        System.out.println("PC ID: " + pc_id);
+		        PCController.deletePC(pc_id);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
 		});
-		
-		updateButton.setOnMouseClicked(e ->{
-			String pc_id = currentPCID.getText();
-			
+
+
+		updateButton.setOnAction(event -> {
+		    String pc_id = currentPCID.getText();
+
 		    // pc condition
 		    Label conditionTitle = new Label("Update Current PC Condition:");
 		    TextField pcConditionInput = new TextField();
 		    pcConditionInput.setPromptText("Insert Current PC Condition");
-		    
+
 		    container.getChildren().addAll(conditionTitle, pcConditionInput);
-		    
-		    String pc_condition = pcConditionInput.getText();			
-			PCController.updatePCCondition(pc_id, pc_condition);
+
+		    // Move this line inside the event handler
+		    String pc_condition = pcConditionInput.getText();
+
+		    PCController.updatePCCondition(pc_id, pc_condition);
 		});
+
 	}
+
 	
     public static ViewPCDetail getInstance(PC fromViewPC) {
     	return new ViewPCDetail(fromViewPC);    	
