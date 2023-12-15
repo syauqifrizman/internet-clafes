@@ -14,7 +14,7 @@ public class UserController {
 		
 	}
 	
-	public ArrayList<User> getAllUserData(){
+	public static ArrayList<User> getAllUserData(){
 		try {
 			return User.getAllUserData();
 		} catch (SQLException e) {
@@ -76,15 +76,28 @@ public class UserController {
 		return true;
 	}
 	
-	public boolean changeUserRole(int id, String newRole) {
-		try {
-			User.ChangeUserRole(id, newRole);
-			return true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			Helper.showAlert(AlertType.ERROR, "Error Changing Roles");
+	public static boolean changeUserRole(int id, String newRole) {
+		if(newRole.isEmpty()) {
+			Helper.showAlert(AlertType.ERROR, "Cannot be empty");
 			return false;
 		}
+		if(newRole.equals("Operator") 
+				|| newRole.equals("Admin")
+				|| newRole.equals("Computer Technician")
+				) {
+			try {
+				User.ChangeUserRole(id, newRole);
+				return true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				Helper.showAlert(AlertType.ERROR, "Error Changing Roles");
+				return false;
+			}
+			
+		}
+		Helper.showAlert(AlertType.ERROR, "Roles must be Operator / Admin / Computer Technician");
+		return false;
+		
 	}
 	
 	

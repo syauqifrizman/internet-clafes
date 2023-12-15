@@ -16,9 +16,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import controller.UserController;
 import helper.Helper;
 import main.MainStage;
+import model.PC;
 import model.User;
+import view.admin.ChangeRole;
+import view.admin.ViewPCDetail;
 
 
 public class ViewAllStaff {
@@ -82,39 +86,24 @@ public class ViewAllStaff {
 		
 		tv.getColumns().addAll(id, username, pass, age, role, cRoleColumn);
 		
-		newRoleLabel = new Label("New Role: ");
-		newRoleInput = new TextField();
-		newRoleInput.setPromptText("Input New Role for this user");
-
-		HBox additionalControls = new HBox(newRoleLabel, newRoleInput);
-
-		
-		cont.getChildren().addAll(MenuAdmin.createMenu(),additionalControls, tv);
+		cont.getChildren().addAll(MenuAdmin.createMenu(), tv);
 		
 		scene = new Scene(cont, 800, 600);
     }
 	
 	private void handleChange(User user) throws SQLException {
-	    try {
-	        String newRole = newRoleInput.getText().trim();
-	        User.ChangeUserRole(user.getUserID(), newRole);
-	        repaint(); // Refresh the table after the change
-	    } catch (NumberFormatException e) {
-	    	Helper.showAlert(AlertType.ERROR, "Invalid Role. Please enter a valid role.");
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        Helper.showAlert(AlertType.ERROR, "Error changing Role.");
-	    }
+		ChangeRole changeRole = ChangeRole.getInstance(user);
+		changeRole.show();
 	}
 	
 	private void repaint() throws SQLException {
 	    tv.getItems().clear();
-	    ArrayList<User> users = User.getAllUserData();
+	    ArrayList<User> users = UserController.getAllUserData();
 	    
 	    for (User user : users) {
 	        if ("Admin".equals(user.getUserRole()) 
 	                || "Operator".equals(user.getUserRole()) 
-	                || "ComputerTechnician".equals(user.getUserRole())) {
+	                || "Computer Technician".equals(user.getUserRole())) {
 	            tv.getItems().add(user);
 	        }
 	    }
