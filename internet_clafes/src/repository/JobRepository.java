@@ -13,7 +13,7 @@ public class JobRepository {
 	public static String addNewJob(Job newJob) {
 		Connect db = Connect.getConnection();
 		
-		String query = "INSERT INTO jobs VALUES ('%d', '%d', '%s', %s')";
+		String query = "INSERT INTO `jobs` VALUES ('%d', '%d', '%s', '%s')";
 		String queryExecute = String.format(query, newJob.getJob_ID(), newJob.getUserID(), newJob.getPc_ID(), newJob.getJobStatus());
 		
 		db.executeUpdate(queryExecute);
@@ -26,7 +26,7 @@ public class JobRepository {
 		
 		Connect db = Connect.getConnection();
 		
-		String query = "UPDATE jobs SET jobStatus = '%s' WHERE pc_ID = '%d'";
+		String query = "UPDATE `jobs` SET jobStatus = '%s' WHERE pc_ID = '%d'";
 		String queryExecute = String.format(query, jobStatus, newJob_ID);
 		
 		db.executeUpdate(queryExecute);
@@ -47,7 +47,7 @@ public class JobRepository {
 		ArrayList<Job> jobList = new ArrayList<Job>();
 		Connect db = Connect.getConnection();
 		
-		String query = "SELECT * FROM jobs WHERE userID = '%d'";
+		String query = "SELECT * FROM `jobs` WHERE userID = '%d'";
 		String queryExecute = String.format(query, newUser_ID);
 		
 		ResultSet res = db.executeQuery(queryExecute);
@@ -76,7 +76,7 @@ public class JobRepository {
 		Integer newJob_ID = Integer.parseInt(job_ID);
 		Connect db = Connect.getConnection();
 		
-		String query = "SELECT * FROM jobs WHERE job_ID = '%d'";
+		String query = "SELECT * FROM `jobs` WHERE job_ID = '%d'";
 		String queryExecute = String.format(query, newJob_ID);
 		
 		ResultSet res = db.executeQuery(queryExecute);
@@ -103,7 +103,7 @@ public class JobRepository {
 		ArrayList<Job> jobList = new ArrayList<Job>();
 		Connect db = Connect.getConnection();
 		
-		String queryExecute = "SELECT * FROM jobs";
+		String queryExecute = "SELECT * FROM `jobs`";
 		
 		ResultSet res = db.executeQuery(queryExecute);
 		

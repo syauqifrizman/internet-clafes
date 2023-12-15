@@ -81,8 +81,8 @@ public class MenuAdmin {
 	
 	private static void navigateToJobManagement() {
 		// Implement logic to navigate to the "Transaction History" page
-		JobManagement jobManagemenr = JobManagement.getInstance();
-		jobManagemenr.show();
+		ViewJob viewjob = ViewJob.getInstance();
+        viewjob.show();
     }
 	
 	private static void navigateToAllTransactionHistory() {

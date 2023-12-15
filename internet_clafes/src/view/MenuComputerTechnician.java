@@ -45,8 +45,8 @@ public class MenuComputerTechnician {
 
     private static void navigateToTechnicianJob() {
         // Implement logic to navigate to the "Transaction History" page
-    	TechnicianJob job = TechnicianJob.getInstance();
-    	job.show();
+    	ViewJob viewjob = ViewJob.getInstance();
+        viewjob.show();
     }
     
 

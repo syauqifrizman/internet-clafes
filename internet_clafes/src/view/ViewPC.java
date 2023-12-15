@@ -2,6 +2,7 @@ package view;
 
 import java.util.ArrayList;
 
+import controller.JobController;
 import helper.Helper;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -63,6 +64,7 @@ public class ViewPC {
 		            private final Button reportButton = new Button("Report");
 		            private final Button bookButton = new Button("Book");
 		            private final Button detailButton = new Button("Detail");
+		            private final Button addJobButton = new Button("Fix (Add Job)");
 
 		            {
 		                detailButton.setOnAction((ActionEvent event) -> {
@@ -88,6 +90,16 @@ public class ViewPC {
 		                        bookpc.show();
 		                    });
 		                }
+		                
+		                if (UserSession.getCurrentUserRole().equals("Admin")) {
+		                    addJobButton.setOnAction((ActionEvent event) -> {
+		                        User getUser = UserSession.getCurrentUser();
+		                        PC getPC = getTableView().getItems().get(getIndex());
+		                        JobController.addNewJob(getUser.getUserID().toString(), getPC.getPc_ID().toString());
+		                        ViewJob viewjob = ViewJob.getInstance();
+		                        viewjob.show();
+		                    });
+		                }
 		            }
 
 		            @Override
@@ -105,6 +117,10 @@ public class ViewPC {
 		                    }
 		                    else if(UserSession.getCurrentUserRole().equals("Operator")) {
 		                    	containerButtons.getChildren().add(reportButton);
+		                    }
+		                    
+		                    else if(UserSession.getCurrentUserRole().equals("Admin")) {
+		                    	containerButtons.getChildren().add(addJobButton);
 		                    }
 		                    
 		                    setGraphic(containerButtons);

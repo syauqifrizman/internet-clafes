@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import factory.JobFactory;
@@ -10,10 +12,10 @@ import model.PC;
 import model.PCBook;
 import model.User;
 import repository.JobRepository;
-import repository.PCRepository;
+import repository.UserRepository;
 
 public class JobController {
-	public void addNewJob(String userID, String pc_ID) {
+	public static void addNewJob(String userID, String pc_ID) {
 //		validasi frontend
 		if(pc_ID.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Cannot be empty");
@@ -22,17 +24,16 @@ public class JobController {
 		
 //		di sini harus check dari getUserData
 //		check user nya technician atau bukan
-		User getUser = UserController.getUserData(username, password);
+		User getUser = UserRepository.getUserDetail(Integer.parseInt(userID));
 		
-		if(!getUser.getUserRole().equals("Technician")) {
-			Helper.showAlert(AlertType.ERROR, "User Role must be 'Technician'");
+		if(!getUser.getUserRole().equals("Computer Technician") && !getUser.getUserRole().equals("Admin")) {
+			Helper.showAlert(AlertType.ERROR, "User Role must be 'Computer Technician'");
 			return;
 		}
 		
 //		check pc nya ada atau engga
 		PC getPC = PCController.getPCDetail(pc_ID);
-//		getPC = null
-		if(getPC == null)) {
+		if(getPC == null) {
 			Helper.showAlert(AlertType.ERROR, "PC ID must exists on database / PC doesn't exists");
 			return;
 		}
@@ -40,28 +41,31 @@ public class JobController {
 //		getPCBookedData	dari PCBookController
 //		check pc nya lagi book atau engga
 		Integer newPC_ID = Integer.parseInt(pc_ID);
-//		date gatau dapet dari mana ini? kalo dari user sih di parameter harusnya dikasih
-		PCBook getPCBook = PcBookController.getPCBookedData(newPC_ID, date);
-		
-//		jika sudah ada booked, error
-		if(getPCBook != null) {
-			Helper.showAlert(AlertType.ERROR, "There is some technician doing the job");
+		PCBook getPCBook = null;
+		try {
+			getPCBook = PcBookController.getPCBookedData(newPC_ID, Date.valueOf(java.time.LocalDate.now()));
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			Helper.showAlert(AlertType.ERROR, "Error fetching Booking List");
 			return;
 		}
 		
-//		jika belum ada
-		PcBookController.assignUsertoNewPC(getPCBook.getBookID(), newPC_ID, getPCBook.getBookedDate(), null);
+//		jika sudah ada booked, error
+		if(getPCBook != null) {
+			Helper.showAlert(AlertType.ERROR, "A User has booked this PC. Please assign them to another PC");
+			return;
+		}
+		
+		JobRepository.addNewJob(JobFactory.createJob(userID, pc_ID));
+		
+		PCController.updatePCCondition(pc_ID, "Maintenance");
+
 		return;
 		
-//		kalo baca dari sequence diagram, cuma sampe assignUserToNewPC aja, ga ada suruh add new job
-		
-//		tapi kalo perlu add new job baru, bisa ngikutin method addNewJob();
-//		Job newJob = JobFactory.createJob(userID, pc_ID);
-//		JobRepository.addNewJob(newJob);
 	}
 	
-	public void updateJobStatus(String job_ID, String jobStatus) {
-		if(!jobStatus.equals("Complete") || !jobStatus.equals("UnComplete")) {
+	public static void updateJobStatus(String job_ID, String jobStatus) {
+		if(!jobStatus.equals("Complete") && !jobStatus.equals("UnComplete")) {
 			Helper.showAlert(AlertType.ERROR, "Must be either 'Complete' or 'UnComplete'");
 			return;
 		}
@@ -71,13 +75,12 @@ public class JobController {
 		
 		Job getJob = JobRepository.getJobDetail(job_ID);
 		
-		PC getPC = PCController.getPCDetail(getJob.getPc_ID().toString());
+//		PC getPC = PCController.getPCDetail(getJob.getPc_ID().toString());
 		
-		PCController.updatePCCondition(getPC.getPc_ID().toString(), getPC.getPc_condition());
+		PCController.updatePCCondition(getJob.getPc_ID().toString(), "Usable");
 		return;
 	}
 	
-//	mungkin tampilin PC yg lagi maintenance?
 	public ArrayList<PC> getPcOnWorkingList(String pc_ID){
 		ArrayList<PC> pcList = new ArrayList<PC>();
 		

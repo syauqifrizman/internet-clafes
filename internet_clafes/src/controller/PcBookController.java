@@ -20,7 +20,7 @@ public class PcBookController {
 		return true;
 	}
 	
-	public PCBook getPCBookedData(int PcID, Date date) throws SQLException {
+	public static PCBook getPCBookedData(int PcID, Date date) throws SQLException {
 		return PCBook.getPCBookedData(PcID, date);
 	}
 	
