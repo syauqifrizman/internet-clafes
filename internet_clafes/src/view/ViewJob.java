@@ -46,7 +46,7 @@ public class ViewJob {
 	
 	private void initTable() {
 		cont = new VBox();
-		jobsLabel = new Label("Transaction History");
+		jobsLabel = new Label("Jobs");
 		
 		tv = new TableView<Job>();
 		
