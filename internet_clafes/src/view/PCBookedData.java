@@ -188,9 +188,9 @@ public class PCBookedData {
 
 	            // Set button label based on the date
 	            if (bookedDate.isBefore(today)) {
-	                button.setText("Cancel");
-	            } else {
 	                button.setText("Finish");
+	            } else {
+	                button.setText("Cancel");
 	            }
 
 	            setGraphic(button);
