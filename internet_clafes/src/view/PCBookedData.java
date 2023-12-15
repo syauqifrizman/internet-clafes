@@ -87,6 +87,7 @@ public class PCBookedData {
 		}));
 
 		TableColumn<PCBook, Void> deleteColumn = new TableColumn<>("Actions");
+		deleteColumn.setPrefWidth(200);
 		Callback<TableColumn<PCBook, Void>, TableCell<PCBook, Void>> cellFactory = new Callback<TableColumn<PCBook, Void>, TableCell<PCBook, Void>>() {
             @Override
             public TableCell<PCBook, Void> call(final TableColumn<PCBook, Void> param) {
@@ -171,7 +172,7 @@ public class PCBookedData {
 	    try {
 	        Integer newPCID = Integer.parseInt(newPCInput.getText().trim());
 	        PcBookController.assignUsertoNewPC(pcBook.getBookID(), newPCID, 
-	        		PcBookController.getPCBookedByID(pcBook.getBookID()).getBookedDate());
+	        		Date.valueOf(datePicker.getValue()));
 	        repaint(); // Refresh the table after the change
 	    } catch (NumberFormatException e) {
 	    	Helper.showAlert(AlertType.ERROR, "Invalid PC ID. Please enter a valid number.");
