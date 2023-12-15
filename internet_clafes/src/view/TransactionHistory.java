@@ -1,19 +1,80 @@
 package view;
 
+import java.sql.Date;
+import java.util.ArrayList;
+
+import controller.TransactionController;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import main.MainStage;
+import model.TransactionDetail;
+import model.UserSession;
 
 public class TransactionHistory {
 	
-	private static TransactionHistory tHistory;
 	private Scene scene;
+	private VBox cont;
+	private Label thistoryLabel;
+	
+	private TableView<TransactionDetail> tv;
 	
 	public static TransactionHistory getInstance() {
-		return tHistory = tHistory == null ? new TransactionHistory() : tHistory;
+		return new TransactionHistory();
 	}
 	
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
 		mainStage.getStage().setScene(scene);
+		repaint();
+	}
+	
+	public TransactionHistory() {
+		initTable();
+		repaint();
+	}
+	
+	private void initTable() {
+		cont = new VBox();
+		thistoryLabel = new Label("Your Transaction History");
+		tv = new TableView<TransactionDetail>();
+		
+		TableColumn<TransactionDetail, Integer> id = new TableColumn<>("Transaction ID");
+		id.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
+
+		TableColumn<TransactionDetail, Integer> pc = new TableColumn<>("PC ID");
+		pc.setCellValueFactory(new PropertyValueFactory<>("pc_ID"));
+		
+		TableColumn<TransactionDetail, String> name = new TableColumn<>("Customer Name");
+		name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+		
+		TableColumn<TransactionDetail, String> date = new TableColumn<>("Booked Date");
+		date.setCellValueFactory(new PropertyValueFactory<>("bookedTime"));
+		
+		tv.getColumns().add(id);
+		tv.getColumns().add(pc);
+		tv.getColumns().add(name);
+		tv.getColumns().add(date);
+		
+		thistoryLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		
+		cont.getChildren().add(thistoryLabel);
+		cont.getChildren().add(tv);
+		
+		scene = new Scene(cont, 800, 600);
+	}
+	
+	private void repaint() {
+		tv.getItems().clear();
+		ArrayList<TransactionDetail> tdetails = TransactionController.getUserTransactionDetail(
+				UserSession.getCurrentUser().getUserID());
+		for (TransactionDetail transactionDetail : tdetails) {
+			tv.getItems().add(transactionDetail);
+		}
 	}
 }
