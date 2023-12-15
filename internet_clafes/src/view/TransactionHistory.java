@@ -62,6 +62,7 @@ public class TransactionHistory {
 		
 		thistoryLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
+		cont.getChildren().add(MenuCustomer.createMenu());
 		cont.getChildren().add(thistoryLabel);
 		cont.getChildren().add(tv);
 		

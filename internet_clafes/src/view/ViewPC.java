@@ -67,11 +67,7 @@ public class ViewPC {
 		            private final Button addJobButton = new Button("Fix (Add Job)");
 
 		            {
-		                detailButton.setOnAction((ActionEvent event) -> {
-	                        PC getPC = getTableView().getItems().get(getIndex());
-		                    ViewPCDetail viewPCDetail = ViewPCDetail.getInstance(getPC);
-		                    viewPCDetail.show();
-		                });
+		                
 		                
 		                if (UserSession.getCurrentUserRole().equals("Customer") || UserSession.getCurrentUserRole().equals("Operator")) {
 		                    reportButton.setOnAction((ActionEvent event) -> {
@@ -99,6 +95,12 @@ public class ViewPC {
 		                        ViewJob viewjob = ViewJob.getInstance();
 		                        viewjob.show();
 		                    });
+		                    
+		                    detailButton.setOnAction((ActionEvent event) -> {
+		                        PC getPC = getTableView().getItems().get(getIndex());
+			                    ViewPCDetail viewPCDetail = ViewPCDetail.getInstance(getPC);
+			                    viewPCDetail.show();
+			                });
 		                }
 		            }
 
@@ -110,7 +112,7 @@ public class ViewPC {
 		                } else {
 		                    HBox containerButtons = new HBox();
 		                    
-		                    containerButtons.getChildren().add(detailButton);
+		                    
 		                    
 		                    if (UserSession.getCurrentUserRole().equals("Customer")) {
 		                    	containerButtons.getChildren().addAll(reportButton, bookButton);
@@ -121,6 +123,7 @@ public class ViewPC {
 		                    
 		                    else if(UserSession.getCurrentUserRole().equals("Admin")) {
 		                    	containerButtons.getChildren().add(addJobButton);
+		                    	containerButtons.getChildren().add(detailButton);
 		                    }
 		                    
 		                    setGraphic(containerButtons);
