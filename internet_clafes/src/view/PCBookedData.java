@@ -1,13 +1,10 @@
 package view;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import controller.PcBookController;
-import controller.TransactionController;
 import helper.Helper;
 import javafx.util.Callback;
 import javafx.event.ActionEvent;
@@ -24,10 +21,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.MainStage;
-import model.PC;
 import model.PCBook;
 import model.User;
-import model.UserSession;
 
 public class PCBookedData {
 	
@@ -172,7 +167,7 @@ public class PCBookedData {
 	    try {
 	        Integer newPCID = Integer.parseInt(newPCInput.getText().trim());
 	        PcBookController.assignUsertoNewPC(pcBook.getBookID(), newPCID, 
-	        		Date.valueOf(datePicker.getValue()));
+	        		pcBook.getBookedDate());
 	        repaint(); // Refresh the table after the change
 	    } catch (NumberFormatException e) {
 	    	Helper.showAlert(AlertType.ERROR, "Invalid PC ID. Please enter a valid number.");
