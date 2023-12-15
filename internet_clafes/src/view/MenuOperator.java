@@ -10,7 +10,7 @@ import model.UserSession;
 public class MenuOperator {
 	public static User user;
 
-	protected static Parent createMenu(User staff) {
+	public static Parent createMenu(User staff) {
 		user = staff;
         // Create a menu bar
         MenuBar menuBar = new MenuBar();

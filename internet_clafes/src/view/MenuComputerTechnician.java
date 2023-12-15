@@ -8,7 +8,7 @@ import model.UserSession;
 
 public class MenuComputerTechnician {
 
-	protected static Parent createMenu() {
+	public static Parent createMenu() {
         // Create a menu bar
         MenuBar menuBar = new MenuBar();
 
