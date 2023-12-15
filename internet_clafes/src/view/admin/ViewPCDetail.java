@@ -14,10 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
-import model.User;
 import model.UserSession;
-import view.BookPC;
-import view.Login;
 import view.MenuAdmin;
 import view.ViewPC;
 
@@ -36,6 +33,7 @@ public class ViewPCDetail {
 		mainStage.getStage().setScene(scene);
 	}
 	
+	TextField pcConditionInput;
 	Button deleteButton, updateButton;
 	Label currentPCID, currentPCCondition;
 	
@@ -72,7 +70,7 @@ public class ViewPCDetail {
 	    
 	    // pc condition
 	    Label conditionTitle = new Label("Update Current PC Condition:");
-	    TextField pcConditionInput = new TextField();
+	    pcConditionInput = new TextField();
 	    pcConditionInput.setPromptText("Insert Current PC Condition");
 
 	    // Add elements to the container
@@ -105,7 +103,7 @@ public class ViewPCDetail {
 		    String pc_id = pc.getPc_ID().toString();
 
 		    // Move this line inside the event handler
-		    String pc_condition = pc.getPc_condition();
+		    String pc_condition = pcConditionInput.getText();
 
 		    PCController.updatePCCondition(pc_id, pc_condition);
 		    
