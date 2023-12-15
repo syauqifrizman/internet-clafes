@@ -15,8 +15,6 @@ import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
 import view.MenuAdmin;
-import view.MenuComputerTechnician;
-import view.ViewPC;
 
 public class AddPC {
 	

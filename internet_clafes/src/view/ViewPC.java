@@ -20,6 +20,7 @@ import model.PC;
 import model.UserSession;
 import repository.PCRepository;
 import view.admin.AddPC;
+import view.admin.ViewPCDetail;
 
 public class ViewPC {
 	private Scene scene;
@@ -54,46 +55,115 @@ public class ViewPC {
 		TableColumn<PC, Void> action = new TableColumn<>("Actions");
 		action.setPrefWidth(270);
 		
-		if(UserSession.getCurrentUserRole().equals("Customer")) {
-		 Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<TableColumn<PC, Void>, TableCell<PC, Void>>() {
-	            @Override
-	            public TableCell<PC, Void> call(final TableColumn<PC, Void> param) {
-	                final TableCell<PC, Void> cell = new TableCell<PC, Void>() {
+//		if(UserSession.getCurrentUserRole().equals("Customer")) {
+//		 Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<TableColumn<PC, Void>, TableCell<PC, Void>>() {
+//	            @Override
+//	            public TableCell<PC, Void> call(final TableColumn<PC, Void> param) {
+//	                final TableCell<PC, Void> cell = new TableCell<PC, Void>() {
+//
+//	                    private final Button reportButton = new Button("Report");
+//	                    private final Button bookButton = new Button("Book");
+//	                    private final Button detailButton = new Button("Detail");
+//	                    
+//	                    {
+//	                        reportButton.setOnAction((ActionEvent event) -> {
+//	                        	User reportUser = UserSession.getCurrentUser();
+//	                            PC reportPC = getTableView().getItems().get(getIndex());
+//	                            ReportPC reportpc = ReportPC.getInstance(reportUser, reportPC);
+//	    						reportpc.show();
+//	                        });
+//	                        
+//	                        bookButton.setOnAction((ActionEvent event) -> {
+//	                        	User reportUser = UserSession.getCurrentUser();
+//	                            PC reportPC = getTableView().getItems().get(getIndex());
+//	                            BookPC bookpc = BookPC.getInstance(reportUser, reportPC);
+//	    						bookpc.show();
+//	                        });
+//	                        
+//	                        detailButton.setOnAction((ActionEvent event) -> {
+//	                        	User reportUser = UserSession.getCurrentUser();
+//	                            PC reportPC = getTableView().getItems().get(getIndex());
+//	                            BookPC bookpc = BookPC.getInstance(reportUser, reportPC);
+//	    						bookpc.show();
+//	                        });
+//	                    }       
+//	                    @Override
+//	                    public void updateItem(Void item, boolean empty) {
+//	                        super.updateItem(item, empty);
+//	                        if (empty) {
+//	                            setGraphic(null);
+//	                        } else {
+//	                        	HBox buttons = new HBox(reportButton, bookButton);
+//	         	                setGraphic(buttons);
+//	                        }
+//	                    }
+//	                };
+//	                return cell;
+//	            }
+//	        };
+//	        action.setCellFactory(cellFactory);
+//		}    
+		
+		Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<TableColumn<PC, Void>, TableCell<PC, Void>>() {
+		    @Override
+		    public TableCell<PC, Void> call(final TableColumn<PC, Void> param) {
+		        final TableCell<PC, Void> cell = new TableCell<PC, Void>() {
 
-	                    private final Button reportButton = new Button("Report");
-	                    private final Button bookButton = new Button("Book");
-	                    
-	                    {
-	                        reportButton.setOnAction((ActionEvent event) -> {
-	                        	User reportUser = UserSession.getCurrentUser();
-	                            PC reportPC = getTableView().getItems().get(getIndex());
-	                            ReportPC reportpc = ReportPC.getInstance(reportUser, reportPC);
-	    						reportpc.show();
-	                        });
-	                        
-	                        bookButton.setOnAction((ActionEvent event) -> {
-	                        	User reportUser = UserSession.getCurrentUser();
-	                            PC reportPC = getTableView().getItems().get(getIndex());
-	                            BookPC bookpc = BookPC.getInstance(reportUser, reportPC);
-	    						bookpc.show();
-	                        });
-	                    }       
-	                    @Override
-	                    public void updateItem(Void item, boolean empty) {
-	                        super.updateItem(item, empty);
-	                        if (empty) {
-	                            setGraphic(null);
-	                        } else {
-	                        	HBox buttons = new HBox(reportButton, bookButton);
-	         	                setGraphic(buttons);
-	                        }
-	                    }
-	                };
-	                return cell;
-	            }
-	        };
-	        action.setCellFactory(cellFactory);
-		}    
+		            private final Button reportButton = new Button("Report");
+		            private final Button bookButton = new Button("Book");
+		            private final Button detailButton = new Button("Detail");
+
+		            {
+		                detailButton.setOnAction((ActionEvent event) -> {
+	                        PC getPC = getTableView().getItems().get(getIndex());
+		                    ViewPCDetail viewPCDetail = ViewPCDetail.getInstance(getPC);
+		                    viewPCDetail.show();
+		                });
+		                
+		                if (UserSession.getCurrentUserRole().equals("Customer") || UserSession.getCurrentUserRole().equals("Operator")) {
+		                    reportButton.setOnAction((ActionEvent event) -> {
+		                        User getUser = UserSession.getCurrentUser();
+		                        PC getPC = getTableView().getItems().get(getIndex());
+		                        ReportPC reportpc = ReportPC.getInstance(getUser, getPC);
+		                        reportpc.show();
+		                    });
+		                }
+
+		                if (UserSession.getCurrentUserRole().equals("Customer")) {
+		                    bookButton.setOnAction((ActionEvent event) -> {
+		                        User getUser = UserSession.getCurrentUser();
+		                        PC getPC = getTableView().getItems().get(getIndex());
+		                        BookPC bookpc = BookPC.getInstance(getUser, getPC);
+		                        bookpc.show();
+		                    });
+		                }
+		            }
+
+		            @Override
+		            public void updateItem(Void item, boolean empty) {
+		                super.updateItem(item, empty);
+		                if (empty) {
+		                    setGraphic(null);
+		                } else {
+		                    HBox containerButtons = new HBox();
+		                    
+		                    containerButtons.getChildren().add(detailButton);
+		                    
+		                    if (UserSession.getCurrentUserRole().equals("Customer")) {
+		                    	containerButtons.getChildren().addAll(reportButton, bookButton);
+		                    }
+		                    else if(UserSession.getCurrentUserRole().equals("Operator")) {
+		                    	containerButtons.getChildren().add(reportButton);
+		                    }
+		                    
+		                    setGraphic(containerButtons);
+		                }
+		            }
+		        };
+		        return cell;
+		    }
+		};
+		action.setCellFactory(cellFactory);
 	        
 		tv.getColumns().add(id);
 		tv.getColumns().add(cond);
