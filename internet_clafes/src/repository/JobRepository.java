@@ -26,7 +26,7 @@ public class JobRepository {
 		
 		Connect db = Connect.getConnection();
 		
-		String query = "UPDATE `jobs` SET jobStatus = '%s' WHERE pc_ID = '%d'";
+		String query = "UPDATE `jobs` SET jobStatus = '%s' WHERE job_ID = %d";
 		String queryExecute = String.format(query, jobStatus, newJob_ID);
 		
 		db.executeUpdate(queryExecute);

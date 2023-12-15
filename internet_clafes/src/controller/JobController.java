@@ -75,8 +75,6 @@ public class JobController {
 		
 		Job getJob = JobRepository.getJobDetail(job_ID);
 		
-//		PC getPC = PCController.getPCDetail(getJob.getPc_ID().toString());
-		
 		PCController.updatePCCondition(getJob.getPc_ID().toString(), "Usable");
 		return;
 	}

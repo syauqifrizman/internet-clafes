@@ -19,7 +19,6 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import main.MainStage;
 import model.Job;
-import model.TransactionHeader;
 import model.UserSession;
 import repository.JobRepository;
 
