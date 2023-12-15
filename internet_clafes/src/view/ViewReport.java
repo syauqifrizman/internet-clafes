@@ -61,7 +61,7 @@ public class ViewReport {
 	
 	private void repaint() {
 		tv.getItems().clear();
-		ArrayList<Report> report = ReportController.getAllReportData(null);
+		ArrayList<Report> report = ReportController.getAllReportData();
 		
 		for (Report report2 : report) {
 			tv.getItems().add(report2);

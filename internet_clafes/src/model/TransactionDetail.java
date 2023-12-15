@@ -117,7 +117,7 @@ public class TransactionDetail {
 			ps.setInt(1, transactionID);
 			ps.setInt(2, pcBook.getPc_ID());
 			ps.setString(3, UserRepository.getUserDetail(pcBook.getUserID()).getUserName());
-			ps.setDate(4, Date.valueOf(pcBook.getBookedDate()));
+			ps.setDate(4, pcBook.getBookedDate());
 			
 			ps.executeUpdate();
 		}

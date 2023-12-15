@@ -3,6 +3,7 @@ package view;
 import java.sql.SQLException;
 
 import controller.UserController;
+import helper.Helper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -18,9 +20,8 @@ import main.MainStage;
 import model.User;
 import model.UserSession;
 
-public class Login implements IView{
+public class Login{
 	private static Login login;
-	public static IView view;
 	
 	public static Login getInstance() {
 		return login = login == null ? new Login() : login;
@@ -38,7 +39,6 @@ public class Login implements IView{
 	private PasswordField passwordInput;
 	private Button loginButton;
 	private Hyperlink registerHyperlink;
-	private Label note;
 
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
@@ -56,9 +56,9 @@ public class Login implements IView{
 		passwordInput.setPromptText("Input your password here");
 		loginButton = new Button("Login");
 		registerHyperlink = new Hyperlink("Don't have an account? Register Here!");
-		note = new Label();
+
 		vb.getChildren().addAll(loginTitle, usernameTitle, usernameInput, passwordTitle, passwordInput, loginButton,
-				registerHyperlink, note);
+				registerHyperlink);
 		loginTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		vb.setAlignment(Pos.CENTER_LEFT);
 		vb.setPadding(new Insets(50));
@@ -71,18 +71,18 @@ public class Login implements IView{
 			String userPassword = passwordInput.getText();
 			User user;
 			try {
-				user = UserController.getUserData(username, userPassword, view);
+				user = UserController.getUserData(username, userPassword);
 				if (user!=null) {
 					UserSession.setCurrentUser(user);
 					ViewPC viewpc = ViewPC.getInstance();
 					viewpc.show();
 				}
 				else {
-					showError("User not found");
+					Helper.showAlert(AlertType.ERROR, "User not found");
 				}
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
-				showError("User not found");
+				Helper.showAlert(AlertType.ERROR, "User not found");
 			}
 			
 		});
@@ -91,11 +91,5 @@ public class Login implements IView{
 			Register registerPage = Register.getInstance();
 			registerPage.show();
 		});
-	}
-
-	@Override
-	public void showError(String error) {
-		// TODO Auto-generated method stub
-		note.setText(error);
 	}
 }

@@ -63,7 +63,7 @@ public class ReportPC {
 		reportButton.setOnMouseClicked(e -> {
 			String reportnote = reportNote.getText();
 			
-			ReportController.addNewReport(user.getUserRole(), pc.getPc_ID().toString(), reportnote, null);
+			ReportController.addNewReport(user.getUserRole(), pc.getPc_ID().toString(), reportnote);
 			ViewPC viewpc = ViewPC.getInstance();
 			viewpc.show();
 			

@@ -2,11 +2,13 @@ package view;
 
 import java.util.ArrayList;
 
+import helper.Helper;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -17,10 +19,9 @@ import model.User;
 import model.PC;
 import model.UserSession;
 import repository.PCRepository;
+import view.admin.AddPC;
 
-public class ViewPC implements IView{
-	private static ViewPC viewpc;
-	private static IView iview;
+public class ViewPC {
 	private Scene scene;
 	private TableView<PC> tv;
 	//private Button bookButton, reportButton;
@@ -52,6 +53,7 @@ public class ViewPC implements IView{
 		
 		TableColumn<PC, Void> action = new TableColumn<>("Actions");
 		action.setPrefWidth(270);
+		
 		if(UserSession.getCurrentUserRole().equals("Customer")) {
 		 Callback<TableColumn<PC, Void>, TableCell<PC, Void>> cellFactory = new Callback<TableColumn<PC, Void>, TableCell<PC, Void>>() {
 	            @Override
@@ -93,11 +95,15 @@ public class ViewPC implements IView{
 	        action.setCellFactory(cellFactory);
 		}    
 	        
-        
-		
 		tv.getColumns().add(id);
 		tv.getColumns().add(cond);
 		tv.getColumns().add(action);
+		
+		Button addPCButton = new Button("ADD NEW PC");
+		
+		addPCButton.setOnMouseClicked(e ->{
+			AddPC.getInstance().show();
+		});
 		
 		switch(UserSession.getCurrentUserRole()) {
 			case "Customer":
@@ -110,10 +116,10 @@ public class ViewPC implements IView{
 				cont.getChildren().addAll(MenuOperator.createMenu(), tv);
 				break;
 			case "Admin":
-				cont.getChildren().addAll(MenuAdmin.createMenu(), tv);
+				cont.getChildren().addAll(MenuAdmin.createMenu(), tv, addPCButton);
 				break;
 			default:
-	            showError("Invalid role");
+				Helper.showAlert(AlertType.ERROR, "Invalid role");
 		}
 		
 		scene = new Scene(cont, 800, 600);
@@ -144,11 +150,5 @@ public class ViewPC implements IView{
 //			}
 //		});
 //	}
-	
-	@Override
-	public void showError(String error) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -61,7 +61,7 @@ public class BookPC {
 			Date bookedDate = java.sql.Date.valueOf(dateP.getValue());
 			
 			try {
-				PcBookController.addNewBook(pc.getPc_ID().toString(), user.getUserID(), bookedDate, null);
+				PcBookController.addNewBook(pc.getPc_ID().toString(), user.getUserID(), bookedDate);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

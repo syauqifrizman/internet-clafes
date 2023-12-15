@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import helper.Helper;
 import javafx.util.Callback;
 
 import javafx.scene.Scene;
@@ -15,16 +16,16 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PCBook;
 
-public class PCBookedData implements IView{
+public class PCBookedData {
 	
 	private static PCBookedData pcBookedData;
-	private static IView iview;
 	private Scene scene;
 	private TableView<PCBook> tv;
 	private DatePicker datePicker;
@@ -125,10 +126,10 @@ public class PCBookedData implements IView{
 	        PCBook.assignUsertoNewPC(pcBook.getBookID(), newPCID);
 	        repaint(); // Refresh the table after the change
 	    } catch (NumberFormatException e) {
-	        showError("Invalid PC ID. Please enter a valid number.");
+	    	Helper.showAlert(AlertType.ERROR, "Invalid PC ID. Please enter a valid number.");
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	        showError("Error changing PC.");
+	        Helper.showAlert(AlertType.ERROR, "Error changing PC.");
 	    }
 	}
 
@@ -144,7 +145,7 @@ public class PCBookedData implements IView{
 	            repaint(); // Refresh the table after the cancel
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	            showError("Error cancel booking.");
+	            Helper.showAlert(AlertType.ERROR, "Error cancel booking.");
 	        }
 	    } else {
 	        try {
@@ -156,18 +157,9 @@ public class PCBookedData implements IView{
 	            repaint(); // Refresh the table after the finish
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	            showError("Error finish booking.");
+	            Helper.showAlert(AlertType.ERROR, "Error finish booking.");
 	        }
 	    }
-	}
-
-
-
-
-	@Override
-	public void showError(String error) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	private class ButtonCell extends TableCell<PCBook, Void> {

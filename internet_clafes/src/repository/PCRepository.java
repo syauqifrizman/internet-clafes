@@ -86,7 +86,7 @@ public class PCRepository {
 	public static String insertNewPC(PC newPC) {
 		Connect db = Connect.getConnection();
 		
-		String query = "INSERT INTO pcs VALUES ('%d', %s')";
+		String query = "INSERT INTO pcs VALUES ('%d', '%s')";
 		String queryExecute = String.format(query, newPC.getPc_ID(), newPC.getPc_condition());
 		
 		db.executeUpdate(queryExecute);

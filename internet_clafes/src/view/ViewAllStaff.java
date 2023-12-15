@@ -12,10 +12,9 @@ import main.MainStage;
 import model.User;
 
 
-public class ViewAllStaff implements IView {
+public class ViewAllStaff {
 
 	private static ViewAllStaff viewAllStaff;
-	private static IView iview;
 	private Scene scene;
 	private TableView<User> tv;
 	
@@ -75,12 +74,5 @@ public class ViewAllStaff implements IView {
 	            tv.getItems().add(user);
 	        }
 	    }
-	}
-
-	
-	@Override
-	public void showError(String error) {
-		// TODO Auto-generated method stub
-		
 	}
 }

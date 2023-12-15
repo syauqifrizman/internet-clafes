@@ -22,8 +22,7 @@ public class JobController {
 		
 //		di sini harus check dari getUserData
 //		check user nya technician atau bukan
-		UserController userController = new UserController();
-		User getUser = userController.getUserData(username, password, null);
+		User getUser = UserController.getUserData(username, password);
 		
 		if(!getUser.getUserRole().equals("Technician")) {
 			Helper.showAlert(AlertType.ERROR, "User Role must be 'Technician'");
@@ -31,9 +30,7 @@ public class JobController {
 		}
 		
 //		check pc nya ada atau engga
-		PCController pcController = new PCController();
-		
-		PC getPC = pcController.getPCDetail(pc_ID);
+		PC getPC = PCController.getPCDetail(pc_ID);
 //		getPC = null
 		if(getPC == null)) {
 			Helper.showAlert(AlertType.ERROR, "PC ID must exists on database / PC doesn't exists");
@@ -43,9 +40,8 @@ public class JobController {
 //		getPCBookedData	dari PCBookController
 //		check pc nya lagi book atau engga
 		Integer newPC_ID = Integer.parseInt(pc_ID);
-		PcBookController pcBookController = new PcBookController();
 //		date gatau dapet dari mana ini? kalo dari user sih di parameter harusnya dikasih
-		PCBook getPCBook = pcBookController.getPCBookedData(newPC_ID, date);
+		PCBook getPCBook = PcBookController.getPCBookedData(newPC_ID, date);
 		
 //		jika sudah ada booked, error
 		if(getPCBook != null) {
@@ -54,7 +50,7 @@ public class JobController {
 		}
 		
 //		jika belum ada
-		pcBookController.assignUsertoNewPC(getPCBook.getBookID(), newPC_ID, getPCBook.getBookedDate(), null);
+		PcBookController.assignUsertoNewPC(getPCBook.getBookID(), newPC_ID, getPCBook.getBookedDate(), null);
 		return;
 		
 //		kalo baca dari sequence diagram, cuma sampe assignUserToNewPC aja, ga ada suruh add new job
@@ -75,10 +71,9 @@ public class JobController {
 		
 		Job getJob = JobRepository.getJobDetail(job_ID);
 		
-		PCController pcController = new PCController();
-		PC getPC = pcController.getPCDetail(getJob.getPc_ID().toString());
+		PC getPC = PCController.getPCDetail(getJob.getPc_ID().toString());
 		
-		pcController.updatePCCondition(getPC.getPc_ID().toString(), getPC.getPc_condition());
+		PCController.updatePCCondition(getPC.getPc_ID().toString(), getPC.getPc_condition());
 		return;
 	}
 	
@@ -86,8 +81,7 @@ public class JobController {
 	public ArrayList<PC> getPcOnWorkingList(String pc_ID){
 		ArrayList<PC> pcList = new ArrayList<PC>();
 		
-		PCController pcController = new PCController();
-		pcList = pcController.getAllPCData();
+		pcList = PCController.getAllPCData();
 		
 		ArrayList<PC> pcOnWorkingList = new ArrayList<PC>();
 		for (PC pc : pcList) {

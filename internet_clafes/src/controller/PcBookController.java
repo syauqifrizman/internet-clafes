@@ -4,16 +4,17 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import helper.Helper;
+import javafx.scene.control.Alert.AlertType;
 import model.PCBook;
-import view.IView;
 
 public class PcBookController {
-	public boolean DeleteBookData(int BookID, IView view) {
+	public boolean DeleteBookData(int BookID) {
 		try {
 			PCBook.deleteBookData(BookID);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			view.showError("Error Deleting record");
+			Helper.showAlert(AlertType.ERROR, "Error Deleting record");
 			return false;
 		}
 		return true;
@@ -23,19 +24,19 @@ public class PcBookController {
 		return PCBook.getPCBookedData(PcID, date);
 	}
 	
-	public boolean assignUsertoNewPC(int BookID, Integer NewPCID, Date date, IView view) throws SQLException {
+	public boolean assignUsertoNewPC(int BookID, Integer NewPCID, Date date) throws SQLException {
 		if(NewPCID == 0) {
-			view.showError("PC ID must be filled");
+			Helper.showAlert(AlertType.ERROR, "PC ID must be filled");
 			return false;
 		}
 		
 		if(PCBook.getPCBookedData(NewPCID, date)!=null) {
-			view.showError("PC has been booked for that day");
+			Helper.showAlert(AlertType.ERROR, "PC has been booked for that day");
 			return false;
 		}
 		
 		if(!PCController.getPCDetail(NewPCID.toString()).getPc_condition().equals("Usable")) {
-			view.showError("PC is unusable");
+			Helper.showAlert(AlertType.ERROR, "PC is unusable");
 			return false;
 		}
 		
@@ -43,7 +44,7 @@ public class PcBookController {
 			PCBook.assignUsertoNewPC(BookID, NewPCID);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			view.showError("Error assigning user");
+			Helper.showAlert(AlertType.ERROR, "Error assigning user");
 			return false;
 		}
 		return true;
@@ -53,23 +54,23 @@ public class PcBookController {
 		return PCBook.getPCBookedDetail(BookID);
 	}
 	
-	public static boolean addNewBook(String PcID, Integer UserID, Date bookedDate, IView view) throws SQLException {
+	public static boolean addNewBook(String PcID, Integer UserID, Date bookedDate) throws SQLException {
 		if(PcID.isEmpty()) {
-			view.showError("Please choose a PC");
+			Helper.showAlert(AlertType.ERROR, "Please choose a PC");
 			return false;
 		}
 		
 		if(bookedDate == null) {
-			view.showError("Please pick a date");
+			Helper.showAlert(AlertType.ERROR, "Please pick a date");
 			return false;
 		}
 		if(!PCController.getPCDetail(PcID).getPc_condition().equals("Usable")) {
-			view.showError("PC is unusable");
+			Helper.showAlert(AlertType.ERROR, "PC is unusable");
 			return false;
 		}
 		
 		if(PCBook.getPCBookedData(Integer.parseInt(PcID), bookedDate)!=null) {
-			view.showError("PC has been booked for that day");
+			Helper.showAlert(AlertType.ERROR, "PC has been booked for that day");
 			return false;
 		}
 		
@@ -83,22 +84,22 @@ public class PcBookController {
 		return true;
 	}
 	
-	public static ArrayList<PCBook> getAllPCBookedData(IView view){
+	public static ArrayList<PCBook> getAllPCBookedData(){
 		try {
 			return PCBook.getAllPCBookedData();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			view.showError("Error fetching data");
+			Helper.showAlert(AlertType.ERROR, "Error fetching data");
 			return new ArrayList<PCBook>();
 		}
 	}
 	
-	public ArrayList<PCBook> getPcBookedByDate(Date date, IView view){
+	public ArrayList<PCBook> getPcBookedByDate(Date date){
 		try {
 			return PCBook.getPCBookedByDate(date);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			view.showError("Error fetching data");
+			Helper.showAlert(AlertType.ERROR, "Error fetching data");
 			return new ArrayList<PCBook>();
 		}
 	}

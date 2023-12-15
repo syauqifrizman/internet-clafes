@@ -1,6 +1,7 @@
 package view;
 
 import controller.UserController;
+import helper.Helper;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,14 +10,14 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 
-public class Register implements IView {
+public class Register {
 	private static Register register;
-	private static IView view;
 	
 	public static Register getInstance() {
 		return register = register == null ? new Register() : register;
@@ -34,7 +35,6 @@ public class Register implements IView {
 	private PasswordField passwordInput, confInput;
 	private Button registerButton;
 	private Hyperlink loginHyperlink;
-	private Label note;
 
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
@@ -58,9 +58,9 @@ public class Register implements IView {
 		ageInput.setPromptText("Input your age here");
 		registerButton = new Button("Register");
 		loginHyperlink = new Hyperlink("Already have an account? Login Here!");
-		note = new Label();
+		
 		vb.getChildren().addAll(registerTitle, usernameTitle, usernameInput, passwordTitle, 
-				passwordInput, confTitle, confInput, ageTitle, ageInput, registerButton, loginHyperlink,  note);
+				passwordInput, confTitle, confInput, ageTitle, ageInput, registerButton, loginHyperlink);
 		registerTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		vb.setAlignment(Pos.CENTER_LEFT);
 		vb.setPadding(new Insets(50));
@@ -73,13 +73,15 @@ public class Register implements IView {
 			String password = passwordInput.getText();
 			int age = Integer.parseInt(ageInput.getText());
 			String confpass = confInput.getText();
+			String statusRegister = "";
 			
-			if(UserController.AddNewUser(username, password, age, confpass, view)) {
-				showError("Registration Successful");
+			if(UserController.AddNewUser(username, password, age, confpass)) {
+				statusRegister = "Registration Successful";
 			}
 			else {
-				showError("Registration Failed");
+				statusRegister= "Registration Failed";
 			}
+			Helper.showAlert(AlertType.INFORMATION, statusRegister);
 			
 			Login login = Login.getInstance();
 			login.show();
@@ -88,12 +90,6 @@ public class Register implements IView {
 			Login loginPage = Login.getInstance();
 			loginPage.show();
 		});
-	}
-	
-	@Override
-	public void showError(String error) {
-		// TODO Auto-generated method stub
-		note.setText(error);
 	}
 
 }
