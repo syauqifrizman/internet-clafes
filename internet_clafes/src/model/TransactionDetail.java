@@ -1,12 +1,9 @@
 package model;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import controller.UserController;
 import repository.UserRepository;
 import sqlConnect.Connect;
 
@@ -59,7 +56,7 @@ public class TransactionDetail {
 		Connect db = Connect.getConnection();
 		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `TransactionDetail` WHERE TransactionID = ?");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionDetail` WHERE transactionID = ?");
 		ps.setInt(1, transactionID);
 		
 		ResultSet rs = ps.executeQuery();
@@ -89,7 +86,7 @@ public class TransactionDetail {
 		
 		String username = UserRepository.getUserDetail(userID).getUserName();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `TransactionDetail` WHERE customerName = '?'");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionDetail` WHERE customerName = '?'");
 		ps.setString(1, username);
 		
 		ResultSet rs = ps.executeQuery();
@@ -113,7 +110,7 @@ public class TransactionDetail {
 	public static void addTransactionDetail(Integer transactionID, ArrayList<PCBook> pcbooks) throws SQLException {
 		Connect db = Connect.getConnection();
 		for (PCBook pcBook : pcbooks) {
-			PreparedStatement ps = db.prepareStatement("INSERT INTO `TransactionDetail` VALUES(?, ?, '?', '?')");
+			PreparedStatement ps = db.prepareStatement("INSERT INTO `transactionDetail` VALUES(?, ?, ?, ?)");
 			ps.setInt(1, transactionID);
 			ps.setInt(2, pcBook.getPc_ID());
 			ps.setString(3, UserRepository.getUserDetail(pcBook.getUserID()).getUserName());

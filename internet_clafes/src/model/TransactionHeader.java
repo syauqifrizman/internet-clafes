@@ -58,7 +58,7 @@ public class TransactionHeader {
 		ArrayList<TransactionHeader> theaders = new ArrayList<TransactionHeader>();
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `TransactionHeader`");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionHeader`");
 		
 		ResultSet rs = ps.executeQuery();
 		
@@ -83,7 +83,7 @@ public class TransactionHeader {
 	public static void addNewTransactionHeader(Integer staffID, String transactionDate) throws SQLException {
 		Connect db = Connect.getConnection();
 		
-		PreparedStatement ps = db.prepareStatement("INSERT INTO `TransactionHeader` VALUES (?, ?, '?', '?')");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `transactionHeader` VALUES (?, ?, ?, ?)");
 		ps.setInt(1, 0);
 		ps.setInt(2, staffID);
 		ps.setString(3, UserRepository.getUserDetail(staffID).getUserName());
