@@ -8,7 +8,6 @@ import javafx.scene.control.Alert.AlertType;
 import model.PCBook;
 import model.TransactionDetail;
 import model.TransactionHeader;
-import view.IView;
 
 public class TransactionController {
 	
