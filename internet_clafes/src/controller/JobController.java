@@ -15,6 +15,8 @@ import repository.JobRepository;
 import repository.UserRepository;
 
 public class JobController {
+	
+	//untuk menambah job baru
 	public static void addNewJob(String userID, String pc_ID) {
 //		validasi frontend
 		if(pc_ID.isEmpty()) {
@@ -56,34 +58,45 @@ public class JobController {
 			return;
 		}
 		
+		//buat job baru ke database
 		JobRepository.addNewJob(JobFactory.createJob(userID, pc_ID));
 		
+		//update PC status menjadi maintenance
 		PCController.updatePCCondition(pc_ID, "Maintenance");
 
 		return;
 		
 	}
 	
+	//untuk update job status
 	public static void updateJobStatus(String job_ID, String jobStatus) {
+		
+		//validasi input, harus complete atau uncomplete
 		if(!jobStatus.equals("Complete") && !jobStatus.equals("UnComplete")) {
 			Helper.showAlert(AlertType.ERROR, "Must be either 'Complete' or 'UnComplete'");
 			return;
 		}
 		
+		//update status ke database
 		String updateStatus = JobRepository.updateJobStatus(job_ID, jobStatus);
 		Helper.showAlert(AlertType.INFORMATION, updateStatus);
 		
+		//ngambil PC ID nya
 		Job getJob = JobRepository.getJobDetail(job_ID);
 		
+		//update kondisi PC dari maintenance menjadi Usable
 		PCController.updatePCCondition(getJob.getPc_ID().toString(), "Usable");
 		return;
 	}
 	
+	//untuk dapetin PC yg udh dibuat job nya tapi belom di-finish sama CT/Admin
 	public ArrayList<PC> getPcOnWorkingList(String pc_ID){
 		ArrayList<PC> pcList = new ArrayList<PC>();
 		
+		//ambil semua data PC dan masukin ke arraylist
 		pcList = PCController.getAllPCData();
 		
+		//dicari mana yg masih maintenance dan dimasukin ke arraylist baru
 		ArrayList<PC> pcOnWorkingList = new ArrayList<PC>();
 		for (PC pc : pcList) {
 			if(pc.getPc_condition().equals("Maintenance")) {
@@ -93,10 +106,12 @@ public class JobController {
 		return pcOnWorkingList;
 	}
 	
+	//ngambil job berdasarkan siapa yg buat
 	public ArrayList<Job> getTechnicianJob(String userID){
 		return JobRepository.getTechnicianJob(userID);
 	}
 	
+	//ngambil semua job yg ada
 	public ArrayList<Job> getAllJobData(){
 		return JobRepository.getAllJobData();
 	}

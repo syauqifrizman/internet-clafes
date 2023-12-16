@@ -11,6 +11,8 @@ import model.TransactionHeader;
 
 public class TransactionController {
 	
+	
+	//method untuk mengambil semua transaction header data dari database
 	public static ArrayList<TransactionHeader> getAllTransactionHeaderData(){
 		try {
 			return TransactionHeader.getAllTransactionHeaderData();
@@ -19,6 +21,7 @@ public class TransactionController {
 		}
 	}
 	
+	//method untuk mengambil semua transaction detail data dari database
 	public static ArrayList<TransactionDetail> getAllTransactionDetailData(Integer transactionID){
 		try {
 			return TransactionDetail.getAllTransactionDetail(transactionID);
@@ -27,6 +30,7 @@ public class TransactionController {
 		}
 	}
 	
+	//method untuk mengambil semua transaction detail data sebuah user dari database
 	public static ArrayList<TransactionDetail> getUserTransactionDetail(Integer UserID){
 		try {
 			return TransactionDetail.getUserTransactionDetail(UserID);
@@ -35,8 +39,11 @@ public class TransactionController {
 		}
 	}
 	
+	
+	//method untuk membuat transaction baru
 	public static boolean AddTransaction(ArrayList<PCBook> pcbooks, Integer StaffID) {
 		
+		//buat dulu headernya dengan memanggil pembuatan Transaction Header baru
 		try {
 			TransactionHeader.addNewTransactionHeader(StaffID, java.time.LocalDate.now().toString());
 		} catch (SQLException e) {
@@ -45,6 +52,8 @@ public class TransactionController {
 			return false;
 		}
 		
+		//lalu lihat ID dari transaction header yang baru dibuat, dan ambil ID itu untuk
+		//membuat Transaction Detail baru
 		try {
 			TransactionDetail.addTransactionDetail(peekLastID(), pcbooks);
 		} catch (SQLException e) {
@@ -55,6 +64,7 @@ public class TransactionController {
 		return true;
 	}
 	
+	//method untuk melihat Transaction ID dari transaction terakhir
 	public static Integer peekLastID() {
 		try {
 			return TransactionHeader.peekLastID();

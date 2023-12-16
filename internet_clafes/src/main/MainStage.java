@@ -8,6 +8,7 @@ public class MainStage {
 
 	private static MainStage mainStage;
 
+	//singleton agar terdapat hanya 1 main stage
 	public static MainStage getInstance() {
 		return mainStage = mainStage == null ? new MainStage() : mainStage;
 	}
