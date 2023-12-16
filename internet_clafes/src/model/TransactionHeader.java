@@ -65,11 +65,13 @@ public class TransactionHeader {
 	
 	//method untuk mengambil data dari seluruh TransactionHeader dari database
 	public static ArrayList<TransactionHeader> getAllTransactionHeaderData() throws SQLException{
+		//membuat arraylist kosong untuk menampung data
 		ArrayList<TransactionHeader> theaders = new ArrayList<TransactionHeader>();
-		Connect db = Connect.getConnection();
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheader`");
-		
+		//menjalankan query
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
@@ -78,51 +80,55 @@ public class TransactionHeader {
 			String sName;
 			String tDate;
 			
+			//hasil yang sudah diambil dimasukkan ke variabel sementara
 			tID = rs.getInt(1);
 			sID = rs.getInt(2);
 			sName = rs.getString(3);
 			tDate = rs.getDate(4).toString();
-			
+			//dari variabel sementara, dibuat sebuah object theader baru
 			TransactionHeader theader = new TransactionHeader(tID, sID, sName, tDate);
-			theaders.add(theader);
+			theaders.add(theader);//object tersebut dimasukkan ke arraylist yang sudah dibuat
 		}
 		
-		return theaders;
+		return theaders;//araylist yang sudah dibuat akan di-return
 	}
 	
 	//method untuk menambahkan TransactionHeader baru ke database
 	public static void addNewTransactionHeader(Integer staffID, String transactionDate) throws SQLException {
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("INSERT INTO `transactionheader` VALUES (?, ?, ?, ?)");
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, 0);
 		ps.setInt(2, staffID);
 		ps.setString(3, UserRepository.getUserDetail(staffID).getUserName());
 		ps.setDate(4, Date.valueOf(transactionDate));
-		
+		//menjalankan query
 		ps.executeUpdate();
 		
 	}
 	
 	//method untuk mengambil id TransactionHeader terakhir dari database
 	public static Integer peekLastID() throws SQLException {
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheader` ORDER BY transactionID DESC LIMIT 1");
+		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
-		
+		//membuat variable id sementara
 		Integer id = 0;
 		
 		 try {
 			if(rs.next()) {
+				//menambahkan id sementara dengan id terakhir
 			     id = id+rs.getInt("transactionID");
 			 }
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			//Menangkap dan menangani exception jika terjadi kesalahan SQL
 			e.printStackTrace();
 		}
 		
-		return id;
+		return id;//mengembalikan id sementara yang sudah berisikan id terakhir
 	}
 	
 }

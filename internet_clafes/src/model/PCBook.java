@@ -66,23 +66,24 @@ public class PCBook {
 
 	//method untuk menghapus bookdata berdasarkan bookid dari database
 	public static void deleteBookData(Integer bookID) throws SQLException {
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("DELETE FROM `pcbooks` WHERE BookID = ?");
-		
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, bookID);
-
+		//menjalankan query
 		ps.executeUpdate();
 	}
 	
 	//method untuk mengambil data berdasarkan pc id dan tanggalnya dari database
 	public static PCBook getPCBookedData(Integer pc_ID, Date date) throws SQLException{
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `pcbooks` WHERE pc_ID = ? AND bookedDate = ?");
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, pc_ID);
 		ps.setDate(2, date);
-		
+		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
 		
@@ -97,16 +98,17 @@ public class PCBook {
 			pcbook = new PCBook(bookID, pc_ID, userID, date);
 		}
 		
-		return pcbook;
+		return pcbook;//object yang sudah dibuat akan di-return
 	}
 	
 	//method untuk mengambil data berdasarkan book id dari database
 	public static PCBook getPCBookedDetail(Integer bookID) throws SQLException{
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `pcbooks` WHERE bookID = ?");
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, bookID);
-		
+		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
 		PCBook pcbook = null;
@@ -122,19 +124,20 @@ public class PCBook {
 			pcbook = new PCBook(bookID, pc_ID, userID, bookedDate);
 		}
 		
-		return pcbook;
+		return pcbook;//object yang sudah dibuat akan di-return
 	}
 	
 	//method untuk menambahkan book dengan pc id, user id, dan tanggalnya dari database/query
 	public static void addNewBook(Integer pc_ID, Integer userID, Date bookedDate) throws SQLException {
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("INSERT INTO `pcbooks` VALUES (?, ?, ?, ?)");
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, 0);
 		ps.setInt(2, pc_ID);
 		ps.setInt(3, userID);
 		ps.setDate(4, bookedDate);
-		
+		//menjalankan query
 		ps.executeUpdate();
 	}
 	
@@ -149,11 +152,11 @@ public class PCBook {
 	
 	//method untuk mendapat setiap book data yang ada dari database
 	public static ArrayList<PCBook> getAllPCBookedData() throws SQLException{
-		Connect db = Connect.getConnection();
-		ArrayList<PCBook> pcbooks = new ArrayList<PCBook>();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		ArrayList<PCBook> pcbooks = new ArrayList<PCBook>();//membuat arraylist kosong untuk menampung data
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `pcbooks`");
-		
+		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
 		PCBook pcbook = null;
@@ -178,12 +181,13 @@ public class PCBook {
 	
 	//method untuk mendapat setiap book data yang ada di tanggal tertentu dari database
 	public static ArrayList<PCBook> getPCBookedByDate(Date selectedDate) throws SQLException{
-		Connect db = Connect.getConnection();
-		ArrayList<PCBook> pcbooks = new ArrayList<>();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		ArrayList<PCBook> pcbooks = new ArrayList<>();//membuat arraylist kosong untuk menampung data
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `pcbooks` WHERE DATE(bookedDate) = ?");
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setDate(1, selectedDate);
-		
+		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
 //		PCBook pcbook = null;
@@ -204,24 +208,25 @@ public class PCBook {
 	//method untuk memindahkan user ke pc lain yang kosong dari databse
 	//method ini akan mengubah pd id berdasarkan pc id baru dan book id di book data pcbooks 
 	public static void assignUsertoNewPC(Integer bookID, Integer newPCID) throws SQLException {
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("UPDATE `pcbooks` SET pc_ID = ? WHERE bookID= ?");
-	
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, newPCID);
 		ps.setInt(2, bookID);
-		
+		//menjalankan query
 		ps.executeUpdate();
 	}
 	
 	
 	//method untuk mengambil data berdasarkan pc id dari database
 	public static PCBook getPCBookedByID(Integer pcID) throws SQLException{
-		Connect db = Connect.getConnection();
-		
+		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `pcbooks` WHERE pc_ID = ?");
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, pcID);
-		
+		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
 		PCBook pcbook = null;
@@ -237,7 +242,7 @@ public class PCBook {
 			pcbook = new PCBook(bookID, pcID, userID, bookedDate);
 		}
 		
-		return pcbook;
+		return pcbook;//object yang sudah dibuat akan di-return
 	}
 	
 }
