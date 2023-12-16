@@ -23,7 +23,6 @@ public class PcBookController {
 			return false;
 		}
 		
-		
 		try {
 			PCBook.deleteBookData(bookID);
 			
