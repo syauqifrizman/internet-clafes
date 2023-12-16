@@ -11,6 +11,7 @@ import view.login_register.Login;
 
 public class MenuAdmin {
 
+	//memunculkan menu bar khusus admin
 	public static Parent createMenu() {
         // Create a menu bar
         MenuBar menuBar = new MenuBar();
@@ -64,13 +65,13 @@ public class MenuAdmin {
     }
     
 	private static void navigateToHome() {
-		// Implement logic to navigate to the "Book PC" page
+		// Implement logic to navigate to the "View All PC" page
 		ViewPC viewpc = ViewPC.getInstance();
     	viewpc.show();
 	}
 
 	private static void navigateToViewAllStaff() {
-		// Implement logic to navigate to the "Transaction History" page
+		// Implement logic to navigate to the "View All Staff" page
     	ViewAllStaff viewStaff = ViewAllStaff.getInstance();
     	viewStaff.show();
     }
@@ -82,7 +83,7 @@ public class MenuAdmin {
 //    }
 	
 	private static void navigateToJobManagement() {
-		// Implement logic to navigate to the "Transaction History" page
+		// Implement logic to navigate to the "View Job" page
 		ViewJob viewjob = ViewJob.getInstance();
         viewjob.show();
     }
@@ -94,7 +95,7 @@ public class MenuAdmin {
     }
     
 	private static void navigateToViewAllReport() {
-		// Implement logic to navigate to the "Transaction History" page
+		// Implement logic to navigate to the "View All Report" page
 		ViewAllReport viewAllReport = ViewAllReport.getInstance();
 		viewAllReport.show();
     }

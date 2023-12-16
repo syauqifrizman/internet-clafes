@@ -27,12 +27,8 @@ import view.admin.ViewPCDetail;
 
 public class ViewAllStaff {
 
-	private static ViewAllStaff viewAllStaff;
 	private Scene scene;
 	private TableView<User> tv;
-	private Label newRoleLabel;
-	private TextField newRoleInput;
-//	private Button changeRoleButton;
 	
 	public static ViewAllStaff getInstance() {
 		return new ViewAllStaff();
@@ -46,17 +42,20 @@ public class ViewAllStaff {
 		MainStage mainStage = MainStage.getInstance();
 		mainStage.getStage().setScene(scene);
 		try {
+			//method untuk 'refresh' table data
 			repaint();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	private void initTable() {
 		VBox cont = new VBox();
+		
+		//membuat table data baru
 		tv = new TableView<User>();
 		
+		//mengisi kolom2 table data nya
 		TableColumn<User, Integer> id = new TableColumn<>("User ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("userID"));
 		
@@ -72,43 +71,53 @@ public class ViewAllStaff {
 		TableColumn<User, String> role = new TableColumn<>("Role");
 		role.setCellValueFactory(new PropertyValueFactory<>("userRole"));
 		
-//		Button changeRoleButton = new Button("Change Role");
-		
+		//membuat kolom yang isinya tombol Change Role
 		TableColumn<User, Void> cRoleColumn = new TableColumn<>("Change Role");
 		cRoleColumn.setCellFactory(param -> new ButtonCell("Change Role", t -> {
 			try {
+				//memanggil method handleChange
 				handleChange(t);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}));
 		
+		//memasukkan kolom2 tadi ke tableview
 		tv.getColumns().addAll(id, username, pass, age, role, cRoleColumn);
 		
+		//memasukkan item2 ke vbox
 		cont.getChildren().addAll(MenuAdmin.createMenu(), tv);
 		
 		scene = new Scene(cont, 800, 600);
     }
 	
+	//method yang mengarahkan user ke laman ChangeRole
 	private void handleChange(User user) throws SQLException {
 		ChangeRole changeRole = ChangeRole.getInstance(user);
 		changeRole.show();
 	}
 	
+	//method untuk me-refresh table
 	private void repaint() throws SQLException {
+		//clear dulu isi dari tabel
 	    tv.getItems().clear();
+	    
+	    //mengambil data dari database ke sebuah arraylist
 	    ArrayList<User> users = UserController.getAllUserData();
 	    
+	    //memilih data User yang role nya Admin, Operator, atau Computer Technician
 	    for (User user : users) {
 	        if ("Admin".equals(user.getUserRole()) 
 	                || "Operator".equals(user.getUserRole()) 
 	                || "Computer Technician".equals(user.getUserRole())) {
+	        	
+	        	//masukkan ke table
 	            tv.getItems().add(user);
 	        }
 	    }
 	}
 	
+	//method untuk mengambil User dari row yang dipilih untuk Change Role
 	public class ButtonCell extends TableCell<User, Void> {
         private final Button actionButton;
 
@@ -116,13 +125,16 @@ public class ViewAllStaff {
             this.actionButton = new Button(label);
 
             actionButton.setOnAction(event -> {
+            	
+            	//mengambil data dari row
                 User user = getTableRow().getItem();
                 if (user != null) {
                     action.accept(user);
                 }
             });
         }
-
+        
+        //memunculkan button di table 
         @Override
         protected void updateItem(Void item, boolean empty) {
             super.updateItem(item, empty);

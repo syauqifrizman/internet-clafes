@@ -10,6 +10,7 @@ import view.login_register.Login;
 
 public class MenuCustomer{
 	
+	//membuat menu bar khusus untuk user role Customer
 	public static Parent createMenu() {
         // Create a menu bar
         MenuBar menuBar = new MenuBar();
@@ -40,7 +41,7 @@ public class MenuCustomer{
     }
     
     private static void navigateToHome() {
-        // Implement logic to navigate to the "Book PC" page
+        // Implement logic to navigate to the "View All PC" page
     	ViewPC viewpc = ViewPC.getInstance();
 		viewpc.show();
     }

@@ -9,6 +9,7 @@ import view.login_register.Login;
 
 public class MenuComputerTechnician {
 
+	//memunculkan menu bar khusus Computer Technician
 	public static Parent createMenu() {
         // Create a menu bar
         MenuBar menuBar = new MenuBar();
@@ -39,13 +40,13 @@ public class MenuComputerTechnician {
     }
     
     private static void navigateToHome() {
-        // Implement logic to navigate to the "Book PC" page
+        // Implement logic to navigate to the "View All PC" page
     	ViewPC viewpc = ViewPC.getInstance();
 		viewpc.show();
     }
 
     private static void navigateToTechnicianJob() {
-        // Implement logic to navigate to the "Transaction History" page
+        // Implement logic to navigate to the "View Job" page
     	ViewJob viewjob = ViewJob.getInstance();
         viewjob.show();
     }
