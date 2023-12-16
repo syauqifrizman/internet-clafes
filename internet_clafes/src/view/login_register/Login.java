@@ -1,4 +1,4 @@
-package view;
+package view.login_register;
 
 import java.sql.SQLException;
 
@@ -19,6 +19,7 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.User;
 import model.UserSession;
+import view.ViewPC;
 
 public class Login{
 	private static Login login;
@@ -69,20 +70,31 @@ public class Login{
 		loginButton.setOnMouseClicked(e -> {
 			String username = usernameInput.getText();
 			String userPassword = passwordInput.getText();
-			User user;
+			String statusLogin = "";
+			
 			try {
-				user = UserController.getUserData(username, userPassword);
-				if (user!=null) {
-					UserSession.setCurrentUser(user);
-					ViewPC viewpc = ViewPC.getInstance();
-					viewpc.show();
-				}
-				else {
-					Helper.showAlert(AlertType.ERROR, "User not found");
-				}
+				statusLogin = UserController.loginUser(username, userPassword);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
-				Helper.showAlert(AlertType.ERROR, "User not found");
+				e1.printStackTrace();
+			}
+			
+			if(statusLogin.equals("Login Success!")) {
+				
+				User user = null;
+				try {
+					user = UserController.getUserData(username, userPassword);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Helper.showAlert(AlertType.INFORMATION, statusLogin);
+				UserSession.setCurrentUser(user);
+				ViewPC viewpc = ViewPC.getInstance();
+				viewpc.show();
+			}
+			else {
+				Helper.showAlert(AlertType.ERROR, statusLogin);
 			}
 			
 		});

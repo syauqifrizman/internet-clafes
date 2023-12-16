@@ -6,6 +6,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.User;
 import model.UserSession;
+import view.login_register.Login;
 
 public class MenuOperator {
 	public static User user;

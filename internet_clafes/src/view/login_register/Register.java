@@ -1,4 +1,4 @@
-package view;
+package view.login_register;
 
 import controller.UserController;
 import helper.Helper;
@@ -71,21 +71,26 @@ public class Register {
 		registerButton.setOnMouseClicked(e -> {
 			String username = usernameInput.getText();
 			String password = passwordInput.getText();
-			int age = Integer.parseInt(ageInput.getText());
+			String age = ageInput.getText();
 			String confpass = confInput.getText();
 			String statusRegister = "";
 			
-			if(UserController.AddNewUser(username, password, age, confpass)) {
-				statusRegister = "Registration Successful";
+			statusRegister = UserController.AddNewUser(username, password, age, confpass);
+			
+			if(statusRegister.equals("Registration Successful")) {
+				Helper.showAlert(AlertType.INFORMATION, statusRegister);
+				Login login = Login.getInstance();
+				login.show();
+			}
+			else if(statusRegister.equals("Registration Failed")){
+				Helper.showAlert(AlertType.ERROR, statusRegister);
 			}
 			else {
-				statusRegister= "Registration Failed";
+				Helper.showAlert(AlertType.ERROR, statusRegister);
 			}
-			Helper.showAlert(AlertType.INFORMATION, statusRegister);
-			
-			Login login = Login.getInstance();
-			login.show();
+
 		});
+		
 		loginHyperlink.setOnAction(e -> {
 			Login loginPage = Login.getInstance();
 			loginPage.show();

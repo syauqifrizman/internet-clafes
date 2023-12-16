@@ -108,6 +108,21 @@ public class User {
 		return users;
 	}
 	
+	public static boolean isUsernameExist(String username) throws SQLException {
+		Connect db = Connect.getConnection();
+		
+		String query = "SELECT * FROM user WHERE userName = '%s'";
+		String queryExecute = String.format(query, username);
+		
+		ResultSet res = db.executeQuery(queryExecute);
+		
+		boolean isExist = false;
+		while(res.next()){
+			isExist = true;
+		}
+		return isExist;
+	}
+	
 	public static User getUserData(String username, String password) throws SQLException{
 		Connect db = Connect.getConnection();
 		
@@ -138,7 +153,7 @@ public class User {
 		return user;
 	}
 	
-	public static void AddNewUser(String username, String password, int age) throws SQLException {
+	public static void AddNewUser(String username, String password, Integer age) throws SQLException {
 		Connect db = Connect.getConnection();
 		
 		PreparedStatement ps = db.prepareStatement("INSERT INTO `user` VALUES (?, ?, ?, ?, ?)");
