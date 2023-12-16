@@ -136,9 +136,7 @@ public class ViewPC {
 		                    setGraphic(null);
 		                } else {
 		                    HBox containerButtons = new HBox();
-		                    
-		                    
-		                    
+		           
 		                    if (UserSession.getCurrentUserRole().equals("Customer")) {
 		                    	containerButtons.getChildren().addAll(reportButton, bookButton);
 		                    }

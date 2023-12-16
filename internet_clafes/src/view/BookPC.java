@@ -4,11 +4,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 import controller.PcBookController;
+import helper.Helper;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PC;
@@ -51,7 +53,7 @@ public class BookPC {
 		dateP = new DatePicker();
 		bookButton = new Button("Book");
 		
-		vb.getChildren().addAll(userID, pcID, dateLabel, dateP, bookButton);
+		vb.getChildren().addAll(MenuCustomer.createMenu(), userID, pcID, dateLabel, dateP, bookButton);
 		
 		scene = new Scene(vb, 800, 600);
 	}
@@ -61,13 +63,16 @@ public class BookPC {
 			Date bookedDate = java.sql.Date.valueOf(dateP.getValue());
 			
 			try {
-				PcBookController.addNewBook(pc.getPc_ID().toString(), user.getUserID(), bookedDate);
+				Boolean addStatus = PcBookController.addNewBook(pc.getPc_ID().toString(), user.getUserID(), bookedDate);
+				if(addStatus) {
+					Helper.showAlert(AlertType.INFORMATION, "Success Add Book");
+					ViewPC viewpc = ViewPC.getInstance();
+					viewpc.show();
+				}
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			ViewPC viewpc = ViewPC.getInstance();
-			viewpc.show();
 			
 		});
 	}

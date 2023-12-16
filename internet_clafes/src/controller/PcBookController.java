@@ -2,10 +2,13 @@ package controller;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import helper.Helper;
 import javafx.scene.control.Alert.AlertType;
+import model.PC;
 import model.PCBook;
 
 public class PcBookController {
@@ -35,8 +38,10 @@ public class PcBookController {
 			return false;
 		}
 		
-		if(!PCController.getPCDetail(NewPCID.toString()).getPc_condition().equals("Usable")) {
-			Helper.showAlert(AlertType.ERROR, "PC is unusable");
+		PC getPC = PCController.getPCDetail(NewPCID.toString());
+		if(!getPC.getPc_condition().equals("Usable")) {
+			String condition = "PC ID: " +  getPC.getPc_ID().toString() + ", condition is " + getPC.getPc_condition() + ", pc can't be booked right now";
+			Helper.showAlert(AlertType.ERROR, condition);
 			return false;
 		}
 		
@@ -55,21 +60,27 @@ public class PcBookController {
 	}
 	
 	public static boolean addNewBook(String PcID, Integer UserID, Date bookedDate) throws SQLException {
-		if(PcID.isEmpty()) {
+		PC getPC = PCController.getPCDetail(PcID);
+		if(!getPC.getPc_condition().equals("Usable")) {
+			String condition = "PC ID: " +  getPC.getPc_ID().toString() + ", condition is " + getPC.getPc_condition() + ", pc can't be booked right now. Please return to the home page (accessible in the menu bar)";
+			Helper.showAlert(AlertType.ERROR, condition);
+			return false;
+		}
+		else if(PcID.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Please choose a PC");
 			return false;
 		}
-		
-		if(bookedDate == null) {
+		else if(bookedDate == null) {
 			Helper.showAlert(AlertType.ERROR, "Please pick a date");
 			return false;
 		}
-		if(!PCController.getPCDetail(PcID).getPc_condition().equals("Usable")) {
-			Helper.showAlert(AlertType.ERROR, "PC is unusable");
+		
+		LocalDate bookedLocalDate = bookedDate.toLocalDate();
+		if(bookedLocalDate.isBefore(LocalDate.now())) {
+			Helper.showAlert(AlertType.ERROR, "You can't book the PC before today");
 			return false;
 		}
-		
-		if(PCBook.getPCBookedData(Integer.parseInt(PcID), bookedDate)!=null) {
+		else if(PCBook.getPCBookedData(Integer.parseInt(PcID), bookedDate)!=null) {
 			Helper.showAlert(AlertType.ERROR, "PC has been booked for that day");
 			return false;
 		}

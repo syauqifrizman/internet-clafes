@@ -26,7 +26,7 @@ public class ReportController {
 		}
 		
 		if(!UserRole.equals("Customer") && !UserRole.equals("Technician")) {
-			Helper.showAlert(AlertType.ERROR, "Only Users and Technician can make reports");
+			Helper.showAlert(AlertType.ERROR, "Only Customer and Technician can make reports");
 			return false;
 		}
 		
