@@ -9,11 +9,13 @@ import javafx.scene.control.Alert.AlertType;
 import model.PC;
 import model.PCBook;
 import repository.PCRepository;
+import view.ViewPC;
+import view.admin.ViewPCDetail;
 
 public class PCController {
 	
 	public static ArrayList<PC> getAllPCData(){
-		return PCRepository.getAllPCData();
+		return PC.getAllPCData();
 	}
 	
 	public static void updatePCCondition(String pc_ID, String pc_condition) {
@@ -27,8 +29,12 @@ public class PCController {
 			return;
 		}
 		
-		String updateStatus = PCRepository.updatePCCondition(pc_ID, pc_condition);
+		String updateStatus = PC.updatePCCondition(pc_ID, pc_condition);
 		Helper.showAlert(AlertType.INFORMATION, updateStatus);
+		
+		PC getNewUpdatePC = PCController.getPCDetail(pc_ID);
+	    ViewPCDetail ViewPCDetail = new ViewPCDetail(getNewUpdatePC);
+	    ViewPCDetail.show();
 		return;
 	}
 	
@@ -59,12 +65,16 @@ public class PCController {
 		
 //		if PC have any book list in the future, then show error
 		if(pcbook != null) {
-			Helper.showAlert(AlertType.ERROR, "PC is booked");
+			Helper.showAlert(AlertType.ERROR, "PC is booked, can't delete the PC");
 			return;
 		}
 //		otherwise perform delete
-		String deleteStatus = PCRepository.deleteNewPC(pc_ID);
+		String deleteStatus = PC.deletePC(pc_ID);
 		Helper.showAlert(AlertType.INFORMATION, deleteStatus);
+    	
+		ViewPC viewPCPage = new ViewPC();
+    	viewPCPage.show();
+    	
 		return;
 	}
 	
@@ -73,13 +83,17 @@ public class PCController {
 			Helper.showAlert(AlertType.ERROR, "Cannot be empty");
 			return;
 		}
-		if(!pc_ID.matches("[0-9]+")) {
+		else if(Integer.parseInt(pc_ID) == 0) {
+			Helper.showAlert(AlertType.ERROR, "PC ID can't be 0");
+			return;
+		}
+		else if(!pc_ID.matches("[1-9]+")) {
 			Helper.showAlert(AlertType.ERROR, "PC ID must be number only");
 			return;
 		}
 
 //		cari pc_id ada di database atau engga
-		PC getPC = PCRepository.getPCDetail(pc_ID);
+		PC getPC = PC.getPCDetail(pc_ID);
 //		getPC != null, pc udah ada di database
 		if(getPC != null) {
 			Helper.showAlert(AlertType.ERROR, "PC already exist, PC ID must be unique");
@@ -88,14 +102,19 @@ public class PCController {
 		
 //		getPC == null
 //		buatin object pc baru, insert ke database, pc_condition nya mungkin nanti bisa dari parameter
-		getPC = PCFactory.createPC(pc_ID);
-		String insertStatus = PCRepository.insertNewPC(getPC);
-		Helper.showAlert(AlertType.INFORMATION, insertStatus);
+		String insertStatus = PC.insertNewPC(pc_ID);
+		
+		if(insertStatus.equals("Success add new PC!")) {
+			Helper.showAlert(AlertType.INFORMATION, insertStatus);
+			ViewPC viewPCPage = new ViewPC();
+			viewPCPage.show();
+		}
+		
 		return;
 	}
 	
 	public static PC getPCDetail(String pc_ID) {
-		PC getPC = PCRepository.getPCDetail(pc_ID);
+		PC getPC = PC.getPCDetail(pc_ID);
 		
 		if(getPC == null) {
 			Helper.showAlert(AlertType.ERROR, "PC doesn't exist");

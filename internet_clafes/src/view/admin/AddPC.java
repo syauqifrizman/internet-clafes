@@ -65,12 +65,12 @@ public class AddPC {
 	    pageTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
 	    // PC ID Input
-	    Label pcTitle = new Label("Insert New PC_ID");
 	    pcIDInput = new TextField();
 	    pcIDInput.setPromptText("Insert new PC ID [must be unique]");
+	    Label pcTitle = new Label("Insert New PC ID [must be unique]:");
 
 	    // PC Condition Status
-	    Label pcConditionTitle = new Label("PC Condition Status (default): ");
+	    Label pcConditionTitle = new Label("PC Condition Status (default will be): ");
 	    Label pcConditionStatus = new Label("Usable");
 	    pcConditionStatus.setFont(Font.font("Arial", FontWeight.BOLD, 12));
 	    HBox containerPcCondition = new HBox(10);  // Set horizontal spacing
@@ -80,7 +80,7 @@ public class AddPC {
 	    addButton = new Button("ADD NEW PC");
 
 	    // Add elements to the container
-	    container.getChildren().addAll(MenuAdmin.createMenu(), pageTitle, pcTitle, containerPcCondition, pcIDInput, addButton);
+	    container.getChildren().addAll(MenuAdmin.createMenu(), pageTitle, containerPcCondition, pcTitle, pcIDInput, addButton);
 
 	    // Align container to the top left
 	    container.setAlignment(Pos.TOP_LEFT);
@@ -95,9 +95,6 @@ public class AddPC {
 			String pc_id = pcIDInput.getText();
 			
 			PCController.addNewPC(pc_id);
-			
-	    	ViewPC viewPCPage = new ViewPC();
-	    	viewPCPage.show();
 		});
 	}
 	

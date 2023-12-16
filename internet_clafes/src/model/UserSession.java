@@ -12,6 +12,14 @@ public class UserSession {
         currentUser = user;
     }
     
+    public static String getCurrentUsername() {
+        if (currentUser != null) {
+            return currentUser.getUserName();
+        } else {
+            return null; // Handle the case where no user is logged in
+        }
+    }
+    
     public static String getCurrentUserRole() {
         if (currentUser != null) {
             return currentUser.getUserRole();

@@ -74,7 +74,7 @@ public class ViewPCDetail {
 	    containerButton.getChildren().addAll(deleteButton, updateButton);
 	    
 	    // pc condition
-	    Label conditionTitle = new Label("Update Current PC Condition:");
+	    Label conditionTitle = new Label("Update Current PC Condition to ['Usable', 'Maintenance', or 'Broken']:");
 	    pcConditionInput = new TextField();
 	    pcConditionInput.setPromptText("Insert Current PC Condition");
 
@@ -115,9 +115,6 @@ public class ViewPCDetail {
 	        String pc_id = pc.getPc_ID().toString();
 	        
 	        PCController.deletePC(pc_id);
-	        
-	    	ViewPC viewPCPage = new ViewPC();
-	    	viewPCPage.show();
 		});
 
 
@@ -128,11 +125,6 @@ public class ViewPCDetail {
 		    String pc_condition = pcConditionInput.getText();
 
 		    PCController.updatePCCondition(pc_id, pc_condition);
-		    
-		    PC getNewUpdatePC = PCController.getPCDetail(pc_id);
-		    
-		    ViewPCDetail ViewPCDetail = new ViewPCDetail(getNewUpdatePC);
-		    ViewPCDetail.show();
 		});
 
 	}

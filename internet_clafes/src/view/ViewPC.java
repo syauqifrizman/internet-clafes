@@ -5,15 +5,19 @@ import java.util.ArrayList;
 import controller.JobController;
 import helper.Helper;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import main.MainStage;
 import model.User;
@@ -43,7 +47,28 @@ public class ViewPC {
 	}
 	
 	private void initTable() {
+		String usernameLogin = UserSession.getCurrentUsername();
+		String userRoleLogin = UserSession.getCurrentUserRole();
+		
+		HBox containerUsername = new HBox();
+		Label usernameLabel = new Label("Login as: ");
+		Label usernameLoginLabel = new Label(usernameLogin);
+		usernameLoginLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+		containerUsername.getChildren().addAll(usernameLabel, usernameLoginLabel);
+		
+		
+		HBox containerUserRole = new HBox();
+		Label UserRoleLabel = new Label("User Role as: ");
+		Label userRoleLoginLabel = new Label(userRoleLogin);
+		userRoleLoginLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+		containerUserRole.getChildren().addAll(UserRoleLabel, userRoleLoginLabel);
+		
+		
+		VBox containerHeader = new VBox(4);
+		containerHeader.getChildren().addAll(containerUsername, containerUserRole);
+		
 		VBox cont = new VBox();
+		
 		tv = new TableView<PC>();
 		
 		TableColumn<PC, Integer> id = new TableColumn<>("PC ID");
@@ -140,6 +165,10 @@ public class ViewPC {
 		tv.getColumns().add(action);
 		
 		Button addPCButton = new Button("ADD NEW PC");
+		VBox containerHeadButton = new VBox();
+		containerHeadButton.getChildren().add(addPCButton);
+		
+		containerHeadButton.setAlignment(Pos.TOP_RIGHT);
 		
 		addPCButton.setOnMouseClicked(e ->{
 			AddPC.getInstance().show();
@@ -147,16 +176,16 @@ public class ViewPC {
 		
 		switch(UserSession.getCurrentUserRole()) {
 			case "Customer":
-				cont.getChildren().addAll(MenuCustomer.createMenu(), tv);
+				cont.getChildren().addAll(MenuCustomer.createMenu(), containerHeader, tv);
 				break;
 			case "Computer Technician":
-				cont.getChildren().addAll(MenuComputerTechnician.createMenu(), tv);
+				cont.getChildren().addAll(MenuComputerTechnician.createMenu(), containerHeader, tv);
 				break;
 			case "Operator":
-				cont.getChildren().addAll(MenuOperator.createMenu(UserSession.getCurrentUser()), tv);
+				cont.getChildren().addAll(MenuOperator.createMenu(UserSession.getCurrentUser()), containerHeader, tv);
 				break;
 			case "Admin":
-				cont.getChildren().addAll(MenuAdmin.createMenu(), tv, addPCButton);
+				cont.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, containerHeadButton, tv);
 				break;
 			default:
 				Helper.showAlert(AlertType.ERROR, "Invalid role");
