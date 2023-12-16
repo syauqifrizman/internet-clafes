@@ -1,4 +1,4 @@
-package view;
+package view.customer;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,7 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.TransactionDetail;
 import model.UserSession;
+import view.MenuCustomer;
 
 public class TransactionHistory {
 	
@@ -71,8 +72,7 @@ public class TransactionHistory {
 	
 	private void repaint() {
 		tv.getItems().clear();
-		ArrayList<TransactionDetail> tdetails = TransactionController.getUserTransactionDetail(
-				UserSession.getCurrentUser().getUserID());
+		ArrayList<TransactionDetail> tdetails = TransactionController.getUserTransactionDetail(UserSession.getCurrentUser().getUserID());
 		for (TransactionDetail transactionDetail : tdetails) {
 			tv.getItems().add(transactionDetail);
 		}

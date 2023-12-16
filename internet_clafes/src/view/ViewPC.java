@@ -26,6 +26,7 @@ import model.UserSession;
 import repository.PCRepository;
 import view.admin.AddPC;
 import view.admin.ViewPCDetail;
+import view.customer.BookPC;
 
 public class ViewPC {
 	private Scene scene;

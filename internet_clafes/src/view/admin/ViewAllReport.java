@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -11,16 +11,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.Report;
+import view.MenuAdmin;
 
-public class ViewReport {
+public class ViewAllReport {
 	private Scene scene;
 	private TableView<Report> tv;
 	
-	public static ViewReport getInstance() {
-		return new ViewReport();
+	public static ViewAllReport getInstance() {
+		return new ViewAllReport();
 	}
 	
-	private ViewReport() {
+	private ViewAllReport() {
 		initTable();
 	}
 	

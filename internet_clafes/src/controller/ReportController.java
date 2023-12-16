@@ -15,18 +15,16 @@ public class ReportController {
 			Helper.showAlert(AlertType.ERROR, "PC ID can't be empty");
 			return false;
 		}
-		
-		if(PCController.getPCDetail(PcID)==null) {
+		else if(PCController.getPCDetail(PcID)==null) {
 			Helper.showAlert(AlertType.ERROR, "PC not found");
 			return false;
 		}
-		if(ReportNote.isBlank()) {
+		else if(ReportNote.isBlank()) {
 			Helper.showAlert(AlertType.ERROR, "Report Note can't be empty");
 			return false;
 		}
-		
-		if(!UserRole.equals("Customer") && !UserRole.equals("Technician")) {
-			Helper.showAlert(AlertType.ERROR, "Only Customer and Technician can make reports");
+		else if(!UserRole.equals("Customer") && !UserRole.equals("Operator")) {
+			Helper.showAlert(AlertType.ERROR, "Only Customer and Operator can make reports");
 			return false;
 		}
 		

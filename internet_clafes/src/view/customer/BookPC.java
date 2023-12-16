@@ -1,4 +1,4 @@
-package view;
+package view.customer;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PC;
 import model.User;
+import view.MenuCustomer;
+import view.ViewPC;
 
 public class BookPC {
 	public static User user;
