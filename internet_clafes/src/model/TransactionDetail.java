@@ -8,11 +8,18 @@ import repository.UserRepository;
 import sqlConnect.Connect;
 
 public class TransactionDetail {
+	
+	//mendeklarasikan atribut yang dibutuhkan oleh TransactionDetail
+	//id untuk setiap TransactionDetail
 	private Integer transactionID;
+	//id untuk pc
 	private Integer pc_ID;
+	//nama customer 
 	private String customerName;
+	//tanggal book
 	private String bookedTime;
 	
+	//membuat kontruksi kelas TransactionDetail sesuai atributnya
 	public TransactionDetail(Integer transactionID, Integer pc_ID, String customerName, String bookedTime) {
 		this.transactionID = transactionID;
 		this.pc_ID = pc_ID;
@@ -20,6 +27,9 @@ public class TransactionDetail {
 		this.bookedTime = bookedTime;
 	}
 
+	//karena atribut dibuat private maka tidak dapat diakses secara langsung oleh kelas luar
+	//maka untuk diakses kelas luar, dibutuhkan public getter(untuk mendapatkan atribut)
+	//dan setter untuk menaruh value ke atribut) untuk setiap atribut private
 	public Integer getTransactionID() {
 		return transactionID;
 	}
@@ -52,6 +62,7 @@ public class TransactionDetail {
 		this.bookedTime = bookedTime;
 	}
 
+	//method untuk mengambil data seluruh transaksi detail di transactionID tertentu dari database
 	public static ArrayList<TransactionDetail> getAllTransactionDetail(Integer transactionID) throws SQLException{
 		Connect db = Connect.getConnection();
 		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
@@ -80,6 +91,7 @@ public class TransactionDetail {
 		
 	}
 	
+	//method untuk mengambil data transaksi detail di userID tertentu dari database
 	public static ArrayList<TransactionDetail> getUserTransactionDetail(Integer userID) throws SQLException{
 		Connect db = Connect.getConnection();
 		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
@@ -107,6 +119,7 @@ public class TransactionDetail {
 		
 	}
 	
+	//method untuk menambahkan data transaksi detail di transactionID tertentu ke database
 	public static void addTransactionDetail(Integer transactionID, ArrayList<PCBook> pcbooks) throws SQLException {
 		Connect db = Connect.getConnection();
 		for (PCBook pcBook : pcbooks) {

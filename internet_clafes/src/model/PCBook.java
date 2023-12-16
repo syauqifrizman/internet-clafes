@@ -11,11 +11,17 @@ import sqlConnect.Connect;
 
 public class PCBook {
 
+	//mendeklarasikan atribut yang dibutuhkan oleh PCBook
+	//id unik untuk setiap book
 	private Integer bookID;
+	//id pc yang akan di book
 	private Integer pc_ID;
+	//id user(Customer) yang membooking pc
 	private Integer userID;
+	//tanggal pc tersebut di book oleh user
 	private Date bookedDate;
 	
+	//membuat kontruksi kelas PCBook sesuai atributnya
 	public PCBook(Integer bookID, Integer pc_ID, Integer userID, Date bookedDate2) {
 		this.bookID = bookID;
 		this.pc_ID = pc_ID;
@@ -23,6 +29,9 @@ public class PCBook {
 		this.bookedDate = bookedDate2;
 	}
 	
+	//karena atribut dibuat private maka tidak dapat diakses secara langsung oleh kelas luar
+	//maka untuk diakses kelas luar, dibutuhkan public getter(untuk mendapatkan atribut)
+	//dan setter untuk menaruh value ke atribut) untuk setiap atribut private
 	public Integer getBookID() {
 		return bookID;
 	}
@@ -55,6 +64,7 @@ public class PCBook {
 		this.bookedDate = bookedDate;
 	}
 
+	//method untuk menghapus bookdata berdasarkan bookid dari database
 	public static void deleteBookData(Integer bookID) throws SQLException {
 		Connect db = Connect.getConnection();
 		
@@ -65,6 +75,7 @@ public class PCBook {
 		ps.executeUpdate();
 	}
 	
+	//method untuk mengambil data berdasarkan pc id dan tanggalnya dari database
 	public static PCBook getPCBookedData(Integer pc_ID, Date date) throws SQLException{
 		Connect db = Connect.getConnection();
 		
@@ -89,6 +100,7 @@ public class PCBook {
 		return pcbook;
 	}
 	
+	//method untuk mengambil data berdasarkan book id dari database
 	public static PCBook getPCBookedDetail(Integer bookID) throws SQLException{
 		Connect db = Connect.getConnection();
 		
@@ -113,6 +125,7 @@ public class PCBook {
 		return pcbook;
 	}
 	
+	//method untuk menambahkan book dengan pc id, user id, dan tanggalnya dari database/query
 	public static void addNewBook(Integer pc_ID, Integer userID, Date bookedDate) throws SQLException {
 		Connect db = Connect.getConnection();
 		
@@ -125,6 +138,8 @@ public class PCBook {
 		ps.executeUpdate();
 	}
 	
+	//method untuk menyelesaikan book
+	//method ini akan meambahkan book data ke transaksi dan menghapus book data 
 	public static void finishBook(ArrayList<PCBook> pcbooks, Integer StaffID) throws SQLException {
 		TransactionController.AddTransaction(pcbooks, StaffID);
 		for (PCBook pcBook : pcbooks) {
@@ -132,6 +147,7 @@ public class PCBook {
 		}
 	}
 	
+	//method untuk mendapat setiap book data yang ada dari database
 	public static ArrayList<PCBook> getAllPCBookedData() throws SQLException{
 		Connect db = Connect.getConnection();
 		ArrayList<PCBook> pcbooks = new ArrayList<PCBook>();
@@ -160,6 +176,7 @@ public class PCBook {
 		
 	}
 	
+	//method untuk mendapat setiap book data yang ada di tanggal tertentu dari database
 	public static ArrayList<PCBook> getPCBookedByDate(Date selectedDate) throws SQLException{
 		Connect db = Connect.getConnection();
 		ArrayList<PCBook> pcbooks = new ArrayList<>();
@@ -184,6 +201,8 @@ public class PCBook {
 		
 	}
 	
+	//method untuk memindahkan user ke pc lain yang kosong dari databse
+	//method ini akan mengubah pd id berdasarkan pc id baru dan book id di book data pcbooks 
 	public static void assignUsertoNewPC(Integer bookID, Integer newPCID) throws SQLException {
 		Connect db = Connect.getConnection();
 		
@@ -195,6 +214,8 @@ public class PCBook {
 		ps.executeUpdate();
 	}
 	
+	
+	//method untuk mengambil data berdasarkan pc id dari database
 	public static PCBook getPCBookedByID(Integer pcID) throws SQLException{
 		Connect db = Connect.getConnection();
 		

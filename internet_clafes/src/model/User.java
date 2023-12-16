@@ -9,12 +9,19 @@ import sqlConnect.Connect;
 
 public class User {
 
+	//mendeklarasikan atribut yang dibutuhkan oleh User
+	//id unik untuk setiap User
 	private Integer userID;
+	//nama dari user
 	private String userName;
+	//password user ersebut
 	private String userPassword;
+	//umut user
 	private Integer userAge;
+	//role user "Admin", "Operator", "Computer Technician", "Customer"
 	private String userRole;
 	
+	//membuat kontruksi kelas User sesuai atributnya
 	public User(Integer userID, String userName, String userPassword, Integer userAge, String userRole) {
 		this.userID = userID;
 		this.userName = userName;
@@ -22,7 +29,7 @@ public class User {
 		this.userAge = userAge;
 		this.userRole = userRole;
 	}
-	
+	//membuat kontruksi kelas User sesuai atributnya kecuali password
 	public User(Integer userID, String userName, Integer userAge, String userRole) {
 		this.userID = userID;
 		this.userName = userName;
@@ -30,6 +37,7 @@ public class User {
 		this.userRole = userRole;
 	}
 	
+	//membuat kontruksi kelas User sesuai atributnya kecuali id dan role
 	public User(String userName, String userPassword, Integer userAge) {
 		this.userName = userName;
 		this.userPassword = userPassword;
@@ -40,6 +48,9 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
+	//karena atribut dibuat private maka tidak dapat diakses secara langsung oleh kelas luar
+	//maka untuk diakses kelas luar, dibutuhkan public getter(untuk mendapatkan atribut)
+	//dan setter untuk menaruh value ke atribut) untuk setiap atribut private
 	public Integer getUserID() {
 		return userID;
 	}
@@ -80,6 +91,7 @@ public class User {
 		this.userRole = userRole;
 	}
 
+	//method untuk mengambil data dari seluruh User yang ada dari database
 	public static ArrayList<User> getAllUserData() throws SQLException{
 		ArrayList<User> users = new ArrayList<User>();
 		Connect db = Connect.getConnection();
@@ -108,6 +120,7 @@ public class User {
 		return users;
 	}
 	
+	//method untuk mengecek apakah username tersebut ada di database
 	public static boolean isUsernameExist(String username) throws SQLException {
 		Connect db = Connect.getConnection();
 		
@@ -123,6 +136,7 @@ public class User {
 		return isExist;
 	}
 	
+	//method untuk mengambil data dari User berdasarkan nama dan password dari database
 	public static User getUserData(String username, String password) throws SQLException{
 		Connect db = Connect.getConnection();
 		
@@ -153,6 +167,7 @@ public class User {
 		return user;
 	}
 	
+	//method untuk menambahkan user baru dengan role Cutomer ke database
 	public static void AddNewUser(String username, String password, Integer age) throws SQLException {
 		Connect db = Connect.getConnection();
 		
@@ -167,6 +182,7 @@ public class User {
 		ps.executeUpdate();
 	}
 
+	//method untuk mengubah role berdasarka id user dan role barunya dari database
 	public static void ChangeUserRole(int id, String role) throws SQLException {
 		Connect db = Connect.getConnection();
 		
@@ -178,6 +194,7 @@ public class User {
 		ps.executeUpdate();
 	}
 	
+	//method untuk mengambil seluruh data dari User yang memiliki role "Computer Technician" dari database
 	public static ArrayList<User> getAllTechnician() throws SQLException{
 		ArrayList<User> users = new ArrayList<User>();
 		Connect db = Connect.getConnection();

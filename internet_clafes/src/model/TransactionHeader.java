@@ -9,11 +9,18 @@ import repository.UserRepository;
 import sqlConnect.Connect;
 
 public class TransactionHeader {
+	
+	//mendeklarasikan atribut yang dibutuhkan oleh TransactionHeader
+	//id unik untuk setiap TransactionHeader
 	private Integer transactionID;
+	//id staff(operator) yang menyelesaikan book customer
 	private Integer staffID;
+	//nama staff(operator) yang menyelesaikan book customer
 	private String staffName;
+	//tanggal transaksi
 	private String transactionDate;
 	
+	//membuat kontruksi kelas TransactionHeader sesuai atributnya
 	public TransactionHeader(Integer transactionID, Integer staffID, String staffName, String transactionDate) {
 		this.transactionID = transactionID;
 		this.staffID = staffID;
@@ -21,6 +28,9 @@ public class TransactionHeader {
 		this.transactionDate = transactionDate;
 	}
 
+	//karena atribut dibuat private maka tidak dapat diakses secara langsung oleh kelas luar
+	//maka untuk diakses kelas luar, dibutuhkan public getter(untuk mendapatkan atribut)
+	//dan setter untuk menaruh value ke atribut) untuk setiap atribut private
 	public Integer getTransactionID() {
 		return transactionID;
 	}
@@ -53,6 +63,7 @@ public class TransactionHeader {
 		this.transactionDate = transactionDate;
 	}
 	
+	//method untuk mengambil data dari seluruh TransactionHeader dari database
 	public static ArrayList<TransactionHeader> getAllTransactionHeaderData() throws SQLException{
 		ArrayList<TransactionHeader> theaders = new ArrayList<TransactionHeader>();
 		Connect db = Connect.getConnection();
@@ -79,6 +90,7 @@ public class TransactionHeader {
 		return theaders;
 	}
 	
+	//method untuk menambahkan TransactionHeader baru ke database
 	public static void addNewTransactionHeader(Integer staffID, String transactionDate) throws SQLException {
 		Connect db = Connect.getConnection();
 		
@@ -92,6 +104,7 @@ public class TransactionHeader {
 		
 	}
 	
+	//method untuk mengambil id TransactionHeader terakhir dari database
 	public static Integer peekLastID() throws SQLException {
 		Connect db = Connect.getConnection();
 		

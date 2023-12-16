@@ -2,11 +2,17 @@ package model;
 
 public class Job {
 	
+	//mendeklarasikan atribut yang dibutuhkan oleh job
+	//id unik untuk setiap job
 	private Integer job_ID;
+	//id user(Computer Technician) yang seharusnya melakukan tugas ini
 	private Integer userID;
+	//id pc untuk pekerjaan ini
 	private Integer pc_ID;
+	//status job "Complete" selesai dikerjakan atau "UnComplete" belum dikerjakan
 	private String jobStatus;
 	
+	//membuat kontruksi kelas job sesuai atributnya
 	public Job(Integer job_ID, Integer userID, Integer pc_ID, String jobStatus) {
 		this.job_ID = job_ID;
 		this.userID = userID;
@@ -18,6 +24,9 @@ public class Job {
 		// TODO Auto-generated constructor stub
 	}
 
+	//karena atribut dibuat private maka tidak dapat diakses secara langsung oleh kelas luar
+	//maka untuk diakses kelas luar, dibutuhkan public getter(untuk mendapatkan atribut)
+	//dan setter(untuk menaruh value ke atribut) untuk setiap atribut private
 	public Integer getJob_ID() {
 		return job_ID;
 	}
