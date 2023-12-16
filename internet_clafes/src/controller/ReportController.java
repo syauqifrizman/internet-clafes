@@ -10,27 +10,27 @@ import model.Report;
 
 public class ReportController {
 	
-	public static boolean addNewReport(String UserRole, String PcID, String ReportNote) {
-		if(PcID.isEmpty()) {
+	public static boolean addNewReport(String userRole, String pcID, String reportNote) {
+		if(pcID.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "PC ID can't be empty");
 			return false;
 		}
-		else if(PCController.getPCDetail(PcID)==null) {
+		else if(PCController.getPCDetail(pcID)==null) {
 			Helper.showAlert(AlertType.ERROR, "PC not found");
 			return false;
 		}
-		else if(ReportNote.isBlank()) {
+		else if(reportNote.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Report Note can't be empty");
 			return false;
 		}
-		else if(!UserRole.equals("Customer") && !UserRole.equals("Operator")) {
+		else if(!userRole.equals("Customer") && !userRole.equals("Operator")) {
 			Helper.showAlert(AlertType.ERROR, "Only Customer and Operator can make reports");
 			return false;
 		}
 		
 		try {
-			Report.addNewReport(UserRole, Integer.parseInt(PcID), ReportNote);
-			PCController.updatePCCondition(PcID, "Broken");
+			Report.addNewReport(userRole, Integer.parseInt(pcID), reportNote);
+//			PCController.updatePCCondition(pcID, "Broken");
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			Helper.showAlert(AlertType.ERROR, "Error Adding Report");
@@ -40,6 +40,7 @@ public class ReportController {
 			Helper.showAlert(AlertType.ERROR, "Error Adding Report");
 			return false;
 		}
+		
 		return true;
 	}
 	

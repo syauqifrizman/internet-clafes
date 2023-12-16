@@ -1,9 +1,6 @@
 package view;
 
-import java.sql.SQLException;
-
 import controller.ReportController;
-import controller.UserController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +10,6 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PC;
 import model.User;
-import model.UserSession;
 
 public class ReportPC {
 	public static User user;

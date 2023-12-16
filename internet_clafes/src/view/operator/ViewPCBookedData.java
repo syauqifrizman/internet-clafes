@@ -1,4 +1,4 @@
-package view;
+package view.operator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,10 +23,12 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PCBook;
 import model.User;
+import view.MenuOperator;
+import view.ViewPC;
 
-public class PCBookedData {
+public class ViewPCBookedData {
 	
-	private static PCBookedData pcBookedData;
+	private static ViewPCBookedData pcBookedData;
 	private static User user;
 	private Scene scene;
 	private TableView<PCBook> tv;
@@ -34,12 +36,12 @@ public class PCBookedData {
 	private Label newPCTitle;
 	private TextField newPCInput;
 	
-	public static PCBookedData getInstance(User staff) {
+	public static ViewPCBookedData getInstance(User staff) {
 		user = staff;
-		return new PCBookedData();
+		return new ViewPCBookedData();
 	}
 	
-	private PCBookedData() {
+	private ViewPCBookedData() {
 		initTable();
 	}
 	
@@ -94,9 +96,12 @@ public class PCBookedData {
                     {
                         	cancelButton.setOnAction((ActionEvent event) -> {
                             PCBook pcbook = getTableView().getItems().get(getIndex());
-                            PcBookController.DeleteBookData(pcbook.getBookID());
-                            ViewPC viewpc = ViewPC.getInstance();
-    						viewpc.show();
+                            try {
+								PcBookController.DeleteBookData(pcbook.getBookID());
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
                         });
                         
                         	finishButton.setOnAction((ActionEvent event) -> {
@@ -104,8 +109,6 @@ public class PCBookedData {
                             ArrayList<PCBook> pcbooks = new ArrayList<PCBook>();
                             pcbooks.add(pcbook);
                             PcBookController.finishBook(pcbooks, user.getUserID());
-                            ViewPC viewpc = ViewPC.getInstance();
-    						viewpc.show();
                         });
                     }       
                     @Override
@@ -141,7 +144,7 @@ public class PCBookedData {
 	        }
 	    });
 		HBox searchBox = new HBox(datePicker);
-        cont.getChildren().addAll(MenuOperator.createMenu(user), searchBox,additionalControls, tv);
+        cont.getChildren().addAll(MenuOperator.createMenu(user), searchBox, additionalControls, tv);
 		
 		scene = new Scene(cont, 800, 600);
     }
@@ -166,8 +169,7 @@ public class PCBookedData {
 	private void handleChangePC(PCBook pcBook) throws SQLException {
 	    try {
 	        Integer newPCID = Integer.parseInt(newPCInput.getText().trim());
-	        PcBookController.assignUsertoNewPC(pcBook.getBookID(), newPCID, 
-	        		pcBook.getBookedDate());
+	        PcBookController.assignUsertoNewPC(pcBook.getBookID(), newPCID, pcBook.getBookedDate());
 	        repaint(); // Refresh the table after the change
 	    } catch (NumberFormatException e) {
 	    	Helper.showAlert(AlertType.ERROR, "Invalid PC ID. Please enter a valid number.");

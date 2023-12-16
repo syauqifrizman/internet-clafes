@@ -10,35 +10,51 @@ import helper.Helper;
 import javafx.scene.control.Alert.AlertType;
 import model.PC;
 import model.PCBook;
+import view.ViewPC;
 
 public class PcBookController {
-	public static boolean DeleteBookData(int BookID) {
+	public static boolean DeleteBookData(int bookID) throws SQLException {
+		PCBook getPCBook = PCBook.getPCBookedDetail(bookID);	
+		
+		LocalDate bookedLocalDate = getPCBook.getBookedDate().toLocalDate();
+		if(bookedLocalDate.isBefore(LocalDate.now())) {
+			String errorMSG = "Unable to cancel booking_id: " + getPCBook.getBookID().toString() + " because the date has passed";
+			Helper.showAlert(AlertType.ERROR, errorMSG);
+			return false;
+		}
+		
+		
 		try {
-			PCBook.deleteBookData(BookID);
+			PCBook.deleteBookData(bookID);
+			
+			String successMSG = "Success cancel booking_id: " + bookID + ", booking by user_id: " + getPCBook.getUserID() + ", at the pc_id: " + getPCBook.getPc_ID();
+			Helper.showAlert(AlertType.INFORMATION, successMSG);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			Helper.showAlert(AlertType.ERROR, "Error Deleting record");
 			return false;
 		}
+        ViewPC viewpc = ViewPC.getInstance();
+		viewpc.show();
 		return true;
 	}
 	
-	public static PCBook getPCBookedData(int PcID, Date date) throws SQLException {
-		return PCBook.getPCBookedData(PcID, date);
+	public static PCBook getPCBookedData(int pcID, Date date) throws SQLException {
+		return PCBook.getPCBookedData(pcID, date);
 	}
 	
-	public static boolean assignUsertoNewPC(int BookID, Integer NewPCID, Date date) throws SQLException {
-		if(NewPCID == 0) {
+	public static boolean assignUsertoNewPC(int bookID, Integer newPCID, Date date) throws SQLException {
+		if(newPCID == 0) {
 			Helper.showAlert(AlertType.ERROR, "PC ID must be filled");
 			return false;
 		}
 		
-		if(PCBook.getPCBookedData(NewPCID, date)!=null) {
+		if(PCBook.getPCBookedData(newPCID, date)!=null) {
 			Helper.showAlert(AlertType.ERROR, "PC has been booked for that day");
 			return false;
 		}
 		
-		PC getPC = PCController.getPCDetail(NewPCID.toString());
+		PC getPC = PCController.getPCDetail(newPCID.toString());
 		if(!getPC.getPc_condition().equals("Usable")) {
 			String condition = "PC ID: " +  getPC.getPc_ID().toString() + ", condition is " + getPC.getPc_condition() + ", pc can't be booked right now";
 			Helper.showAlert(AlertType.ERROR, condition);
@@ -46,7 +62,7 @@ public class PcBookController {
 		}
 		
 		try {
-			PCBook.assignUsertoNewPC(BookID, NewPCID);
+			PCBook.assignUsertoNewPC(bookID, newPCID);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			Helper.showAlert(AlertType.ERROR, "Error assigning user");
@@ -55,18 +71,18 @@ public class PcBookController {
 		return true;
 	}
 	
-	public PCBook getPCBookedDetail(int BookID) throws SQLException {
-		return PCBook.getPCBookedDetail(BookID);
+	public PCBook getPCBookedDetail(int bookID) throws SQLException {
+		return PCBook.getPCBookedDetail(bookID);
 	}
 	
-	public static boolean addNewBook(String PcID, Integer UserID, Date bookedDate) throws SQLException {
-		PC getPC = PCController.getPCDetail(PcID);
+	public static boolean addNewBook(String pcID, Integer userID, Date bookedDate) throws SQLException {
+		PC getPC = PCController.getPCDetail(pcID);
 		if(!getPC.getPc_condition().equals("Usable")) {
 			String condition = "PC ID: " +  getPC.getPc_ID().toString() + ", condition is " + getPC.getPc_condition() + ", pc can't be booked right now. Please return to the home page (accessible in the menu bar)";
 			Helper.showAlert(AlertType.ERROR, condition);
 			return false;
 		}
-		else if(PcID.isEmpty()) {
+		else if(pcID.isEmpty()) {
 			Helper.showAlert(AlertType.ERROR, "Please choose a PC");
 			return false;
 		}
@@ -80,23 +96,25 @@ public class PcBookController {
 			Helper.showAlert(AlertType.ERROR, "You can't book the PC before today");
 			return false;
 		}
-		else if(PCBook.getPCBookedData(Integer.parseInt(PcID), bookedDate)!=null) {
+		else if(PCBook.getPCBookedData(Integer.parseInt(pcID), bookedDate)!=null) {
 			Helper.showAlert(AlertType.ERROR, "PC has been booked for that day");
 			return false;
 		}
 		
-		PCBook.addNewBook(Integer.parseInt(PcID), UserID, bookedDate);
+		PCBook.addNewBook(Integer.parseInt(pcID), userID, bookedDate);
 		return true;
 		
 	}
 	
-	public static boolean finishBook(ArrayList<PCBook> pcbooks, Integer StaffID) {
+	public static boolean finishBook(ArrayList<PCBook> pcbooks, Integer staffID) {
 		try {
-			PCBook.finishBook(pcbooks, StaffID);
+			PCBook.finishBook(pcbooks, staffID);
 		} catch (SQLException e) {
 			Helper.showAlert(AlertType.ERROR, "Error finish booking");
 			return false;
 		}
+        ViewPC viewpc = ViewPC.getInstance();
+		viewpc.show();
 		return true;
 	}
 	

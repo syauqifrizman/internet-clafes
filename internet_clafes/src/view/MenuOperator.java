@@ -7,6 +7,7 @@ import javafx.scene.control.MenuItem;
 import model.User;
 import model.UserSession;
 import view.login_register.Login;
+import view.operator.ViewPCBookedData;
 
 public class MenuOperator {
 	public static User user;
@@ -50,7 +51,7 @@ public class MenuOperator {
     private static void navigateToPCBookedData() {
         // Implement logic to navigate to the "Transaction History" page
     	User staffBook = user; 
-    	PCBookedData pcBookedData = PCBookedData.getInstance(staffBook);
+    	ViewPCBookedData pcBookedData = ViewPCBookedData.getInstance(staffBook);
     	pcBookedData.show();
     }
     
