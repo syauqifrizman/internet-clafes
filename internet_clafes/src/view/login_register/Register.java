@@ -28,6 +28,7 @@ public class Register {
 		addEventListener();
 	}
 	
+	//deklarasi label, textfield, dll
 	private Scene scene;
 	private VBox vb;
 	private Label registerTitle, usernameTitle, passwordTitle, ageTitle, confTitle;
@@ -43,6 +44,8 @@ public class Register {
 
 	private void initialize() {
 		vb = new VBox(10);
+		
+		//instansaisi dan definisi dari label, textfield, dll yang sudah dibuat
 		registerTitle = new Label("Register");
 		usernameTitle = new Label("Username");
 		passwordTitle = new Label("Password");
@@ -59,6 +62,7 @@ public class Register {
 		registerButton = new Button("Register");
 		loginHyperlink = new Hyperlink("Already have an account? Login Here!");
 		
+		//memasukkan label dll ke layar
 		vb.getChildren().addAll(registerTitle, usernameTitle, usernameInput, passwordTitle, 
 				passwordInput, confTitle, confInput, ageTitle, ageInput, registerButton, loginHyperlink);
 		registerTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
@@ -67,16 +71,21 @@ public class Register {
 		scene = new Scene(vb, 800, 600);
 	}
 	
+	//method berisi fungsionalitas button
 	private void addEventListener() {
 		registerButton.setOnMouseClicked(e -> {
+			
+			//mendapatkan input user dan dimasukkan ke temp var
 			String username = usernameInput.getText();
 			String password = passwordInput.getText();
 			String age = ageInput.getText();
 			String confpass = confInput.getText();
 			String statusRegister = "";
 			
+			//saat tombol Register diklik, input user akan digunakan sebagai parameter untuk membuat user baru
 			statusRegister = UserController.AddNewUser(username, password, age, confpass);
 			
+			//memunculkan prompt jika gagal/sukses
 			if(statusRegister.equals("Registration Successful")) {
 				Helper.showAlert(AlertType.INFORMATION, statusRegister);
 				Login login = Login.getInstance();
@@ -92,6 +101,7 @@ public class Register {
 		});
 		
 		loginHyperlink.setOnAction(e -> {
+			//jika tombol login diklik, user akan diarahkan ke laman login
 			Login loginPage = Login.getInstance();
 			loginPage.show();
 		});

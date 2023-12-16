@@ -45,14 +45,23 @@ public class BookPC {
 		mainStage.getStage().setScene(scene);
 	}
 	
+	//memunculkan isi dari page
 	private void bookWindow() {
 		vb = new VBox();
 		vb.setPadding(new Insets(50, 50, 50, 50));
 	    vb.setSpacing(10);
+	    
+	    //Username
 		userID = new Label("Username: " + user.getUserName());
+		
+		//PC ID
 		pcID = new Label("PC ID: " + pc.getPc_ID());
+		
+		//Pemilihan tanggal
 		dateLabel = new Label("Pick Date:");
 		dateP = new DatePicker();
+		
+		//tombol Book
 		bookButton = new Button("Book");
 		
 		vb.getChildren().addAll(MenuCustomer.createMenu(), userID, pcID, dateLabel, dateP, bookButton);
@@ -61,9 +70,12 @@ public class BookPC {
 	}
 	
 	private void addEventListener() {
+		
+		//fungsionalitas tombol Book
 		bookButton.setOnMouseClicked(e -> {
-			Date bookedDate = java.sql.Date.valueOf(dateP.getValue());
+			Date bookedDate = java.sql.Date.valueOf(dateP.getValue()); //mengambil value dari date picker
 			
+			//menambah booking baru dengan memanggil controller
 			try {
 				Boolean addStatus = PcBookController.addNewBook(pc.getPc_ID().toString(), user.getUserID(), bookedDate);
 				if(addStatus) {
