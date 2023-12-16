@@ -8,6 +8,7 @@ import model.User;
 import model.UserSession;
 import view.login_register.Login;
 import view.operator.ViewPCBookedData;
+import view.operator.ViewPCBookedData2;
 
 public class MenuOperator {
 	public static User user;
@@ -20,6 +21,10 @@ public class MenuOperator {
 
         // Create an Actions menu with menu items
         Menu mainMenu = new Menu("Menu");
+        
+        // "test view pc booked"
+        MenuItem testViewPCBooked = new MenuItem("Test View PC Booked");
+        testViewPCBooked.setOnAction(e -> test());
         
         // "Home" menu item
         MenuItem homeMenuItem = new MenuItem("Home");
@@ -34,7 +39,7 @@ public class MenuOperator {
         logoutMenuItem.setOnAction(e -> handleLogout());
 
         // Add menu items to the Actions menu
-        mainMenu.getItems().addAll(homeMenuItem, PCBookedDataMenuItem, logoutMenuItem);
+        mainMenu.getItems().addAll(testViewPCBooked, homeMenuItem, PCBookedDataMenuItem, logoutMenuItem);
 
         // Add the Actions menu to the menu bar
         menuBar.getMenus().add(mainMenu);
@@ -42,6 +47,12 @@ public class MenuOperator {
         // return menubar
         return menuBar;
     }
+	
+	private static void test() {
+		User staffBook = user; 
+		ViewPCBookedData2 viewpcbooked2 = ViewPCBookedData2.getInstance(staffBook);
+		viewpcbooked2.show();
+	}
     
     private static void navigateToHome() {
         // Implement logic to navigate to the "View All PC" page
