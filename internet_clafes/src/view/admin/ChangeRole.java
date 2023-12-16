@@ -25,8 +25,6 @@ public class ChangeRole {
 	Scene scene;
 	Button ChangeRoleButton, BackButton;
 	private TextField newRoleInput;
-	private Label currentRole;
-
 	
 	private void _setScene(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -52,6 +50,7 @@ public class ChangeRole {
 		mainStage.getStage().setScene(scene);
 	}
 	
+	//method untuk 'menggambar' label, text field, dkk
 	private void initialize(User user) {
 	    VBox container = new VBox(20);  // Set vertical spacings between elements
 	    container.setPadding(new Insets(50, 20, 20, 20));  // Set padding
@@ -69,7 +68,7 @@ public class ChangeRole {
 	    containerUserID.getChildren().addAll(userIDLabel, currentUserID);
 	    
 	    //  Username
-	    Label usernameLabel = new Label("Userame: ");
+	    Label usernameLabel = new Label("Username: ");
 	    Label currentUsername = new Label(user.getUserName());
 	    currentUsername.setFont(Font.font("Arial", FontWeight.BOLD, 12));
 	    
@@ -88,6 +87,7 @@ public class ChangeRole {
 	    Label newRoleLabel = new Label("New Role: ");
 	    newRoleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
 	    
+	    //Text field untuk memasukkan Role baru
 	    newRoleInput = new TextField();
 		newRoleInput.setPromptText("Input New Role for this user");
 	    
@@ -111,13 +111,16 @@ public class ChangeRole {
 	    scene = new Scene(container, 800, 600);
 	}
 
-	
+	//method fungsionalitas dari Change Role button
 	private void addEventListener(User user) {
+		
+		//saat diklik, role dari User akan langsung diganti
 		ChangeRoleButton.setOnMouseClicked(e ->{
 			String newRole = newRoleInput.getText();
 			UserController.changeUserRole(user.getUserID(), newRole);
 			
 			try {
+				//setelah role diganti, laman akan di refresh sehingga memunculkan data yang baru
 				User newUser = UserController.getUserData(user.getUserName(), user.getUserPassword());
 				ChangeRole changeRole = ChangeRole.getInstance(newUser);
 				changeRole.show();
@@ -128,6 +131,8 @@ public class ChangeRole {
 			
 			
 		});
+		
+		//button agar bisa kembali ke laman View Staff
 		BackButton.setOnMouseClicked(e ->{
 			ViewAllStaff viewStaff = ViewAllStaff.getInstance();
 	    	viewStaff.show();

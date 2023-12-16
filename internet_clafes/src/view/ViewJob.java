@@ -3,7 +3,6 @@ package view;
 import java.util.ArrayList;
 
 import controller.JobController;
-import controller.TransactionController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,6 +23,7 @@ import repository.JobRepository;
 
 public class ViewJob {
 	
+	//declare items2 
 	private TableView<Job> tv;
 	private Scene scene;
 	private VBox cont;
@@ -48,8 +48,10 @@ public class ViewJob {
 		cont = new VBox();
 		jobsLabel = new Label("Jobs");
 		
+		//buat table data berdasarkan model Job
 		tv = new TableView<Job>();
 		
+		//membuat kolom2 nya
 		TableColumn<Job, Integer> id = new TableColumn<>("Job ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("job_ID"));
 
@@ -62,20 +64,27 @@ public class ViewJob {
 		TableColumn<Job, String> stat = new TableColumn<>("Job Status");
 		stat.setCellValueFactory(new PropertyValueFactory<>("jobStatus"));
 		
+		//membuat column dengan button
 		TableColumn<Job, Void> detail = new TableColumn<>("Update Job");
 		Callback<TableColumn<Job, Void>, TableCell<Job, Void>> 
 		cellFactory = new Callback<TableColumn<Job, Void>, TableCell<Job, Void>>() {
 		    @Override
 		    public TableCell<Job, Void> call(final TableColumn<Job, Void> param) {
 		        final TableCell<Job, Void> cell = new TableCell<Job, Void>() {
-
+		        	 //declare button nya
 		            private final Button updateButton = new Button("Finish Job");
 
 
 		            {
+		            	//fungsionalitas tombol update Job. 
 		                updateButton.setOnAction((ActionEvent event) -> {
+		                	//mengambil data dari row
 	                        Job job = getTableView().getItems().get(getIndex());
+	                        
+	                        //melakukan job update dengan memanggil controller
 	                        JobController.updateJobStatus(job.getJob_ID().toString(), "Complete");
+	                        
+	                        //refresh table
 	                        repaint();
 		                });
 		            }
@@ -100,15 +109,18 @@ public class ViewJob {
 		
 		jobsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
+		//memasukkan kolom2 ke dalam tabel
 		tv.getColumns().add(id);
 		tv.getColumns().add(user);
 		tv.getColumns().add(pc);
 		tv.getColumns().add(stat);
 		tv.getColumns().add(detail);
 		
+		//jika role User adalah Computer Technician, maka akan memunculkan menu bar Computer Technician
 		if(UserSession.getCurrentUserRole().equals("Computer Technician")) {
 			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), jobsLabel, tv);
 		}
+		//jika role User adalah Admin, maka akan memunculkan menu bar Admin
 		else if(UserSession.getCurrentUserRole().equals("Admin")) {
 			cont.getChildren().addAll(MenuAdmin.createMenu(), jobsLabel, tv);
 		}
@@ -116,9 +128,14 @@ public class ViewJob {
 		scene = new Scene(cont, 800, 600);
 	}
 	
+	//method untuk 'refresh' table
 	private void repaint() {
 		tv.getItems().clear();
+		
+		//ambil data dari database
 		ArrayList<Job> jobs = JobRepository.getAllJobData();
+		
+		//isi table per row nya
 		for (Job job : jobs) {
 			tv.getItems().add(job);
 		}

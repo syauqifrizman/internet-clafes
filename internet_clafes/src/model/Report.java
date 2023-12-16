@@ -76,26 +76,31 @@ public class Report {
 
 	//method untuk membuat report baru ke database
 	public static void addNewReport(String role, Integer pc_ID, String reportNote) throws SQLException {
-		Connect db = Connect.getConnection();
+		Connect db = Connect.getConnection(); //untuk mendapatkan koneksi ke database
 		
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("INSERT INTO `report` VALUES (?, ?, ?, ?, ?)");
 		
+		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, 0);
 		ps.setString(2, role);
 		ps.setInt(3, pc_ID);
 		ps.setString(4, reportNote);
 		ps.setDate(5, Date.valueOf(java.time.LocalDate.now()));
 		
+		//menjalankan query
 		ps.executeUpdate();
 	}
 	
 	//method untuk mendapatkan data dari semua report yang ada dari database
 	public static ArrayList<Report> getAllReportData() throws SQLException{
-		ArrayList<Report> reports = new ArrayList<Report>();
-		Connect db = Connect.getConnection();
+		ArrayList<Report> reports = new ArrayList<Report>(); //membuat arraylist kosong untuk menampung data
+		Connect db = Connect.getConnection(); //mendapatkan koneksi ke database
 		
+		//membuat query
 		PreparedStatement ps = db.prepareStatement("SELECT * FROM `report`");
 		
+		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
@@ -105,17 +110,19 @@ public class Report {
 			String note;
 			String date;
 			
+			//hasil yang sudah diambil dimasukkan ke variabel sementara
 			id = rs.getInt(1);
 			role = rs.getString(2);
 			pcID = rs.getInt(3);
 			note = rs.getString(4);
 			date = rs.getDate(5).toString();
 			
+			//dari variabel sementara, dibuat sebuah object Report baru
 			Report report = new Report(id, role, pcID, note, date);
-			reports.add(report);
+			reports.add(report); //object tersebut dimasukkan ke arraylist kosong yang sudah dibuat
 		}
 		
-		return reports;
+		return reports; //araylist yang sudah dibuat akan di-return
 	}
 	
 }
