@@ -4,7 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import model.UserSession;
+import controller.UserSessionController;
 import view.ViewPC;
 import view.customer.TransactionHistory;
 import view.login_register.Login;
@@ -56,7 +56,7 @@ public class MenuCustomer{
 
     private static void handleLogout() {
         // Add logic for handling logout
-    	UserSession.logout();
+    	UserSessionController.logout();
     	Login loginPage = new Login();
 		loginPage.show();
     }

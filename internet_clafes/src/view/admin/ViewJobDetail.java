@@ -18,12 +18,8 @@ import javafx.stage.Stage;
 import main.MainStage;
 import model.Job;
 import model.PC;
-import model.UserSession;
-import view.ViewPC;
+import controller.UserSessionController;
 import view.menu.MenuAdmin;
-import view.menu.MenuComputerTechnician;
-import view.menu.MenuCustomer;
-import view.menu.MenuOperator;
 
 public class ViewJobDetail {
 	
@@ -96,14 +92,14 @@ public class ViewJobDetail {
 	    jobStatusInput.setPromptText("Insert Current Job Status");
 
 	    // Add elements to the container
-	    if(UserSession.getCurrentUserRole().equals("Admin")) {
+	    if(UserSessionController.getCurrentUserRole().equals("Admin")) {
 	    	container.getChildren().add(MenuAdmin.createMenu());
 	    }
 	
 	    
 	    container.getChildren().addAll(pageTitle, containerPCID, containerJobStatus, statusTitle, jobStatusInput);
 	    
-	    if(UserSession.getCurrentUser().getUserRole().equals("Admin")) {
+	    if(UserSessionController.getCurrentUser().getUserRole().equals("Admin")) {
 	    	container.getChildren().add(containerButton);
 	    }
 

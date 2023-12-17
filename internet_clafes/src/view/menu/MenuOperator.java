@@ -5,11 +5,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.User;
-import model.UserSession;
+import controller.UserSessionController;
 import view.ViewPC;
 import view.login_register.Login;
 import view.operator.ViewPCBookedData;
-import view.operator.ViewPCBookedData2;
 
 public class MenuOperator {
 	public static User user;
@@ -22,10 +21,6 @@ public class MenuOperator {
 
         // Create an Actions menu with menu items
         Menu mainMenu = new Menu("Menu");
-        
-        // "test view pc booked"
-        MenuItem testViewPCBooked = new MenuItem("Test View PC Booked");
-        testViewPCBooked.setOnAction(e -> test());
         
         // "Home" menu item
         MenuItem homeMenuItem = new MenuItem("Home");
@@ -40,7 +35,7 @@ public class MenuOperator {
         logoutMenuItem.setOnAction(e -> handleLogout());
 
         // Add menu items to the Actions menu
-        mainMenu.getItems().addAll(testViewPCBooked, homeMenuItem, PCBookedDataMenuItem, logoutMenuItem);
+        mainMenu.getItems().addAll(homeMenuItem, PCBookedDataMenuItem, logoutMenuItem);
 
         // Add the Actions menu to the menu bar
         menuBar.getMenus().add(mainMenu);
@@ -51,7 +46,7 @@ public class MenuOperator {
 	
 	private static void test() {
 		User staffBook = user; 
-		ViewPCBookedData2 viewpcbooked2 = ViewPCBookedData2.getInstance(staffBook);
+		ViewPCBookedData viewpcbooked2 = ViewPCBookedData.getInstance(staffBook);
 		viewpcbooked2.show();
 	}
     
@@ -71,7 +66,7 @@ public class MenuOperator {
 
     private static void handleLogout() {
         // Add logic for handling logout
-    	UserSession.logout();
+    	UserSessionController.logout();
     	Login loginPage = new Login();
 		loginPage.show();
     }

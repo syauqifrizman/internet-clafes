@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import repository.UserRepository;
 import sqlConnect.Connect;
 
 public class TransactionHeader {
@@ -70,7 +69,7 @@ public class TransactionHeader {
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheader`");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheaders`");
 		//menjalankan query
 		ResultSet rs = ps.executeQuery();
 		
@@ -97,11 +96,11 @@ public class TransactionHeader {
 	public static void addNewTransactionHeader(Integer staffID, String transactionDate) throws SQLException {
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("INSERT INTO `transactionheader` VALUES (?, ?, ?, ?)");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `transactionheaders` VALUES (?, ?, ?, ?)");
 		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, 0);
 		ps.setInt(2, staffID);
-		ps.setString(3, UserRepository.getUserDetail(staffID).getUserName());
+		ps.setString(3, User.getUserDetail(staffID).getUserName());
 		ps.setDate(4, Date.valueOf(transactionDate));
 		//menjalankan query
 		ps.executeUpdate();
@@ -112,7 +111,7 @@ public class TransactionHeader {
 	public static Integer peekLastID() throws SQLException {
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheader` ORDER BY transactionID DESC LIMIT 1");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactionheaders` ORDER BY transactionID DESC LIMIT 1");
 		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		//membuat variable id sementara

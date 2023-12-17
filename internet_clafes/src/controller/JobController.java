@@ -12,7 +12,6 @@ import model.PC;
 import model.PCBook;
 import model.User;
 import repository.JobRepository;
-import repository.UserRepository;
 
 public class JobController {
 	
@@ -26,7 +25,7 @@ public class JobController {
 		
 //		di sini harus check dari getUserData
 //		check user nya technician atau bukan
-		User getUser = UserRepository.getUserDetail(Integer.parseInt(userID));
+		User getUser = UserController.getUserDetail(Integer.parseInt(userID));
 		
 		if(!getUser.getUserRole().equals("Computer Technician") && !getUser.getUserRole().equals("Admin")) {
 			Helper.showAlert(AlertType.ERROR, "User Role must be 'Computer Technician'");

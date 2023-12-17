@@ -96,7 +96,7 @@ public class User {
 		ArrayList<User> users = new ArrayList<User>();//membuat arraylist kosong untuk menampung data
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `user`");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `users`");
 		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
@@ -126,7 +126,7 @@ public class User {
 	public static boolean isUsernameExist(String username) throws SQLException {
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		String query = "SELECT * FROM user WHERE userName = '%s'";
+		String query = "SELECT * FROM users WHERE userName = '%s'";
 		//mengisi tanda %s pada query dengan data yang sudah diterima
 		String queryExecute = String.format(query, username);
 		//menjalankan query dan mengambil hasilnya
@@ -146,7 +146,7 @@ public class User {
 	public static User getUserData(String username, String password) throws SQLException{
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `user` WHERE userName = ? AND userPassword = ?");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `users` WHERE userName = ? AND userPassword = ?");
 		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setString(1, username);
 		ps.setString(2, password);
@@ -180,7 +180,7 @@ public class User {
 	public static void AddNewUser(String username, String password, Integer age) throws SQLException {
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("INSERT INTO `user` VALUES (?, ?, ?, ?, ?)");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `users` VALUES (?, ?, ?, ?, ?)");
 		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, 0);
 		ps.setString(2, username);
@@ -195,7 +195,7 @@ public class User {
 	public static void ChangeUserRole(int id, String role) throws SQLException {
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("UPDATE `user` SET UserRole = ? WHERE userID = ?");
+		PreparedStatement ps = db.prepareStatement("UPDATE `users` SET UserRole = ? WHERE userID = ?");
 		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setString(1, role);
 		ps.setInt(2, id);
@@ -208,7 +208,7 @@ public class User {
 		ArrayList<User> users = new ArrayList<User>();//membuat arraylist kosong untuk menampung data
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `user` WHERE userRole = 'Computer Technician' ");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `users` WHERE userRole = 'Computer Technician' ");
 		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();
 		
@@ -232,5 +232,36 @@ public class User {
 		}
 		
 		return users;//araylist yang sudah dibuat akan di-return
+	}
+	
+	//method untuk mendapatkan detail/data dari user berdasarkan id usernya dari database
+	//akan mengembalikan 1 data user dengan id user yang diinginkan
+	public static User getUserDetail(Integer userID) {
+		Connect db = Connect.getConnection();//mendapatkan koneksi ke database
+		
+		//membuat query
+		String query = "SELECT * FROM users WHERE userID = '%d'";
+		String queryExecute = String.format(query, userID);//mengisi %d dalam query dengan user id yang diterima
+		
+		//menjalankan query dan mengambil hasilnya
+		ResultSet res = db.executeQuery(queryExecute);
+		
+		User getUser = null; //membuat getUset dengan tipe data User
+		try {
+			while(res.next()) {//hasil yang sudah diambil dimasukkan ke variabel sementara
+				Integer currUserID = res.getInt(1);
+				String currUsername = res.getString(2);
+				Integer currUserAge = res.getInt(4);
+				String currUserRole = res.getString(5);
+				
+				//dari variabel sementara, dibuat sebuah object User baru yang dimasukan kedalam getUser
+				getUser = new User(currUserID, currUsername, currUserAge, currUserRole);
+			}
+		} catch (SQLException e) {
+			//Menangkap dan menangani exception jika terjadi kesalahan SQL
+			e.printStackTrace();
+		}
+		
+		return getUser;//mengambalikan getUser
 	}
 }

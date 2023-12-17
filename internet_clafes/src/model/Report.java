@@ -79,7 +79,7 @@ public class Report {
 		Connect db = Connect.getConnection(); //untuk mendapatkan koneksi ke database
 		
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("INSERT INTO `report` VALUES (?, ?, ?, ?, ?)");
+		PreparedStatement ps = db.prepareStatement("INSERT INTO `reports` VALUES (?, ?, ?, ?, ?)");
 		
 		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, 0);
@@ -98,7 +98,7 @@ public class Report {
 		Connect db = Connect.getConnection(); //mendapatkan koneksi ke database
 		
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `report`");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `reports`");
 		
 		//menjalankan query dan mengambil hasilnya
 		ResultSet rs = ps.executeQuery();

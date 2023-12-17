@@ -3,7 +3,6 @@ package view.technician;
 import java.util.ArrayList;
 
 import controller.JobController;
-import controller.TransactionController;
 import helper.Helper;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -21,9 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import main.MainStage;
 import model.Job;
-import model.UserSession;
-import repository.JobRepository;
-import view.menu.MenuAdmin;
+import controller.UserSessionController;
 import view.menu.MenuComputerTechnician;
 
 public class ViewTechnicianJob {
@@ -112,7 +109,7 @@ public class ViewTechnicianJob {
 		tv.getColumns().add(stat);
 		tv.getColumns().add(detail);
 		
-		if(UserSession.getCurrentUserRole().equals("Computer Technician")) {
+		if(UserSessionController.getCurrentUserRole().equals("Computer Technician")) {
 			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), jobsLabel, tv);
 		}
 		

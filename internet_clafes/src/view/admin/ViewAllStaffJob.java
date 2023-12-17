@@ -24,7 +24,7 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import main.MainStage;
 import model.Job;
-import model.UserSession;
+import controller.UserSessionController;
 import repository.JobRepository;
 import view.menu.MenuAdmin;
 import view.menu.MenuComputerTechnician;
@@ -122,11 +122,11 @@ public class ViewAllStaffJob {
 		tv.getColumns().add(detail);
 		
 		//jika role User adalah Computer Technician, maka akan memunculkan menu bar Computer Technician
-		if(UserSession.getCurrentUserRole().equals("Computer Technician")) {
+		if(UserSessionController.getCurrentUserRole().equals("Computer Technician")) {
 			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), jobsLabel, tv);
 		}
 		//jika role User adalah Admin, maka akan memunculkan menu bar Admin
-		else if(UserSession.getCurrentUserRole().equals("Admin")) {
+		else if(UserSessionController.getCurrentUserRole().equals("Admin")) {
 			cont.getChildren().addAll(MenuAdmin.createMenu(), jobsLabel, tv);
 		}
 		

@@ -22,7 +22,7 @@ import javafx.util.Callback;
 import main.MainStage;
 import model.User;
 import model.PC;
-import model.UserSession;
+import controller.UserSessionController;
 import repository.PCRepository;
 import view.admin.AddPC;
 import view.admin.ViewAllStaffJob;
@@ -54,8 +54,8 @@ public class ViewPC {
 	private void initTable() {
 		
 		//mendapatkan data user yang sudah login
-		String usernameLogin = UserSession.getCurrentUsername();
-		String userRoleLogin = UserSession.getCurrentUserRole();
+		String usernameLogin = UserSessionController.getCurrentUsername();
+		String userRoleLogin = UserSessionController.getCurrentUserRole();
 		
 		//memunculkan Username di bagian atas window
 		HBox containerUsername = new HBox();
@@ -106,10 +106,10 @@ public class ViewPC {
 		            {
 		                
 		                //jika role user adalah Customer atau Operator, maka akan memunculkan Report Button
-		                if (UserSession.getCurrentUserRole().equals("Customer") || UserSession.getCurrentUserRole().equals("Operator")) {
+		                if (UserSessionController.getCurrentUserRole().equals("Customer") || UserSessionController.getCurrentUserRole().equals("Operator")) {
 		                    reportButton.setOnAction((ActionEvent event) -> {
 		                    	//mendapatkan user sekarang
-		                        User getUser = UserSession.getCurrentUser();
+		                        User getUser = UserSessionController.getCurrentUser();
 		                        
 		                        //mendapatkan data dari row 
 		                        PC getPC = getTableView().getItems().get(getIndex());
@@ -121,10 +121,10 @@ public class ViewPC {
 		                }
 		                
 		                //jika role user adalah Customer, maka munculkan tombol Book
-		                if (UserSession.getCurrentUserRole().equals("Customer")) {
+		                if (UserSessionController.getCurrentUserRole().equals("Customer")) {
 		                    bookButton.setOnAction((ActionEvent event) -> {
 		                    	//mendapatkan user sekarang
-		                        User getUser = UserSession.getCurrentUser();
+		                        User getUser = UserSessionController.getCurrentUser();
 		                        
 		                        //mendapatkan data dari row 
 		                        PC getPC = getTableView().getItems().get(getIndex());
@@ -136,10 +136,10 @@ public class ViewPC {
 		                }
 		                
 		                //jika role user adalah Admin, maka akan memunculkan tombol Add Job dan Detail
-		                if (UserSession.getCurrentUserRole().equals("Admin")) {
+		                if (UserSessionController.getCurrentUserRole().equals("Admin")) {
 		                    addJobButton.setOnAction((ActionEvent event) -> {
 		                    	//mendapatkan user sekarang
-		                        User getUser = UserSession.getCurrentUser();
+		                        User getUser = UserSessionController.getCurrentUser();
 		                        
 		                        //mendapatkan data dari row 
 		                        PC getPC = getTableView().getItems().get(getIndex());
@@ -172,17 +172,17 @@ public class ViewPC {
 		                    HBox containerButtons = new HBox();
 		                    
 		                    //jika role user adalah customer, maka munculka report button dan book button
-		                    if (UserSession.getCurrentUserRole().equals("Customer")) {
+		                    if (UserSessionController.getCurrentUserRole().equals("Customer")) {
 		                    	containerButtons.getChildren().addAll(reportButton, bookButton);
 		                    }
 		                    
 		                    //jika role user adalah Operator, munculkan Report button
-		                    else if(UserSession.getCurrentUserRole().equals("Operator")) {
+		                    else if(UserSessionController.getCurrentUserRole().equals("Operator")) {
 		                    	containerButtons.getChildren().add(reportButton);
 		                    }
 		                    
 		                    //jika role user adalah Admin, munculkan Add Job dan PC Detail button
-		                    else if(UserSession.getCurrentUserRole().equals("Admin")) {
+		                    else if(UserSessionController.getCurrentUserRole().equals("Admin")) {
 		                    	containerButtons.getChildren().add(addJobButton);
 		                    	containerButtons.getChildren().add(detailButton);
 		                    }
@@ -214,7 +214,7 @@ public class ViewPC {
 			AddPC.getInstance().show();
 		});
 		
-		switch(UserSession.getCurrentUserRole()) {
+		switch(UserSessionController.getCurrentUserRole()) {
 			
 			//jika role user adalah Customer, Menu Bar Customer akan dimunculkan
 			case "Customer":
@@ -228,7 +228,7 @@ public class ViewPC {
 				
 			//jika role user adalah Operator, Menu Bar Operator akan dimunculkan
 			case "Operator":
-				cont.getChildren().addAll(MenuOperator.createMenu(UserSession.getCurrentUser()), containerHeader, tv);
+				cont.getChildren().addAll(MenuOperator.createMenu(UserSessionController.getCurrentUser()), containerHeader, tv);
 				break;
 				
 			//jika role user adalah Admin, Menu Bar Admin akan dimunculkan

@@ -18,7 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.User;
-import model.UserSession;
+import controller.UserSessionController;
 import view.ViewPC;
 
 public class Login{
@@ -99,7 +99,7 @@ public class Login{
 					e1.printStackTrace();
 				}
 				Helper.showAlert(AlertType.INFORMATION, statusLogin);
-				UserSession.setCurrentUser(user); //set user session dengan User yang dipakai untuk login
+				UserSessionController.setCurrentUser(user); //set user session dengan User yang dipakai untuk login
 				
 				//redirect user ke View All PC
 				ViewPC viewpc = ViewPC.getInstance();

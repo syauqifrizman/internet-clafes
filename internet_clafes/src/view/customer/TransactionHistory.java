@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.TransactionDetail;
-import model.UserSession;
+import controller.UserSessionController;
 import view.menu.MenuCustomer;
 
 public class TransactionHistory {
@@ -78,7 +78,7 @@ public class TransactionHistory {
 		tv.getItems().clear();
 		
 		//mengambil data dari database ke sebuah arraylist
-		ArrayList<TransactionDetail> tdetails = TransactionController.getUserTransactionDetail(UserSession.getCurrentUser().getUserID());
+		ArrayList<TransactionDetail> tdetails = TransactionController.getUserTransactionDetail(UserSessionController.getCurrentUser().getUserID());
 		
 		//masukkan ke table
 		for (TransactionDetail transactionDetail : tdetails) {

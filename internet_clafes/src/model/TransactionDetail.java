@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import repository.UserRepository;
 import sqlConnect.Connect;
 
 public class TransactionDetail {
@@ -68,7 +67,7 @@ public class TransactionDetail {
 		//membuat arraylist kosong untuk menampung data
 		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactiondetail` WHERE transactionID = ?");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactiondetails` WHERE transactionID = ?");
 		//mengisi tanda ? pada query dengan data yang sudah diterima
 		ps.setInt(1, transactionID);
 		//menjalankan query
@@ -101,9 +100,9 @@ public class TransactionDetail {
 		ArrayList<TransactionDetail> tdetails = new ArrayList<TransactionDetail>();
 		
 		//mengambil username dari user id yang diterima
-		String username = UserRepository.getUserDetail(userID).getUserName();
+		String username = User.getUserDetail(userID).getUserName();
 		//membuat query
-		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactiondetail` WHERE customerName = ?");
+		PreparedStatement ps = db.prepareStatement("SELECT * FROM `transactiondetails` WHERE customerName = ?");
 		//mengisi tanda ? pada query dengan username yang sudah dicari dan diambil
 		ps.setString(1, username);
 		//menjalankan query
@@ -132,11 +131,11 @@ public class TransactionDetail {
 		Connect db = Connect.getConnection();//untuk mendapatkan koneksi ke database
 		for (PCBook pcBook : pcbooks) {
 			//membuat query
-			PreparedStatement ps = db.prepareStatement("INSERT INTO `transactiondetail` VALUES(?, ?, ?, ?)");
+			PreparedStatement ps = db.prepareStatement("INSERT INTO `transactiondetails` VALUES(?, ?, ?, ?)");
 			//mengisi tanda ? pada query dengan data yang sudah diterima
 			ps.setInt(1, transactionID);
 			ps.setInt(2, pcBook.getPc_ID());
-			ps.setString(3, UserRepository.getUserDetail(pcBook.getUserID()).getUserName());
+			ps.setString(3, User.getUserDetail(pcBook.getUserID()).getUserName());
 			ps.setDate(4, pcBook.getBookedDate());
 			//menjalankan query
 			ps.executeUpdate();

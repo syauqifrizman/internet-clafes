@@ -16,7 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
-import model.UserSession;
+import controller.UserSessionController;
 
 import view.ViewPC;
 import view.menu.MenuAdmin;
@@ -81,7 +81,7 @@ public class ViewPCDetail {
 	    pcConditionInput.setPromptText("Insert Current PC Condition");
 
 	    // Add elements to the container
-	    switch(UserSession.getCurrentUserRole()) {
+	    switch(UserSessionController.getCurrentUserRole()) {
 	    //kalau role customer, maka Menu Bar customer akan dimunculkan, dst
 		case "Customer":
 			container.getChildren().add(MenuCustomer.createMenu());
@@ -90,7 +90,7 @@ public class ViewPCDetail {
 			container.getChildren().add(MenuComputerTechnician.createMenu());
 			break;
 		case "Operator":
-			container.getChildren().add(MenuOperator.createMenu(UserSession.getCurrentUser()));
+			container.getChildren().add(MenuOperator.createMenu(UserSessionController.getCurrentUser()));
 			break;
 		case "Admin":
 			container.getChildren().add(MenuAdmin.createMenu());
@@ -103,7 +103,7 @@ public class ViewPCDetail {
 	    container.getChildren().addAll(pageTitle, containerPCID, containerPCCondition, conditionTitle, pcConditionInput);
 	    
 	    //jika role user adalah admin, maka tombol UPDATE PC dan DELETE PC akan dimunculkan
-	    if(UserSession.getCurrentUser().getUserRole().equals("Admin")) {
+	    if(UserSessionController.getCurrentUser().getUserRole().equals("Admin")) {
 	    	container.getChildren().add(containerButton);
 	    }
 

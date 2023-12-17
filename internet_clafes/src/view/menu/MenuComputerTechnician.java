@@ -4,7 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import model.UserSession;
+import controller.UserSessionController;
 import view.ViewPC;
 import view.admin.ViewAllStaffJob;
 import view.login_register.Login;
@@ -50,14 +50,14 @@ public class MenuComputerTechnician {
 
     private static void navigateToTechnicianJob() {
         // Implement logic to navigate to the "View Job" page
-    	ViewTechnicianJob viewjob = ViewTechnicianJob.getInstance(UserSession.getCurrentUser().getUserID().toString());
+    	ViewTechnicianJob viewjob = ViewTechnicianJob.getInstance(UserSessionController.getCurrentUser().getUserID().toString());
         viewjob.show();
     }
     
 
     private static void handleLogout() {
         // Add logic for handling logout
-    	UserSession.logout();
+    	UserSessionController.logout();
     	Login loginPage = new Login();
 		loginPage.show();
     }

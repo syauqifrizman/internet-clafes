@@ -197,5 +197,9 @@ public class UserController {
 		
 	}
 	
+	public static User getUserDetail(Integer userID) {
+		return User.getUserDetail(userID);
+	}
+	
 	
 }
