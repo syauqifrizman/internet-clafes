@@ -15,10 +15,15 @@ import repository.JobRepository;
 public class JobController {
 	
 	//untuk menambah job baru
-	public static void addNewJob(String userID, String pc_ID) {
+	public static void addNewJob(String userID, String pc_ID, String newPC) {
 //		validasi frontend
 		if(pc_ID.isEmpty()) {
-			Helper.showAlert(AlertType.ERROR, "Cannot be empty");
+			Helper.showAlert(AlertType.ERROR, "PC ID Cannot be empty");
+			return;
+		}
+		
+		if(newPC.isEmpty()) {
+			Helper.showAlert(AlertType.ERROR, "New PC ID Cannot be empty");
 			return;
 		}
 		
@@ -38,22 +43,35 @@ public class JobController {
 			return;
 		}
 		
+		PC backupPC = PCController.getPCDetail(newPC);
+		if(backupPC == null) {
+			Helper.showAlert(AlertType.ERROR, "New PC ID must exists on database / PC doesn't exists");
+			return;
+		}
+		
 //		getPCBookedData	dari PCBookController
 //		check pc nya lagi book atau engga
-		Integer newPC_ID = Integer.parseInt(pc_ID);
 		PCBook getPCBook = null;
 		try {
-			getPCBook = PcBookController.getPCBookedData(newPC_ID, Date.valueOf(java.time.LocalDate.now()));
+			getPCBook = PcBookController.getPCBookedData(Integer.parseInt(pc_ID), Date.valueOf(java.time.LocalDate.now()));
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			Helper.showAlert(AlertType.ERROR, "Error fetching Booking List");
 			return;
 		}
 		
-//		jika sudah ada booked, error
+//		jika sudah ada book PC yang ingin dibuatkan job nya, user yg book akan lgsg dipindahkan
+		//ke PC yang sudah di input oleh admin
 		if(getPCBook != null) {
-			Helper.showAlert(AlertType.ERROR, "A User has booked this PC. Please assign them to another PC");
-			return;
+			Helper.showAlert(AlertType.INFORMATION, "A User has booked this PC. Assigning them to the entered PC ID");
+			try {
+				PcBookController.assignUsertoNewPC(getPCBook.getBookID(), 
+						Integer.parseInt(newPC), Date.valueOf(java.time.LocalDate.now()));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		//buat job baru ke database
