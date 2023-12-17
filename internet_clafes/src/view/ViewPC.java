@@ -2,7 +2,6 @@ package view;
 
 import java.util.ArrayList;
 
-import controller.JobController;
 import helper.Helper;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -24,8 +23,8 @@ import model.User;
 import model.PC;
 import controller.UserSessionController;
 import repository.PCRepository;
+import view.admin.AddJob;
 import view.admin.AddPC;
-import view.admin.ViewAllStaffJob;
 import view.admin.ViewPCDetail;
 import view.customer.BookPC;
 import view.menu.MenuAdmin;
@@ -138,18 +137,13 @@ public class ViewPC {
 		                //jika role user adalah Admin, maka akan memunculkan tombol Add Job dan Detail
 		                if (UserSessionController.getCurrentUserRole().equals("Admin")) {
 		                    addJobButton.setOnAction((ActionEvent event) -> {
-		                    	//mendapatkan user sekarang
-		                        User getUser = UserSessionController.getCurrentUser();
 		                        
 		                        //mendapatkan data dari row 
-		                        PC getPC = getTableView().getItems().get(getIndex());
-		                        
-		                        //membuat job baru dengan memanggil controller
-		                        JobController.addNewJob(getUser.getUserID().toString(), getPC.getPc_ID().toString());
-		                        
+		                        PC getPC = getTableView().getItems().get(getIndex());          
+                        
 		                        //user dialihkan ke laman View All Staff Job
-		                        ViewAllStaffJob viewjob = ViewAllStaffJob.getInstance();
-		                        viewjob.show();
+		                        AddJob addjob = AddJob.getInstance(getPC);
+		                        addjob.show();
 		                    });
 		                    
 		                    detailButton.setOnAction((ActionEvent event) -> {

@@ -57,9 +57,6 @@ public class ViewAllStaff {
 		TableColumn<User, String> username = new TableColumn<>("Username");
 		username.setCellValueFactory(new PropertyValueFactory<>("userName"));
 		
-		TableColumn<User, String> pass = new TableColumn<>("Password");
-		pass.setCellValueFactory(new PropertyValueFactory<>("userPassword"));
-		
 		TableColumn<User, Integer> age = new TableColumn<>("Age");
 		age.setCellValueFactory(new PropertyValueFactory<>("userAge"));
 		
@@ -78,7 +75,7 @@ public class ViewAllStaff {
 		}));
 		
 		//memasukkan kolom2 tadi ke tableview
-		tv.getColumns().addAll(id, username, pass, age, role, cRoleColumn);
+		tv.getColumns().addAll(id, username, age, role, cRoleColumn);
 		
 		//memasukkan item2 ke vbox
 		cont.getChildren().addAll(MenuAdmin.createMenu(), tv);
