@@ -49,7 +49,7 @@ public class ViewTechnicianJob extends HeaderLayout{
 		VBox containerHeader = getUserHeader();
 		
 		cont = new VBox();
-		jobsLabel = new Label("All Jobs For Computer Technician");
+		jobsLabel = new Label("All Jobs For You");
 		
 		tv = new TableView<Job>(); //pembuatan tabel dengan tipe data Job
 		

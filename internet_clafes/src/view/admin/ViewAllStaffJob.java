@@ -54,7 +54,7 @@ public class ViewAllStaffJob extends HeaderLayout{
 		VBox containerHeader = getUserHeader();
 		
 		cont = new VBox();
-		jobsLabel = new Label("Jobs");
+		jobsLabel = new Label("All Jobs");
 		
 		//buat table data berdasarkan model Job
 		tv = new TableView<Job>();
