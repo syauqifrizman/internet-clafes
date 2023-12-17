@@ -10,9 +10,10 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PC;
 import view.ViewPC;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
-public class AddJob {
+public class AddJob extends HeaderLayout{
 	
 	private static PC pc;
 	
@@ -40,6 +41,8 @@ public class AddJob {
 	
 	//method utk memunculkan isi window
 	private void addJob() {
+		VBox containerHeader = getUserHeader();
+		
 		vb = new VBox();
 		vb.setPadding(new Insets(0, 20, 20, 20));  // Set padding
 		
@@ -58,7 +61,7 @@ public class AddJob {
 		
 		fixButton = new Button("Add Job");
 		
-		vb.getChildren().addAll(MenuAdmin.createMenu(), pcID, pcCondition, staffLabel, staffID, pcLabel, pcInput, fixButton);
+		vb.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, pcID, pcCondition, staffLabel, staffID, pcLabel, pcInput, fixButton);
 		
 		scene = new Scene(vb, 800, 600);
 	}
