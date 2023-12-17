@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import controller.PcBookController;
+import controller.UserSessionController;
 import helper.Helper;
 import javafx.util.Callback;
 import javafx.beans.property.BooleanProperty;
@@ -28,9 +29,10 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PCBook;
 import model.User;
+import view.menu.HeaderLayout;
 import view.menu.MenuOperator;
 
-public class ViewPCBookedData {
+public class ViewPCBookedData extends HeaderLayout{
 	
 	private static User user;
 	private Scene scene;
@@ -63,18 +65,20 @@ public class ViewPCBookedData {
 	ArrayList<PCBook> pcBookSelectedList = new ArrayList<PCBook>();
 	
 	private void initTable() {
+		VBox containerHeader = getUserHeader();
+		
 		VBox containerTitle = new VBox(1);
 		
 		//pembuatan label
 		Label titleInfo = new Label("Click checkbox in the table to 'FINISH' for selected PC (you can also select multiple pc)");
 		containerTitle.getChildren().add(titleInfo);
-		containerTitle.setAlignment(Pos.TOP_CENTER);
+		containerTitle.setAlignment(Pos.TOP_RIGHT);
 		
-		VBox containerHeader = new VBox(2);
+		VBox containerDesc = new VBox(2);
 	    Label finishLabel = new Label("'FINISH' button to add booking into transaction customer");
 	    
-	    containerHeader.getChildren().addAll(finishLabel, finishButton);
-	    containerHeader.setAlignment(Pos.TOP_RIGHT);
+	    containerDesc.getChildren().addAll(finishLabel, finishButton);
+	    containerDesc.setAlignment(Pos.TOP_RIGHT);
 		
 	    VBox cont = new VBox();
 	    tv = new TableView<>();//membuat tabel baru
@@ -175,7 +179,7 @@ public class ViewPCBookedData {
 
 		HBox additionalControls = new HBox(newPCTitle, newPCInput);
 
-	    cont.getChildren().addAll(MenuOperator.createMenu(user), containerTitle, containerHeader, additionalControls, tv);
+	    cont.getChildren().addAll(MenuOperator.createMenu(UserSessionController.getCurrentUser()), containerHeader, containerTitle, containerDesc, additionalControls, tv);
 
 	    scene = new Scene(cont, 800, 600);
 	}

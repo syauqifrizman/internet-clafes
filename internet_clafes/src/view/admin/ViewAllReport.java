@@ -11,9 +11,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.Report;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
-public class ViewAllReport {
+public class ViewAllReport extends HeaderLayout{
 	private Scene scene;
 	private TableView<Report> tv;
 	
@@ -33,6 +34,8 @@ public class ViewAllReport {
 	
 	//method untuk memunculkan tabel dll
 	private void initTable() {
+		VBox containerHeader = getUserHeader();
+		
 		VBox cont = new VBox();
 		
 		//membuat tabel berdasarkan model Report
@@ -61,7 +64,7 @@ public class ViewAllReport {
 		tv.getColumns().add(note);
 		tv.getColumns().add(report);
 		
-		cont.getChildren().addAll(MenuAdmin.createMenu(), tv);
+		cont.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, tv);
 		scene = new Scene(cont, 800, 600);
 	}
 	

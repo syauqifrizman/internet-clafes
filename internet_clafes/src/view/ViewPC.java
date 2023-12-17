@@ -28,12 +28,13 @@ import view.admin.AddPC;
 import view.admin.ViewAllStaffJob;
 import view.admin.ViewPCDetail;
 import view.customer.BookPC;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 import view.menu.MenuComputerTechnician;
 import view.menu.MenuCustomer;
 import view.menu.MenuOperator;
 
-public class ViewPC {
+public class ViewPC extends HeaderLayout{
 	private Scene scene;
 	private TableView<PC> tv;
 	
@@ -52,28 +53,7 @@ public class ViewPC {
 	}
 	
 	private void initTable() {
-		
-		//mendapatkan data user yang sudah login
-		String usernameLogin = UserSessionController.getCurrentUsername();
-		String userRoleLogin = UserSessionController.getCurrentUserRole();
-		
-		//memunculkan Username di bagian atas window
-		HBox containerUsername = new HBox();
-		Label usernameLabel = new Label("Login as: ");
-		Label usernameLoginLabel = new Label(usernameLogin);
-		usernameLoginLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-		containerUsername.getChildren().addAll(usernameLabel, usernameLoginLabel);
-		
-		//memunculkan Role di bagian atas window
-		HBox containerUserRole = new HBox();
-		Label UserRoleLabel = new Label("User Role as: ");
-		Label userRoleLoginLabel = new Label(userRoleLogin);
-		userRoleLoginLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
-		containerUserRole.getChildren().addAll(UserRoleLabel, userRoleLoginLabel);
-		
-		
-		VBox containerHeader = new VBox(4);
-		containerHeader.getChildren().addAll(containerUsername, containerUserRole);
+		VBox containerHeader = getUserHeader();
 		
 		VBox cont = new VBox();
 		

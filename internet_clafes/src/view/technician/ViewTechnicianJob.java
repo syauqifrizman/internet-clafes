@@ -21,9 +21,10 @@ import javafx.util.Callback;
 import main.MainStage;
 import model.Job;
 import controller.UserSessionController;
+import view.menu.HeaderLayout;
 import view.menu.MenuComputerTechnician;
 
-public class ViewTechnicianJob {
+public class ViewTechnicianJob extends HeaderLayout{
 	
 	private TableView<Job> tv;
 	private Scene scene;
@@ -45,6 +46,8 @@ public class ViewTechnicianJob {
 	}
 	
 	private void initTable() {
+		VBox containerHeader = getUserHeader();
+		
 		cont = new VBox();
 		jobsLabel = new Label("All Jobs For Computer Technician");
 		
@@ -116,7 +119,7 @@ public class ViewTechnicianJob {
 		tv.getColumns().add(detail);
 		
 		if(UserSessionController.getCurrentUserRole().equals("Computer Technician")) {
-			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), jobsLabel, tv);
+			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), containerHeader, jobsLabel, tv);
 		}
 		
 		scene = new Scene(cont, 800, 600);

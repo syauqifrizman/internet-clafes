@@ -15,12 +15,12 @@ import java.util.function.Consumer;
 import controller.UserController;
 import main.MainStage;
 import model.User;
-
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
 
 
-public class ViewAllStaff {
+public class ViewAllStaff extends HeaderLayout{
 
 	private Scene scene;
 	private TableView<User> tv;
@@ -45,6 +45,8 @@ public class ViewAllStaff {
 	}
 	
 	private void initTable() {
+		VBox containerHeader = getUserHeader();
+		
 		VBox cont = new VBox();
 		
 		//membuat table data baru
@@ -81,7 +83,7 @@ public class ViewAllStaff {
 		tv.getColumns().addAll(id, username, pass, age, role, cRoleColumn);
 		
 		//memasukkan item2 ke vbox
-		cont.getChildren().addAll(MenuAdmin.createMenu(), tv);
+		cont.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, tv);
 		
 		scene = new Scene(cont, 800, 600);
     }

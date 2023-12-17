@@ -16,9 +16,10 @@ import main.MainStage;
 import model.PC;
 import model.User;
 import view.ViewPC;
+import view.menu.HeaderLayout;
 import view.menu.MenuCustomer;
 
-public class BookPC {
+public class BookPC extends HeaderLayout{
 	public static User user;
 	public static PC pc;
 	
@@ -47,12 +48,11 @@ public class BookPC {
 	
 	//memunculkan isi dari page
 	private void bookWindow() {
+		VBox containerHeader = getUserHeader();
+		
 		vb = new VBox();
 		vb.setPadding(new Insets(50, 50, 50, 50));
 	    vb.setSpacing(10);
-	    
-	    //Username
-		userID = new Label("Username: " + user.getUserName());
 		
 		//PC ID
 		pcID = new Label("PC ID: " + pc.getPc_ID());
@@ -64,7 +64,7 @@ public class BookPC {
 		//tombol Book
 		bookButton = new Button("Book");
 		
-		vb.getChildren().addAll(MenuCustomer.createMenu(), userID, pcID, dateLabel, dateP, bookButton);
+		vb.getChildren().addAll(MenuCustomer.createMenu(), containerHeader, pcID, dateLabel, dateP, bookButton);
 		
 		scene = new Scene(vb, 800, 600);
 	}

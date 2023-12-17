@@ -17,14 +17,14 @@ import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
 import controller.UserSessionController;
-
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 import view.menu.MenuComputerTechnician;
 import view.menu.MenuCustomer;
 import view.menu.MenuOperator;
 
 
-public class ViewPCDetail {
+public class ViewPCDetail extends HeaderLayout{
 	
 	Stage primaryStage;
 	Scene scene;
@@ -45,6 +45,8 @@ public class ViewPCDetail {
 	
 	VBox container = new VBox(20);  // Set vertical spacing between elements
 	private void initialize(PC pc) {
+		VBox containerHeader = getUserHeader();
+		
 	    container.setPadding(new Insets(50, 20, 20, 20));  // Set padding
 
 	    // Title
@@ -99,7 +101,7 @@ public class ViewPCDetail {
 	}
 	    
 	    //memasukkan label, textfield dll ke Container
-	    container.getChildren().addAll(pageTitle, containerPCID, containerPCCondition, conditionTitle, pcConditionInput);
+	    container.getChildren().addAll(containerHeader, pageTitle, containerPCID, containerPCCondition, conditionTitle, pcConditionInput);
 	    
 	    //jika role user adalah admin, maka tombol UPDATE PC dan DELETE PC akan dimunculkan
 	    if(UserSessionController.getCurrentUser().getUserRole().equals("Admin")) {

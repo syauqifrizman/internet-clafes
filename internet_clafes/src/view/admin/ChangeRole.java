@@ -16,9 +16,10 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import main.MainStage;
 import model.User;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
-public class ChangeRole {
+public class ChangeRole extends HeaderLayout{
 	private static User user;
 	Stage primaryStage;
 	Scene scene;
@@ -51,6 +52,8 @@ public class ChangeRole {
 	
 	//method untuk 'menggambar' label, text field, dkk
 	private void initialize(User user) {
+		VBox containerHeader = getUserHeader();
+		
 	    VBox container = new VBox(20);  // Set vertical spacings between elements
 	    container.setPadding(new Insets(50, 20, 20, 20));  // Set padding
 
@@ -101,7 +104,7 @@ public class ChangeRole {
 	    containerButton.getChildren().addAll(ChangeRoleButton, BackButton);
 
 	    // Add elements to the container
-	    container.getChildren().addAll(MenuAdmin.createMenu(), pageTitle, containerUserID, containerUsername,containerRole, containerNewRole,  containerButton);
+	    container.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, pageTitle, containerUserID, containerUsername,containerRole, containerNewRole,  containerButton);
 
 	    // Align container to the top left
 	    container.setAlignment(Pos.TOP_LEFT);

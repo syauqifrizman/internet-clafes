@@ -5,12 +5,9 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.User;
-import controller.UserSessionController;
-import view.ViewPC;
-import view.login_register.Login;
 import view.operator.ViewPCBookedData;
 
-public class MenuOperator {
+public class MenuOperator extends UserMenu{
 	public static User user;
 
 	//memunculkan menu bar khusus Operator
@@ -44,25 +41,11 @@ public class MenuOperator {
         return menuBar;
     }
     
-    private static void navigateToHome() {
-        // Implement logic to navigate to the "View All PC" page
-    	ViewPC viewpc = ViewPC.getInstance();
-		viewpc.show();
-    }
-
     private static void navigateToPCBookedData() {
         // Implement logic to navigate to the "View PC Booked Data" page
     	User staffBook = user; 
     	ViewPCBookedData pcBookedData = ViewPCBookedData.getInstance(staffBook);
     	pcBookedData.show();
-    }
-    
-
-    private static void handleLogout() {
-        // Add logic for handling logout
-    	UserSessionController.logout();
-    	Login loginPage = new Login();
-		loginPage.show();
     }
 
 }

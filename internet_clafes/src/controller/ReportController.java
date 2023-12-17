@@ -39,7 +39,7 @@ public class ReportController {
 		//memanggil method dari model untuk memasukkan ke database
 		try {
 			Report.addNewReport(userRole, Integer.parseInt(pcID), reportNote);
-//			PCController.updatePCCondition(pcID, "Broken");
+			Helper.showAlert(AlertType.INFORMATION, "Success Add Report");
 		} catch (NumberFormatException e) {
 			Helper.showAlert(AlertType.ERROR, "Error Adding Report");
 			return false;

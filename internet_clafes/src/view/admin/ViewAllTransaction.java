@@ -18,9 +18,10 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import main.MainStage;
 import model.TransactionHeader;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
-public class ViewAllTransaction {
+public class ViewAllTransaction extends HeaderLayout{
 	private Scene scene;
 	private VBox cont;
 	private Label thistoryLabel;
@@ -44,6 +45,8 @@ public class ViewAllTransaction {
 	
 	//method untuk memunculkan tabel dll
 	private void initTable() {
+		VBox containerHeader = getUserHeader();
+		
 		cont = new VBox();
 		thistoryLabel = new Label("Transaction History");
 		
@@ -115,7 +118,7 @@ public class ViewAllTransaction {
 		tv.getColumns().add(date);
 		tv.getColumns().add(detail);
 		
-		cont.getChildren().addAll(MenuAdmin.createMenu(), thistoryLabel, tv);
+		cont.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, thistoryLabel, tv);
 		scene = new Scene(cont, 800, 600);
 		
 	}

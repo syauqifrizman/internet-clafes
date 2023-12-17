@@ -46,7 +46,7 @@ public class Register {
 		vb = new VBox(10);
 		
 		//instansaisi dan definisi dari label, textfield, dll yang sudah dibuat
-		registerTitle = new Label("Register");
+		registerTitle = new Label("Register (Default User Role will be 'Customer')");
 		usernameTitle = new Label("Username");
 		passwordTitle = new Label("Password");
 		confTitle = new Label("Confirm Password");

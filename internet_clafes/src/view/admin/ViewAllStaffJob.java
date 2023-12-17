@@ -23,10 +23,11 @@ import javafx.util.Callback;
 import main.MainStage;
 import model.Job;
 import controller.UserSessionController;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 import view.menu.MenuComputerTechnician;
 
-public class ViewAllStaffJob {
+public class ViewAllStaffJob extends HeaderLayout{
 	
 	//declare items2 
 	private TableView<Job> tv;
@@ -50,6 +51,8 @@ public class ViewAllStaffJob {
 	}
 	
 	private void initTable() {
+		VBox containerHeader = getUserHeader();
+		
 		cont = new VBox();
 		jobsLabel = new Label("Jobs");
 		
@@ -120,11 +123,11 @@ public class ViewAllStaffJob {
 		
 		//jika role User adalah Computer Technician, maka akan memunculkan menu bar Computer Technician
 		if(UserSessionController.getCurrentUserRole().equals("Computer Technician")) {
-			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), jobsLabel, tv);
+			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), containerHeader, jobsLabel, tv);
 		}
 		//jika role User adalah Admin, maka akan memunculkan menu bar Admin
 		else if(UserSessionController.getCurrentUserRole().equals("Admin")) {
-			cont.getChildren().addAll(MenuAdmin.createMenu(), jobsLabel, tv);
+			cont.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, jobsLabel, tv);
 		}
 		
 		scene = new Scene(cont, 800, 600);

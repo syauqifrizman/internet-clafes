@@ -1,6 +1,7 @@
 package view;
 
 import controller.ReportController;
+import controller.UserSessionController;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,8 +11,11 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PC;
 import model.User;
+import view.menu.HeaderLayout;
+import view.menu.MenuCustomer;
+import view.menu.MenuOperator;
 
-public class ReportPC {
+public class ReportPC extends HeaderLayout{
 	public static User user;
 	public static PC pc;
 	
@@ -41,12 +45,11 @@ public class ReportPC {
 	
 	//method memunculkan screen untuk penambahan report
 	private void reportWindow() {
+		VBox containerHeader = getUserHeader();
+		
 		vb = new VBox();
 		vb.setPadding(new Insets(50, 50, 50, 50));
 	    vb.setSpacing(10);
-	    
-	    //memunculkan username dari yang me-report
-		userID = new Label("Username: " + user.getUserName());
 		
 		//memunculkan PC ID yang ingin di-report
 		pcID = new Label("PC ID: " + pc.getPc_ID());
@@ -59,7 +62,14 @@ public class ReportPC {
 		//tombol Report
 		reportButton = new Button("Report");
 		
-		vb.getChildren().addAll(userID, pcID, reportLabel, reportNote, reportButton);
+		if(user.getUserRole().equals("Customer")) {
+			vb.getChildren().add(MenuCustomer.createMenu());
+		}
+		else if(user.getUserRole().equals("Operator")) {
+			vb.getChildren().add(MenuOperator.createMenu(UserSessionController.getCurrentUser()));
+		}
+		
+		vb.getChildren().addAll(containerHeader, pcID, reportLabel, reportNote, reportButton);
 		
 		scene = new Scene(vb, 800, 600);
 		

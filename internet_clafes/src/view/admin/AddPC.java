@@ -13,9 +13,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import main.MainStage;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
-public class AddPC {
+public class AddPC extends HeaderLayout{
 	
 	Stage primaryStage;
 	Scene scene;
@@ -35,6 +36,8 @@ public class AddPC {
 	
 	//method untuk membuat item2 (button, label, dll)
 	private void initialize() {
+		VBox containerHeader = getUserHeader();
+		
 	    VBox container = new VBox(20);  // Set vertical spacing between elements
 	    container.setPadding(new Insets(50, 20, 20, 20));  // Set padding
 
@@ -58,7 +61,7 @@ public class AddPC {
 	    addButton = new Button("ADD NEW PC");
 
 	    // Add elements to the container
-	    container.getChildren().addAll(MenuAdmin.createMenu(), pageTitle, containerPcCondition, pcTitle, pcIDInput, addButton);
+	    container.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, pageTitle, containerPcCondition, pcTitle, pcIDInput, addButton);
 
 	    // Align container to the top left
 	    container.setAlignment(Pos.TOP_LEFT);

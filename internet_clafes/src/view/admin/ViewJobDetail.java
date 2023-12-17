@@ -19,9 +19,10 @@ import main.MainStage;
 import model.Job;
 import model.PC;
 import controller.UserSessionController;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
-public class ViewJobDetail {
+public class ViewJobDetail extends HeaderLayout{
 	
 	Stage primaryStage;
 	Scene scene;
@@ -42,6 +43,8 @@ public class ViewJobDetail {
 	
 	VBox container = new VBox(20);  // Set vertical spacing between elements
 	private void initialize(Job job) {
+		VBox containerHeader = getUserHeader();
+		
 	    container.setPadding(new Insets(50, 20, 20, 20));  // Set padding
 
 	    // Title
@@ -97,7 +100,7 @@ public class ViewJobDetail {
 	    }
 	
 	    
-	    container.getChildren().addAll(pageTitle, containerPCID, containerJobStatus, statusTitle, jobStatusInput);
+	    container.getChildren().addAll(containerHeader, pageTitle, containerPCID, containerJobStatus, statusTitle, jobStatusInput);
 	    
 	    if(UserSessionController.getCurrentUser().getUserRole().equals("Admin")) {
 	    	container.getChildren().add(containerButton);

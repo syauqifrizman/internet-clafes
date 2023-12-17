@@ -13,9 +13,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.TransactionDetail;
+import view.menu.HeaderLayout;
 import view.menu.MenuAdmin;
 
-public class ViewTransactionDetail {
+public class ViewTransactionDetail extends HeaderLayout{
 	
 	private static Integer tID;
 	private Scene scene;
@@ -41,6 +42,8 @@ public class ViewTransactionDetail {
 	}
 	
 	private void initTable() {
+		VBox containerHeader = getUserHeader();
+		
 		cont = new VBox();
 		thistoryLabel = new Label("Transaction History");
 		tv = new TableView<TransactionDetail>();//membuat tabel berdasarkan model TransactionDetail
@@ -67,9 +70,7 @@ public class ViewTransactionDetail {
 		thistoryLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
 		//memunculkan tabel, label, dan menu bar
-		cont.getChildren().add(MenuAdmin.createMenu());
-		cont.getChildren().add(thistoryLabel);
-		cont.getChildren().add(tv);
+		cont.getChildren().addAll(MenuAdmin.createMenu(), containerHeader, thistoryLabel, tv);
 		
 		scene = new Scene(cont, 800, 600);
 	}

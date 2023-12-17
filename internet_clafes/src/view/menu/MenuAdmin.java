@@ -4,15 +4,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import controller.UserSessionController;
-import view.ViewPC;
 import view.admin.ViewAllReport;
 import view.admin.ViewAllStaff;
 import view.admin.ViewAllStaffJob;
 import view.admin.ViewAllTransaction;
-import view.login_register.Login;
 
-public class MenuAdmin {
+public class MenuAdmin extends UserMenu{
 
 	//memunculkan menu bar khusus admin
 	public static Parent createMenu() {
@@ -63,12 +60,6 @@ public class MenuAdmin {
         return menuBar;
     }
     
-	private static void navigateToHome() {
-		// Implement logic to navigate to the "View All PC" page
-		ViewPC viewpc = ViewPC.getInstance();
-    	viewpc.show();
-	}
-
 	private static void navigateToViewAllStaff() {
 		// Implement logic to navigate to the "View All Staff" page
     	ViewAllStaff viewStaff = ViewAllStaff.getInstance();
@@ -91,13 +82,6 @@ public class MenuAdmin {
 		// Implement logic to navigate to the "View All Report" page
 		ViewAllReport viewAllReport = ViewAllReport.getInstance();
 		viewAllReport.show();
-    }
-
-    private static void handleLogout() {
-        // Add logic for handling logout
-    	UserSessionController.logout();
-    	Login loginPage = new Login();
-		loginPage.show();
     }
 
 }
