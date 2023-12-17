@@ -61,7 +61,7 @@ public class PcBookController {
 		
 		//validasi kalau PC sudah dibooking hari itu/belum dengan memanggil method yang ngambil
 		//PC Book Data berdasarkan PC ID dan Tanggal. Kalau ada yg di-return, berarti ada yg booking
-		if(PCBook.getPCBookedData(newPCID, date)!=null) {
+		else if(PCBook.getPCBookedData(newPCID, date)!=null) {
 			Helper.showAlert(AlertType.ERROR, "PC has been booked for that day");
 			return false;
 		}
@@ -77,6 +77,7 @@ public class PcBookController {
 		//pindah user ke PC lain
 		try {
 			PCBook.assignUsertoNewPC(bookID, newPCID);
+			Helper.showAlert(AlertType.INFORMATION, "Success assign customer to new pc");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			Helper.showAlert(AlertType.ERROR, "Error assigning user");
@@ -138,12 +139,12 @@ public class PcBookController {
 		//memanggil method finishBook di model
 		try {
 			PCBook.finishBook(pcbooks, staffID);
+			Helper.showAlert(AlertType.INFORMATION, "Success finish book");
 		} catch (SQLException e) {
 			Helper.showAlert(AlertType.ERROR, "Error finish booking");
 			return false;
 		}
-        ViewPC viewpc = ViewPC.getInstance();
-		viewpc.show();
+
 		return true;
 	}
 	

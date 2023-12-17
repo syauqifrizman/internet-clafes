@@ -47,12 +47,15 @@ public class JobRepository {
 		ArrayList<Job> jobList = new ArrayList<Job>();
 		Connect db = Connect.getConnection();
 		
-		String query = "SELECT * FROM `jobs` WHERE userID = '%d'";
+		String query = "SELECT * FROM `jobs` WHERE user_ID = '%d'";
 		String queryExecute = String.format(query, newUser_ID);
 		
 		ResultSet res = db.executeQuery(queryExecute);
 		
-//		jobList = null;
+		if(res == null) {
+			return jobList = null;
+		}
+		
 		try {
 			while(res.next()) {
 				Integer currJob_ID = res.getInt(1);
@@ -106,6 +109,10 @@ public class JobRepository {
 		String queryExecute = "SELECT * FROM `jobs`";
 		
 		ResultSet res = db.executeQuery(queryExecute);
+		
+		if(res == null) {
+			return jobList = null;
+		}
 		
 //		jobList = null;
 		try {

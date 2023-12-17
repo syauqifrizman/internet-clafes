@@ -1,4 +1,4 @@
-package view;
+package view.menu;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Menu;
@@ -6,6 +6,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.User;
 import model.UserSession;
+import view.ViewPC;
 import view.login_register.Login;
 import view.operator.ViewPCBookedData;
 import view.operator.ViewPCBookedData2;

@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.TransactionDetail;
-import view.MenuAdmin;
+import view.menu.MenuAdmin;
 
 public class ViewTransactionDetail {
 	

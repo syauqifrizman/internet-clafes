@@ -176,13 +176,14 @@ public class UserController {
 		}
 		
 		//validasi kalau role yang dimasukkan bukan Operator/Admin/Computer Technician, maka akan error
-		if(newRole.equals("Operator") 
+		else if(newRole.equals("Operator") 
 				|| newRole.equals("Admin")
 				|| newRole.equals("Computer Technician")
 				) {
 			try {
 				//memanggil method dari model untuk mengganti role
 				User.ChangeUserRole(id, newRole);
+				Helper.showAlert(AlertType.INFORMATION, "Success change the role to: " + newRole);
 				return true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

@@ -59,7 +59,8 @@ public class JobController {
 		}
 		
 		//buat job baru ke database
-		JobRepository.addNewJob(JobFactory.createJob(userID, pc_ID));
+		String addMSG = Job.addNewJob(userID, pc_ID);
+		Helper.showAlert(AlertType.INFORMATION, addMSG);
 		
 		//update PC status menjadi maintenance
 		PCController.updatePCCondition(pc_ID, "Maintenance");
@@ -82,10 +83,19 @@ public class JobController {
 		Helper.showAlert(AlertType.INFORMATION, updateStatus);
 		
 		//ngambil PC ID nya
-		Job getJob = JobRepository.getJobDetail(job_ID);
+		Job getJob = Job.getJobDetail(job_ID);
 		
-		//update kondisi PC dari maintenance menjadi Usable
-		PCController.updatePCCondition(getJob.getPc_ID().toString(), "Usable");
+		if(getJob.getJobStatus().equals("Complete")) {
+			//update kondisi PC dari maintenance menjadi Usable
+			PCController.updatePCCondition(getJob.getPc_ID().toString(), "Usable");
+			return;
+		}
+		else if(getJob.getJobStatus().equals("UnComplete")){
+			// update kondisi PC dari maintenance menjadi Maintenance
+			PCController.updatePCCondition(getJob.getPc_ID().toString(), "Maintenance");
+			return;
+		}
+		
 		return;
 	}
 	
@@ -107,13 +117,17 @@ public class JobController {
 	}
 	
 	//ngambil job berdasarkan siapa yg buat
-	public ArrayList<Job> getTechnicianJob(String userID){
-		return JobRepository.getTechnicianJob(userID);
+	public static ArrayList<Job> getTechnicianJob(String userID){
+		return Job.getTechnicianJob(userID);
 	}
 	
 	//ngambil semua job yg ada
-	public ArrayList<Job> getAllJobData(){
-		return JobRepository.getAllJobData();
+	public static ArrayList<Job> getAllJobData(){
+		return Job.getAllJobData();
+	}
+	
+	public static Job getTechnicianJobByID(String job_id) {
+		return Job.getJobDetail(job_id);
 	}
 	
 	

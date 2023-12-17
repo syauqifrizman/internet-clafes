@@ -1,11 +1,14 @@
-package view;
+package view.menu;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.UserSession;
+import view.ViewPC;
 import view.admin.ViewAllReport;
+import view.admin.ViewAllStaff;
+import view.admin.ViewAllStaffJob;
 import view.admin.ViewAllTransaction;
 import view.login_register.Login;
 
@@ -32,7 +35,7 @@ public class MenuAdmin {
 //        pcManagementMenuItem.setOnAction(e -> navigateToPCManagement());
         
         // "Job Management" menu item
-        MenuItem jobManagementMenuItem = new MenuItem("Job Management");
+        MenuItem jobManagementMenuItem = new MenuItem("View All Staff Job");
         jobManagementMenuItem.setOnAction(e -> navigateToJobManagement());
         
         // "All Transaction History" menu item
@@ -84,7 +87,7 @@ public class MenuAdmin {
 	
 	private static void navigateToJobManagement() {
 		// Implement logic to navigate to the "View Job" page
-		ViewJob viewjob = ViewJob.getInstance();
+		ViewAllStaffJob viewjob = ViewAllStaffJob.getInstance();
         viewjob.show();
     }
 	

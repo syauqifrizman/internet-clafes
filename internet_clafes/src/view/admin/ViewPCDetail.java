@@ -17,11 +17,11 @@ import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
 import model.UserSession;
-import view.MenuAdmin;
-import view.MenuComputerTechnician;
-import view.MenuCustomer;
-import view.MenuOperator;
 import view.ViewPC;
+import view.menu.MenuAdmin;
+import view.menu.MenuComputerTechnician;
+import view.menu.MenuCustomer;
+import view.menu.MenuOperator;
 
 public class ViewPCDetail {
 	
@@ -125,6 +125,9 @@ public class ViewPCDetail {
 		    String pc_condition = pcConditionInput.getText();
 
 		    PCController.updatePCCondition(pc_id, pc_condition);
+			PC getNewUpdatePC = PCController.getPCDetail(pc_id);
+		    ViewPCDetail ViewPCDetail = new ViewPCDetail(getNewUpdatePC);
+		    ViewPCDetail.show();
 		});
 
 	}

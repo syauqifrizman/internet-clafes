@@ -25,8 +25,13 @@ import model.PC;
 import model.UserSession;
 import repository.PCRepository;
 import view.admin.AddPC;
+import view.admin.ViewAllStaffJob;
 import view.admin.ViewPCDetail;
 import view.customer.BookPC;
+import view.menu.MenuAdmin;
+import view.menu.MenuComputerTechnician;
+import view.menu.MenuCustomer;
+import view.menu.MenuOperator;
 
 public class ViewPC {
 	private Scene scene;
@@ -118,7 +123,7 @@ public class ViewPC {
 		                        User getUser = UserSession.getCurrentUser();
 		                        PC getPC = getTableView().getItems().get(getIndex());
 		                        JobController.addNewJob(getUser.getUserID().toString(), getPC.getPc_ID().toString());
-		                        ViewJob viewjob = ViewJob.getInstance();
+		                        ViewAllStaffJob viewjob = ViewAllStaffJob.getInstance();
 		                        viewjob.show();
 		                    });
 		                    

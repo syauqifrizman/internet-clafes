@@ -15,8 +15,8 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PC;
 import model.User;
-import view.MenuCustomer;
 import view.ViewPC;
+import view.menu.MenuCustomer;
 
 public class BookPC {
 	public static User user;

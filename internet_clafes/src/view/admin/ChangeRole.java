@@ -16,8 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import main.MainStage;
 import model.User;
-import view.MenuAdmin;
-import view.ViewAllStaff;
+import view.menu.MenuAdmin;
 
 public class ChangeRole {
 	private static User user;

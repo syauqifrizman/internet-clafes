@@ -1,11 +1,14 @@
-package view;
+package view.menu;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.UserSession;
+import view.ViewPC;
+import view.admin.ViewAllStaffJob;
 import view.login_register.Login;
+import view.technician.ViewTechnicianJob;
 
 public class MenuComputerTechnician {
 
@@ -22,7 +25,7 @@ public class MenuComputerTechnician {
         homeMenuItem.setOnAction(e -> navigateToHome());
 
         // "View Technician Job" menu item
-        MenuItem technicianJobMenuItem = new MenuItem("Technician Job");
+        MenuItem technicianJobMenuItem = new MenuItem("View Technician Job");
         technicianJobMenuItem.setOnAction(e -> navigateToTechnicianJob());
 
         // "Logout" menu item
@@ -47,7 +50,7 @@ public class MenuComputerTechnician {
 
     private static void navigateToTechnicianJob() {
         // Implement logic to navigate to the "View Job" page
-    	ViewJob viewjob = ViewJob.getInstance();
+    	ViewTechnicianJob viewjob = ViewTechnicianJob.getInstance(UserSession.getCurrentUser().getUserID().toString());
         viewjob.show();
     }
     

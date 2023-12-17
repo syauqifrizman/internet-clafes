@@ -19,7 +19,7 @@ import javafx.util.Callback;
 import main.MainStage;
 import model.TransactionDetail;
 import model.TransactionHeader;
-import view.MenuAdmin;
+import view.menu.MenuAdmin;
 
 public class ViewAllTransaction {
 	private Scene scene;

@@ -14,7 +14,7 @@ import javafx.scene.text.FontWeight;
 import main.MainStage;
 import model.TransactionDetail;
 import model.UserSession;
-import view.MenuCustomer;
+import view.menu.MenuCustomer;
 
 public class TransactionHistory {
 	

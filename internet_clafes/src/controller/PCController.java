@@ -36,9 +36,6 @@ public class PCController {
 		String updateStatus = PC.updatePCCondition(pc_ID, pc_condition);
 		Helper.showAlert(AlertType.INFORMATION, updateStatus);
 		
-		PC getNewUpdatePC = PCController.getPCDetail(pc_ID);
-	    ViewPCDetail ViewPCDetail = new ViewPCDetail(getNewUpdatePC);
-	    ViewPCDetail.show();
 		return;
 	}
 	

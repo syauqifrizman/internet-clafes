@@ -1,10 +1,11 @@
-package view;
+package view.menu;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import model.UserSession;
+import view.ViewPC;
 import view.customer.TransactionHistory;
 import view.login_register.Login;
 

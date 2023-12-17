@@ -1,9 +1,10 @@
-package view;
+package view.technician;
 
 import java.util.ArrayList;
 
 import controller.JobController;
 import controller.TransactionController;
+import helper.Helper;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,39 +23,40 @@ import main.MainStage;
 import model.Job;
 import model.UserSession;
 import repository.JobRepository;
+import view.menu.MenuAdmin;
+import view.menu.MenuComputerTechnician;
 
-public class ViewJob {
+public class ViewTechnicianJob {
 	
 	private TableView<Job> tv;
 	private Scene scene;
 	private VBox cont;
 	private Label jobsLabel;
 	
-	public static ViewJob getInstance() {
-		return new ViewJob();
+	public static ViewTechnicianJob getInstance(String userID) {
+		return new ViewTechnicianJob(userID);
 	}
 	
-	public ViewJob() {
+	public ViewTechnicianJob(String userID) {
 		initTable();
-		repaint();
+		repaint(userID);
 	}
 	
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
 		mainStage.getStage().setScene(scene);
-		repaint();
 	}
 	
 	private void initTable() {
 		cont = new VBox();
-		jobsLabel = new Label("Jobs");
+		jobsLabel = new Label("All Jobs For Computer Technician");
 		
 		tv = new TableView<Job>();
 		
 		TableColumn<Job, Integer> id = new TableColumn<>("Job ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("job_ID"));
 
-		TableColumn<Job, Integer> user = new TableColumn<>("User ID");
+		TableColumn<Job, Integer> user = new TableColumn<>("Computer Technician ID");
 		user.setCellValueFactory(new PropertyValueFactory<>("userID"));
 		
 		TableColumn<Job, Integer> pc = new TableColumn<>("PC ID");
@@ -76,7 +79,7 @@ public class ViewJob {
 		                updateButton.setOnAction((ActionEvent event) -> {
 	                        Job job = getTableView().getItems().get(getIndex());
 	                        JobController.updateJobStatus(job.getJob_ID().toString(), "Complete");
-	                        repaint();
+	                        repaint(job.getUserID().toString());
 		                });
 		            }
 
@@ -86,10 +89,13 @@ public class ViewJob {
 			                if (empty) {
 			                    setGraphic(null);
 			                } else {
-			                    HBox containerButtons = new HBox();
-			                    
-			                    containerButtons.getChildren().add(updateButton);
-			                    setGraphic(containerButtons);
+			                	Job job = getTableView().getItems().get(getIndex());
+			                	if(job.getJobStatus().equals("UnComplete")) {
+			                		HBox containerButtons = new HBox();
+			                		
+			                		containerButtons.getChildren().add(updateButton);
+			                		setGraphic(containerButtons);
+			                	}
 			                }
 			            }
 		           };
@@ -109,20 +115,25 @@ public class ViewJob {
 		if(UserSession.getCurrentUserRole().equals("Computer Technician")) {
 			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), jobsLabel, tv);
 		}
-		else if(UserSession.getCurrentUserRole().equals("Admin")) {
-			cont.getChildren().addAll(MenuAdmin.createMenu(), jobsLabel, tv);
-		}
 		
 		scene = new Scene(cont, 800, 600);
 	}
 	
-	private void repaint() {
+	private void repaint(String userID) {
 		tv.getItems().clear();
-		ArrayList<Job> jobs = JobRepository.getAllJobData();
-		for (Job job : jobs) {
-			tv.getItems().add(job);
+		ArrayList<Job> jobs = JobController.getTechnicianJob(userID);
+		
+		if(jobs.isEmpty()) {
+			Helper.showAlert(AlertType.INFORMATION, "There is no job for you");
+		}
+		else {
+			for (Job job : jobs) {
+				tv.getItems().add(job);
+			}			
 		}
 	}
-	
 
 }
+
+
+

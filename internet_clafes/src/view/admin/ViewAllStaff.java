@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,8 +21,7 @@ import helper.Helper;
 import main.MainStage;
 import model.PC;
 import model.User;
-import view.admin.ChangeRole;
-import view.admin.ViewPCDetail;
+import view.menu.MenuAdmin;
 
 
 public class ViewAllStaff {

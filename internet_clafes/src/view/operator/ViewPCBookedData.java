@@ -23,7 +23,7 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PCBook;
 import model.User;
-import view.MenuOperator;
+import view.menu.MenuOperator;
 
 public class ViewPCBookedData {
 	
@@ -135,15 +135,7 @@ public class ViewPCBookedData {
 
 		HBox additionalControls = new HBox(newPCTitle, newPCInput);
 
-		datePicker.setOnAction(event -> {
-	        try {
-	            repaint();
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    });
-		HBox searchBox = new HBox(datePicker);
-        cont.getChildren().addAll(MenuOperator.createMenu(user), searchBox, additionalControls, tv);
+        cont.getChildren().addAll(MenuOperator.createMenu(user), additionalControls, tv);
 		
 		scene = new Scene(cont, 800, 600);
     }

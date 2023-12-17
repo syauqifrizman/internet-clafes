@@ -11,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.Report;
-import view.MenuAdmin;
+import view.menu.MenuAdmin;
 
 public class ViewAllReport {
 	private Scene scene;

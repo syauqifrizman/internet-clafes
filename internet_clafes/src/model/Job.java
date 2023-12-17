@@ -1,5 +1,10 @@
 package model;
 
+import java.util.ArrayList;
+
+import factory.JobFactory;
+import repository.JobRepository;
+
 public class Job {
 	
 	private Integer job_ID;
@@ -48,6 +53,23 @@ public class Job {
 
 	public void setJobStatus(String jobStatus) {
 		this.jobStatus = jobStatus;
+	}
+	
+	public static String addNewJob(String userID, String pc_ID) {
+		Job newJob = JobFactory.createJob(userID, pc_ID);
+		return JobRepository.addNewJob(newJob);
+	}
+
+	public static Job getJobDetail(String job_ID) {
+		return JobRepository.getJobDetail(job_ID);
+	}
+	
+	public static ArrayList<Job> getAllJobData(){
+		return JobRepository.getAllJobData();
+	}
+	
+	public static ArrayList<Job> getTechnicianJob(String userID){
+		return JobRepository.getTechnicianJob(userID);
 	}
 	
 }

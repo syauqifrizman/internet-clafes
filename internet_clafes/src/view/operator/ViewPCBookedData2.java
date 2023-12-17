@@ -29,7 +29,7 @@ import javafx.scene.layout.VBox;
 import main.MainStage;
 import model.PCBook;
 import model.User;
-import view.MenuOperator;
+import view.menu.MenuOperator;
 
 public class ViewPCBookedData2 {
 	
@@ -161,8 +161,14 @@ public class ViewPCBookedData2 {
 	    deleteColumn.setCellFactory(cellFactory);
 
 	    tv.getColumns().addAll(checkBoxColumn, id, idPC, idUser, date, changePCColumn, deleteColumn);
+	    
+		newPCTitle = new Label("New PC ID: ");
+		newPCInput = new TextField();
+		newPCInput.setPromptText("Input New PC ID for this user");
 
-	    cont.getChildren().addAll(MenuOperator.createMenu(user), containerTitle, containerHeader, tv);
+		HBox additionalControls = new HBox(newPCTitle, newPCInput);
+
+	    cont.getChildren().addAll(MenuOperator.createMenu(user), containerTitle, containerHeader, additionalControls, tv);
 
 	    scene = new Scene(cont, 800, 600);
 	}
@@ -187,6 +193,12 @@ public class ViewPCBookedData2 {
 	private void addEventListener() {
 		finishButton.setOnAction(event -> {
             PcBookController.finishBook(pcBookSelectedList, user.getUserID());
+	        try {
+				repaint();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // Refresh the table after the change
 	    });
 	}
 	
