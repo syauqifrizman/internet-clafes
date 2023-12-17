@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import controller.JobController;
 
-import controller.TransactionController;
 import helper.Helper;
-
 
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -25,7 +23,6 @@ import javafx.util.Callback;
 import main.MainStage;
 import model.Job;
 import controller.UserSessionController;
-import repository.JobRepository;
 import view.menu.MenuAdmin;
 import view.menu.MenuComputerTechnician;
 

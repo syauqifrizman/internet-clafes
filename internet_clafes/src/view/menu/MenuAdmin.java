@@ -30,10 +30,6 @@ public class MenuAdmin {
         MenuItem viewAllStaffMenuItem = new MenuItem("View All Staff");
         viewAllStaffMenuItem.setOnAction(e -> navigateToViewAllStaff());
         
-//        // "PC Management" menu item
-//        MenuItem pcManagementMenuItem = new MenuItem("PC Management");
-//        pcManagementMenuItem.setOnAction(e -> navigateToPCManagement());
-        
         // "Job Management" menu item
         MenuItem jobManagementMenuItem = new MenuItem("View All Staff Job");
         jobManagementMenuItem.setOnAction(e -> navigateToJobManagement());
@@ -78,12 +74,6 @@ public class MenuAdmin {
     	ViewAllStaff viewStaff = ViewAllStaff.getInstance();
     	viewStaff.show();
     }
-	
-//	private static void navigateToPCManagement() {
-//		// Implement logic to navigate to the "Transaction History" page
-//		PCManagement pcManagement = PCManagement.getInstance();
-//    	pcManagement.show();
-//    }
 	
 	private static void navigateToJobManagement() {
 		// Implement logic to navigate to the "View Job" page

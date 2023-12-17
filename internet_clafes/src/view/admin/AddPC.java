@@ -13,8 +13,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import main.MainStage;
-import model.PC;
-import view.ViewPC;
 import view.menu.MenuAdmin;
 
 public class AddPC {

@@ -15,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -33,11 +32,9 @@ import view.menu.MenuOperator;
 
 public class ViewPCBookedData {
 	
-	private static ViewPCBookedData pcBookedData;
 	private static User user;
 	private Scene scene;
 	private TableView<PCBook> tv;
-	private DatePicker datePicker;
 	private Label newPCTitle;
 	private TextField newPCInput;
 	
@@ -64,8 +61,11 @@ public class ViewPCBookedData {
 	
 	Button finishButton = new Button("FINISH");
 	ArrayList<PCBook> pcBookSelectedList = new ArrayList<PCBook>();
+	
 	private void initTable() {
 		VBox containerTitle = new VBox(1);
+		
+		//pembuatan label
 		Label titleInfo = new Label("Click checkbox in the table to 'FINISH' for selected PC (you can also select multiple pc)");
 		containerTitle.getChildren().add(titleInfo);
 		containerTitle.setAlignment(Pos.TOP_CENTER);
@@ -77,9 +77,9 @@ public class ViewPCBookedData {
 	    containerHeader.setAlignment(Pos.TOP_RIGHT);
 		
 	    VBox cont = new VBox();
-	    tv = new TableView<>();
-	    datePicker = new DatePicker();
+	    tv = new TableView<>();//membuat tabel baru
 
+	    //mengisi tabel dengan kolom2
 	    TableColumn<PCBook, Integer> id = new TableColumn<>("Booking ID");
 	    id.setCellValueFactory(new PropertyValueFactory<>("bookID"));
 
@@ -92,10 +92,11 @@ public class ViewPCBookedData {
 	    TableColumn<PCBook, String> date = new TableColumn<>("booking Date");
 	    date.setCellValueFactory(new PropertyValueFactory<>("bookedDate"));
 
+	    //membuat kolom yang isinya button Change PC
 	    TableColumn<PCBook, Void> changePCColumn = new TableColumn<>("Change PC");
 	    changePCColumn.setCellFactory(param -> new CustomActionCell("Change PC", pcBook -> {
 	        try {
-	            handleChangePC(pcBook);
+	            handleChangePC(pcBook); //jika dipencet, akan menjalankan method handleChangePC()
 	        } catch (SQLException e1) {
 	            e1.printStackTrace();
 	        }
@@ -106,6 +107,7 @@ public class ViewPCBookedData {
 	    TableColumn<PCBook, Boolean> checkBoxColumn = new TableColumn<>("Select PC");
 	    tv.setEditable(true);
 
+	    //untuk funsionalitas checklist
 	    checkBoxColumn.setCellFactory(tc -> new CheckBoxTableCell<>());
 	    checkBoxColumn.setCellValueFactory(param -> {
 	        PCBook pcBook = param.getValue();
@@ -120,8 +122,10 @@ public class ViewPCBookedData {
 	            
 	            // You can handle the selected PCBook directly here
 	            if (newValue) {
+	            	//kalau di ceklis, dimasukin ke arraylist sementara
 	            	pcBookSelectedList.add(pcBook);
 	            } else {
+	            	//kalau di uncheck, dikeluarin dari arraylist
 	            	pcBookSelectedList.remove(pcBook);
 	            }
 	        });
@@ -129,14 +133,16 @@ public class ViewPCBookedData {
 	        return selectedProperty;
 	    });
 
+	  //membuat kolom yang isinya button Cancel
 	    TableColumn<PCBook, Void> deleteColumn = new TableColumn<>("Actions");
 	    deleteColumn.setPrefWidth(200);
 	    Callback<TableColumn<PCBook, Void>, TableCell<PCBook, Void>> cellFactory = param -> new TableCell<PCBook, Void>() {
 	    	
-            private final Button cancelButton = new Button("Cancel");
+            private final Button cancelButton = new Button("Cancel");//deklarasi Button
             
             {
             	cancelButton.setOnAction((ActionEvent event) -> {
+            		//saat dipencet, booking di row tsb akan didelete/cancel
                     PCBook pcbook = getTableView().getItems().get(getIndex());
                     try {
 						PcBookController.DeleteBookData(pcbook.getBookID());
@@ -160,6 +166,7 @@ public class ViewPCBookedData {
 	    };
 	    deleteColumn.setCellFactory(cellFactory);
 
+	    //memasukkan kolom2 ke table
 	    tv.getColumns().addAll(checkBoxColumn, id, idPC, idUser, date, changePCColumn, deleteColumn);
 	    
 		newPCTitle = new Label("New PC ID: ");
@@ -173,18 +180,15 @@ public class ViewPCBookedData {
 	    scene = new Scene(cont, 800, 600);
 	}
 	
+	//method utk refresh data
 	private void repaint() throws SQLException {
 		tv.getItems().clear();
-		ArrayList<PCBook> pcBook = PCBook.getAllPCBookedData();
 		
-//		if (datePicker.getValue() != null) {
-//			java.sql.Date sqlDate = java.sql.Date.valueOf(datePicker.getValue());
-//	        pcBook = PCBook.getPCBookedByDate(sqlDate);
-//        } else {
-//            pcBook = PCBook.getAllPCBookedData();
-//        }
+		//mengambil data dengan memanggil controller dan memasukannya ke arraylist
+		ArrayList<PCBook> pcBook = PcBookController.getAllPCBookedData();
 		
 		for (PCBook pcBook2 : pcBook) {
+			//memasukkan data dari arraylist ke tabel
 			tv.getItems().add(pcBook2);
 		}
 		
@@ -192,19 +196,23 @@ public class ViewPCBookedData {
 	
 	private void addEventListener() {
 		finishButton.setOnAction(event -> {
+			//kalau Finish button diklik, akan memanggil method finishbook dari controller
             PcBookController.finishBook(pcBookSelectedList, user.getUserID());
 	        try {
-				repaint();
+				repaint(); //refresh
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} // Refresh the table after the change
+			} 
 	    });
 	}
 	
+	//method utk change PC
 	private void handleChangePC(PCBook pcBook) throws SQLException {
 	    try {
+	    	//mendapatkan ID dari object
 	        Integer newPCID = Integer.parseInt(newPCInput.getText().trim());
+	        
+	        //id digunakan untuk meng-assign user ke PC baru lewat controller
 	        PcBookController.assignUsertoNewPC(pcBook.getBookID(), newPCID, pcBook.getBookedDate());
 	        repaint(); // Refresh the table after the change
 	    } catch (NumberFormatException e) {
@@ -214,71 +222,6 @@ public class ViewPCBookedData {
 	        Helper.showAlert(AlertType.ERROR, "Error changing PC.");
 	    }
 	}
-
-
-
-//	private void handleDelete(PCBook pcBook) {
-//	    LocalDate today = LocalDate.now();
-//	    LocalDate bookedDate = pcBook.getBookedDate().toLocalDate();
-//
-//	    if (bookedDate.isBefore(today)) {
-//	        try {
-//	            PCBook.deleteBookData(pcBook.getBookID());
-//	            repaint(); // Refresh the table after the cancel
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	            Helper.showAlert(AlertType.ERROR, "Error cancel booking.");
-//	        }
-//	    } else {
-//	        try {
-//	            // Create a list with a single PCBook object
-//	            ArrayList<PCBook> pcBookList = new ArrayList<PCBook>();
-//	            pcBookList.add(pcBook);
-//
-//	            PcBookController.finishBook(pcBookList, user.getUserID());
-//	            repaint(); // Refresh the table after the finish
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	            Helper.showAlert(AlertType.ERROR, "Error finish booking.");
-//	        }
-//	    }
-//	}
-	
-//	private class ButtonCell extends TableCell<PCBook, Void> {
-//	    private final Button button;
-//	    private final ButtonAction action;
-//
-//	    ButtonCell(String label, ButtonAction action) {
-//	        this.button = new Button(label);
-//	        this.action = action;
-//	        this.button.setOnAction(event -> action.handle(getCurrentItem()));
-//	    }
-//
-//	    private PCBook getCurrentItem() {
-//	        return getTableView().getItems().get(getIndex());
-//	    }
-//
-//	    @Override
-//	    protected void updateItem(Void item, boolean empty) {
-//	        super.updateItem(item, empty);
-//	        if (empty) {
-//	            setGraphic(null);
-//	        } else {
-//	            PCBook pcBook = getCurrentItem();
-//	            LocalDate today = LocalDate.now();
-//	            LocalDate bookedDate = pcBook.getBookedDate().toLocalDate();
-//
-//	            // Set button label based on the date
-//	            if (bookedDate.isBefore(today)) {
-//	                button.setText("Finish");
-//	            } else {
-//	                button.setText("Cancel");
-//	            }
-//
-//	            setGraphic(button);
-//	        }
-//	    }
-//	}
 	
 	public class CustomActionCell extends TableCell<PCBook, Void> {
 	    private final Button actionButton;
@@ -306,10 +249,5 @@ public class ViewPCBookedData {
 	        }
 	    }
 	}
-
-
-    private interface ButtonAction {
-        void handle(PCBook pcBook);
-    }
 	
 }

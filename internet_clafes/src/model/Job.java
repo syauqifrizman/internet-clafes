@@ -64,19 +64,23 @@ public class Job {
 		this.jobStatus = jobStatus;
 	}
 	
+	//mengambil data dari database lewat repository
 	public static String addNewJob(String userID, String pc_ID) {
 		Job newJob = JobFactory.createJob(userID, pc_ID);
 		return JobRepository.addNewJob(newJob);
 	}
 
+	//mengambil data dari database lewat repository
 	public static Job getJobDetail(String job_ID) {
 		return JobRepository.getJobDetail(job_ID);
 	}
 	
+	//mengambil data dari database lewat repository
 	public static ArrayList<Job> getAllJobData(){
 		return JobRepository.getAllJobData();
 	}
 	
+	//mengambil data dari database lewat repository
 	public static ArrayList<Job> getTechnicianJob(String userID){
 		return JobRepository.getTechnicianJob(userID);
 	}

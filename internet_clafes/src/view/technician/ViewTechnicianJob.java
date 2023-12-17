@@ -48,8 +48,9 @@ public class ViewTechnicianJob {
 		cont = new VBox();
 		jobsLabel = new Label("All Jobs For Computer Technician");
 		
-		tv = new TableView<Job>();
+		tv = new TableView<Job>(); //pembuatan tabel dengan tipe data Job
 		
+		//mengisi tabel dengan kolom
 		TableColumn<Job, Integer> id = new TableColumn<>("Job ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("job_ID"));
 
@@ -62,18 +63,22 @@ public class ViewTechnicianJob {
 		TableColumn<Job, String> stat = new TableColumn<>("Job Status");
 		stat.setCellValueFactory(new PropertyValueFactory<>("jobStatus"));
 		
+		//membuat kolom dengan isi button
 		TableColumn<Job, Void> detail = new TableColumn<>("Update Job");
 		Callback<TableColumn<Job, Void>, TableCell<Job, Void>> 
 		cellFactory = new Callback<TableColumn<Job, Void>, TableCell<Job, Void>>() {
 		    @Override
 		    public TableCell<Job, Void> call(final TableColumn<Job, Void> param) {
 		        final TableCell<Job, Void> cell = new TableCell<Job, Void>() {
-
+		        	
+		        	//deklarasi button
 		            private final Button updateButton = new Button("Finish Job");
 
 
 		            {
 		                updateButton.setOnAction((ActionEvent event) -> {
+		                	//saat Finish Job button diklik, job status akan terupdate
+		                	//dengan memanggil method updateJobStatus lewat controller
 	                        Job job = getTableView().getItems().get(getIndex());
 	                        JobController.updateJobStatus(job.getJob_ID().toString(), "Complete");
 	                        repaint(job.getUserID().toString());
@@ -103,6 +108,7 @@ public class ViewTechnicianJob {
 		
 		jobsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
+		//memasukkan kolom ke tabel
 		tv.getColumns().add(id);
 		tv.getColumns().add(user);
 		tv.getColumns().add(pc);
@@ -118,12 +124,16 @@ public class ViewTechnicianJob {
 	
 	private void repaint(String userID) {
 		tv.getItems().clear();
+		
+		//membuat arraylist kosong dan mengisi dengan job lewat jobcontroller
 		ArrayList<Job> jobs = JobController.getTechnicianJob(userID);
 		
+		//klo kosong, akan muncul alert
 		if(jobs.isEmpty()) {
 			Helper.showAlert(AlertType.INFORMATION, "There is no job for you");
 		}
 		else {
+			//kalo ada isinya, tabel akan diisi oleh data tsb
 			for (Job job : jobs) {
 				tv.getItems().add(job);
 			}			

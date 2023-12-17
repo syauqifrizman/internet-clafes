@@ -8,7 +8,6 @@ import javafx.scene.control.Alert.AlertType;
 import model.PC;
 import model.PCBook;
 import view.ViewPC;
-import view.admin.ViewPCDetail;
 
 public class PCController {
 	

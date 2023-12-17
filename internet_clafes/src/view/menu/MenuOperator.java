@@ -43,12 +43,6 @@ public class MenuOperator {
         // return menubar
         return menuBar;
     }
-	
-	private static void test() {
-		User staffBook = user; 
-		ViewPCBookedData viewpcbooked2 = ViewPCBookedData.getInstance(staffBook);
-		viewpcbooked2.show();
-	}
     
     private static void navigateToHome() {
         // Implement logic to navigate to the "View All PC" page

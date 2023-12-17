@@ -18,7 +18,6 @@ import main.MainStage;
 import model.PC;
 import controller.UserSessionController;
 
-import view.ViewPC;
 import view.menu.MenuAdmin;
 import view.menu.MenuComputerTechnician;
 import view.menu.MenuCustomer;

@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.Job;
-import model.PC;
 import sqlConnect.Connect;
 
 public class JobRepository {
