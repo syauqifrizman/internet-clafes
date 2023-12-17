@@ -48,6 +48,8 @@ public class Login{
 
 	private void initialize() {
 		vb = new VBox(10);
+		
+		//deklarasi berbagai label dan textfield
 		loginTitle = new Label("Login");
 		usernameTitle = new Label("Username");
 		passwordTitle = new Label("Password");
@@ -58,20 +60,26 @@ public class Login{
 		loginButton = new Button("Login");
 		registerHyperlink = new Hyperlink("Don't have an account? Register Here!");
 
+		//memasukkan label dan textfield ke window secara berurutan
 		vb.getChildren().addAll(loginTitle, usernameTitle, usernameInput, passwordTitle, passwordInput, loginButton,
 				registerHyperlink);
-		loginTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		loginTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20)); //mengganti ukuran text pada sebuah label
 		vb.setAlignment(Pos.CENTER_LEFT);
 		vb.setPadding(new Insets(50));
 		scene = new Scene(vb, 800, 600);
 	}
 
+	//fungsionalitas tombol login
 	private void addEventListener() {
 		loginButton.setOnMouseClicked(e -> {
+			
+			//saat diklik, input user akan diambil
 			String username = usernameInput.getText();
 			String userPassword = passwordInput.getText();
 			String statusLogin = "";
 			
+			//input user yang sudah diambil akan digunakan untuk dijadikan parameter
+			//dalam pemanggilan user controller
 			try {
 				statusLogin = UserController.loginUser(username, userPassword);
 			} catch (SQLException e1) {
@@ -82,6 +90,8 @@ public class Login{
 			if(statusLogin.equals("Login Success!")) {
 				
 				User user = null;
+				
+				//jika berhasil, akan memunculkan prompt
 				try {
 					user = UserController.getUserData(username, userPassword);
 				} catch (SQLException e1) {
@@ -89,7 +99,9 @@ public class Login{
 					e1.printStackTrace();
 				}
 				Helper.showAlert(AlertType.INFORMATION, statusLogin);
-				UserSession.setCurrentUser(user);
+				UserSession.setCurrentUser(user); //set user session dengan User yang dipakai untuk login
+				
+				//redirect user ke View All PC
 				ViewPC viewpc = ViewPC.getInstance();
 				viewpc.show();
 			}
@@ -99,6 +111,7 @@ public class Login{
 			
 		});
 
+		//jika hyperlink diklik, user akan diarahkan ke laman Register
 		registerHyperlink.setOnAction(e -> {
 			Register registerPage = Register.getInstance();
 			registerPage.show();

@@ -17,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import main.MainStage;
-import model.TransactionDetail;
 import model.TransactionHeader;
 import view.menu.MenuAdmin;
 
@@ -43,12 +42,14 @@ public class ViewAllTransaction {
 		repaint();
 	}
 	
+	//method untuk memunculkan tabel dll
 	private void initTable() {
 		cont = new VBox();
 		thistoryLabel = new Label("Transaction History");
 		
-		tv = new TableView<TransactionHeader>();
+		tv = new TableView<TransactionHeader>();//membuat tabel berdasarkan model TransactionHeader
 		
+		//generate kolom2nya
 		TableColumn<TransactionHeader, Integer> id = new TableColumn<>("Transaction ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
 
@@ -61,24 +62,32 @@ public class ViewAllTransaction {
 		TableColumn<TransactionHeader, String> date = new TableColumn<>("Finished Date");
 		date.setCellValueFactory(new PropertyValueFactory<>("transactionDate"));
 		
+		//membuat kolom dengan isi button
 		TableColumn<TransactionHeader, Void> detail = new TableColumn<>("Details");
 		Callback<TableColumn<TransactionHeader, Void>, TableCell<TransactionHeader, Void>> 
 		cellFactory = new Callback<TableColumn<TransactionHeader, Void>, TableCell<TransactionHeader, Void>>() {
 		    @Override
 		    public TableCell<TransactionHeader, Void> call(final TableColumn<TransactionHeader, Void> param) {
 		        final TableCell<TransactionHeader, Void> cell = new TableCell<TransactionHeader, Void>() {
-
+		        	
+		        	//deklarasi button nya
 		            private final Button detailButton = new Button("Details");
 
-
+		            
 		            {
+		            	//jika Detail button diklik, user akan diarahkan ke page View Transaction Detail
+		            	//yang berisi Transaction Detail dengan Transaction ID yang sama dengan yang sudah tadi dipilih
 		                detailButton.setOnAction((ActionEvent event) -> {
+		                	//mengambil data dari row
 	                        TransactionHeader theader = getTableView().getItems().get(getIndex());
+	                        
+	                        //mengalihkan user ke page View Transaction Detail
 	                        ViewTransactionDetail tdetail = ViewTransactionDetail.getInstance(theader.getTransactionID());
 	                        tdetail.show();
 		                });
 		            }
-
+		            	
+		            //memunculkan button ke tabel
 			            @Override
 			            public void updateItem(Void item, boolean empty) {
 			                super.updateItem(item, empty);
@@ -99,6 +108,7 @@ public class ViewAllTransaction {
 		
 		thistoryLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
+		//memasukkan kolom ke tabel
 		tv.getColumns().add(id);
 		tv.getColumns().add(staff);
 		tv.getColumns().add(name);
@@ -110,6 +120,7 @@ public class ViewAllTransaction {
 		
 	}
 	
+	//method untuk mengisi data ke tabel
 	private void repaint() {
 		tv.getItems().clear();
 		ArrayList<TransactionHeader> theader = TransactionController.getAllTransactionHeaderData();

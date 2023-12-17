@@ -21,32 +21,11 @@ public class AddPC {
 	
 	Stage primaryStage;
 	Scene scene;
-	
-//	private void setScene() {
-//		primaryStage.setScene(scene);
-//	}
 
     public AddPC() {
-//        this.primaryStage = primaryStage;
         initialize();
         addEventListener();
-//        setScene();
     }
-    
-//	
-//	public static void setScene(Stage primaryStage) {
-//		AddPC addNewPC = new AddPC();
-//		addNewPC._setScene(primaryStage);
-//	}
-//	
-//	public static void setScene(Stage primaryStage, PC pc) {
-//		setScene(primaryStage);
-//	}
-//	
-//	public AddPC() {
-//		initialize();
-//		addEventListener();
-//	}
 	
 	public void show() {
 		MainStage mainStage = MainStage.getInstance();
@@ -56,6 +35,7 @@ public class AddPC {
 	Button addButton, backButton;
 	TextField pcIDInput, pcConditionInput;
 	
+	//method untuk membuat item2 (button, label, dll)
 	private void initialize() {
 	    VBox container = new VBox(20);  // Set vertical spacing between elements
 	    container.setPadding(new Insets(50, 20, 20, 20));  // Set padding
@@ -89,8 +69,9 @@ public class AddPC {
 	    scene = new Scene(container, 800, 600);
 	}
 
-	
+	//method fungsionalitas dari button
 	private void addEventListener() {
+		//jika button Add PC diklik, PC baru akan dibuat di database dengan memanggil PC Controller
 		addButton.setOnMouseClicked(e ->{
 			String pc_id = pcIDInput.getText();
 			
@@ -99,7 +80,6 @@ public class AddPC {
 	}
 	
     public static AddPC getInstance() {
-        // Implement logic to navigate to the "Book PC" page
     	return new AddPC();
     }
 }

@@ -31,10 +31,14 @@ public class ViewAllReport {
 		repaint();
 	}
 	
+	//method untuk memunculkan tabel dll
 	private void initTable() {
 		VBox cont = new VBox();
+		
+		//membuat tabel berdasarkan model Report
 		tv = new TableView<Report>();
 		
+		//generate kolom2nya
 		TableColumn<Report, Integer> id = new TableColumn<>("Report ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("report_ID"));
 		
@@ -50,6 +54,7 @@ public class ViewAllReport {
 		TableColumn<Report, Date> report = new TableColumn<>("Report Date");
 		report.setCellValueFactory(new PropertyValueFactory<>("reportDate"));
 		
+		//mengisi tabel dengan kolom
 		tv.getColumns().add(id);
 		tv.getColumns().add(role);
 		tv.getColumns().add(pc_id);
@@ -60,6 +65,7 @@ public class ViewAllReport {
 		scene = new Scene(cont, 800, 600);
 	}
 	
+	//method untuk mengisi data ke tabel
 	private void repaint() {
 		tv.getItems().clear();
 		ArrayList<Report> report = ReportController.getAllReportData();

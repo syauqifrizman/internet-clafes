@@ -42,8 +42,9 @@ public class TransactionHistory {
 	private void initTable() {
 		cont = new VBox();
 		thistoryLabel = new Label("Your Transaction History");
-		tv = new TableView<TransactionDetail>();
+		tv = new TableView<TransactionDetail>();//membuat tabel berdasarkan model TransactionDetail
 		
+		//generate kolom2nya
 		TableColumn<TransactionDetail, Integer> id = new TableColumn<>("Transaction ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
 
@@ -56,6 +57,7 @@ public class TransactionHistory {
 		TableColumn<TransactionDetail, String> date = new TableColumn<>("Booked Date");
 		date.setCellValueFactory(new PropertyValueFactory<>("bookedTime"));
 		
+		//memasukkan kolom ke tabel
 		tv.getColumns().add(id);
 		tv.getColumns().add(pc);
 		tv.getColumns().add(name);
@@ -63,6 +65,7 @@ public class TransactionHistory {
 		
 		thistoryLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
+		//memunculkan tabel, label, dan menu bar
 		cont.getChildren().add(MenuCustomer.createMenu());
 		cont.getChildren().add(thistoryLabel);
 		cont.getChildren().add(tv);
@@ -70,9 +73,14 @@ public class TransactionHistory {
 		scene = new Scene(cont, 800, 600);
 	}
 	
+	//method untuk mengisi data ke tabel
 	private void repaint() {
 		tv.getItems().clear();
+		
+		//mengambil data dari database ke sebuah arraylist
 		ArrayList<TransactionDetail> tdetails = TransactionController.getUserTransactionDetail(UserSession.getCurrentUser().getUserID());
+		
+		//masukkan ke table
 		for (TransactionDetail transactionDetail : tdetails) {
 			tv.getItems().add(transactionDetail);
 		}

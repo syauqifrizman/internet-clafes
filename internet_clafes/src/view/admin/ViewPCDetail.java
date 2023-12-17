@@ -17,11 +17,13 @@ import javafx.stage.Stage;
 import main.MainStage;
 import model.PC;
 import model.UserSession;
+
 import view.ViewPC;
 import view.menu.MenuAdmin;
 import view.menu.MenuComputerTechnician;
 import view.menu.MenuCustomer;
 import view.menu.MenuOperator;
+
 
 public class ViewPCDetail {
 	
@@ -80,6 +82,7 @@ public class ViewPCDetail {
 
 	    // Add elements to the container
 	    switch(UserSession.getCurrentUserRole()) {
+	    //kalau role customer, maka Menu Bar customer akan dimunculkan, dst
 		case "Customer":
 			container.getChildren().add(MenuCustomer.createMenu());
 			break;
@@ -96,8 +99,10 @@ public class ViewPCDetail {
 			Helper.showAlert(AlertType.ERROR, "Invalid role");
 	}
 	    
+	    //memasukkan label, textfield dll ke Container
 	    container.getChildren().addAll(pageTitle, containerPCID, containerPCCondition, conditionTitle, pcConditionInput);
 	    
+	    //jika role user adalah admin, maka tombol UPDATE PC dan DELETE PC akan dimunculkan
 	    if(UserSession.getCurrentUser().getUserRole().equals("Admin")) {
 	    	container.getChildren().add(containerButton);
 	    }
@@ -111,17 +116,18 @@ public class ViewPCDetail {
 
 	
 	private void addEventListener(PC pc) {
+		
+		//jika tombol Delete PC diklik, maka PC tersebut akan dihapus
 		deleteButton.setOnAction(event -> {
 	        String pc_id = pc.getPc_ID().toString();
 	        
 	        PCController.deletePC(pc_id);
 		});
 
-
+		//jika tombol Update PC diklik, maka PC Status akan diganti sesuai dengan apa yang sudah di-input
 		updateButton.setOnAction(event -> {
 		    String pc_id = pc.getPc_ID().toString();
 
-		    // Move this line inside the event handler
 		    String pc_condition = pcConditionInput.getText();
 
 		    PCController.updatePCCondition(pc_id, pc_condition);

@@ -3,8 +3,11 @@ package view.admin;
 import java.util.ArrayList;
 
 import controller.JobController;
+
 import controller.TransactionController;
 import helper.Helper;
+
+
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,6 +31,7 @@ import view.menu.MenuComputerTechnician;
 
 public class ViewAllStaffJob {
 	
+	//declare items2 
 	private TableView<Job> tv;
 	private Scene scene;
 	private VBox cont;
@@ -52,8 +56,10 @@ public class ViewAllStaffJob {
 		cont = new VBox();
 		jobsLabel = new Label("Jobs");
 		
+		//buat table data berdasarkan model Job
 		tv = new TableView<Job>();
 		
+		//membuat kolom2 nya
 		TableColumn<Job, Integer> id = new TableColumn<>("Job ID");
 		id.setCellValueFactory(new PropertyValueFactory<>("job_ID"));
 
@@ -66,6 +72,7 @@ public class ViewAllStaffJob {
 		TableColumn<Job, String> stat = new TableColumn<>("Job Status");
 		stat.setCellValueFactory(new PropertyValueFactory<>("jobStatus"));
 		
+		//membuat column dengan button
 		TableColumn<Job, Void> detail = new TableColumn<>("Update Job");
 		Callback<TableColumn<Job, Void>, TableCell<Job, Void>> 
 		cellFactory = new Callback<TableColumn<Job, Void>, TableCell<Job, Void>>() {
@@ -73,12 +80,15 @@ public class ViewAllStaffJob {
 		    public TableCell<Job, Void> call(final TableColumn<Job, Void> param) {
 		        final TableCell<Job, Void> cell = new TableCell<Job, Void>() {
 
+		        	//declare button nya
 		            private final Button updateButton = new Button("Update Job Status");
 
-
 		            {
+		            	//fungsionalitas tombol update Job. 
 		                updateButton.setOnAction((ActionEvent event) -> {
+		                	//mengambil data dari row
 	                        Job job = getTableView().getItems().get(getIndex());
+
 		                    ViewJobDetail viewJobDetail = ViewJobDetail.getInstance(job);
 		                    viewJobDetail.show();
 		                });
@@ -104,15 +114,18 @@ public class ViewAllStaffJob {
 		
 		jobsLabel.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		
+		//memasukkan kolom2 ke dalam tabel
 		tv.getColumns().add(id);
 		tv.getColumns().add(user);
 		tv.getColumns().add(pc);
 		tv.getColumns().add(stat);
 		tv.getColumns().add(detail);
 		
+		//jika role User adalah Computer Technician, maka akan memunculkan menu bar Computer Technician
 		if(UserSession.getCurrentUserRole().equals("Computer Technician")) {
 			cont.getChildren().addAll(MenuComputerTechnician.createMenu(), jobsLabel, tv);
 		}
+		//jika role User adalah Admin, maka akan memunculkan menu bar Admin
 		else if(UserSession.getCurrentUserRole().equals("Admin")) {
 			cont.getChildren().addAll(MenuAdmin.createMenu(), jobsLabel, tv);
 		}
@@ -120,19 +133,23 @@ public class ViewAllStaffJob {
 		scene = new Scene(cont, 800, 600);
 	}
 	
+	//method untuk 'refresh' table
 	private void repaint() {
 		tv.getItems().clear();
+
+		//ambil data dari database
 		ArrayList<Job> jobs = JobController.getAllJobData();
 		
+//		kalo jobs empty alias tidak ada jobs sama sekali untuk semua technician
 		if(jobs.isEmpty()) {
 			Helper.showAlert(AlertType.INFORMATION, "There is no job for any Computer Technician");
 		}
 		else {
+			//isi table per row nya
 			for (Job job : jobs) {
 				tv.getItems().add(job);
-			}			
+			}	
 		}
 	}
-	
 
 }
